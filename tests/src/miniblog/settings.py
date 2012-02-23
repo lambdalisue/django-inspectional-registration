@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'miniblog.autocmds',
     'miniblog.blogs',
     'registration',
+    'mailer',
 )
 
 FIXTURE_DIRS = (
@@ -160,3 +161,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

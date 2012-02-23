@@ -45,5 +45,20 @@ def generate_random_password(length=10):
     password = "".join([random.choice(chars) for i in xrange(length)])
     return password
 
+def send_mail(subject, message, from_email, recipients):
+    """send mail with mailer.send_mail if possible"""
+    from django.conf import settings
+    from django.core.mail import send_mail as django_send_mail
+    import sys
+    if 'test' not in sys.argv and 'mailer' in settings.INSTALLED_APPS:
+        try:
+            from mailer import send_mail
+            return send_mail(subject, message, from_email, recipients)
+        except ImportError:
+            pass
+    return django_send_mail(subject, message, from_email, recipients)
+    
+
+
 
 

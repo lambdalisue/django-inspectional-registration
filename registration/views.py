@@ -46,7 +46,7 @@ class RegistrationClosedView(TemplateView):
 class ActivationCompleteView(TemplateView):
     template_name = r'registration/activation_complete.html'
 
-class ActivationView(SingleObjectMixin, FormMixin, TemplateResponseMixin, ProcessFormView):
+class ActivationView(TemplateResponseMixin, FormMixin, SingleObjectMixin, ProcessFormView):
     template_name = r'registration/activation_form.html'
     model = RegistrationProfile
     backend = get_backend()

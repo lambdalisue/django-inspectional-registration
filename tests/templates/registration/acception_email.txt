@@ -1,0 +1,8 @@
+{% load url from future %}
+Your registration has accepted by inspector.
+
+Please access the url below to activate your account
+
+http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
+
+The activation url will be expired in {{ expiration_days }}

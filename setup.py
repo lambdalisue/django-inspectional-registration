@@ -39,5 +39,6 @@ setup(
     tests_require=[
         'django>=1.3',
         'PyYAML',
+        'django-mailer',
     ],
 )

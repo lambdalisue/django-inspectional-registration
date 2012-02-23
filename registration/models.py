@@ -29,6 +29,7 @@ import datetime
 
 from django.conf import settings
 from django.db import models
+from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
@@ -36,6 +37,7 @@ from django.utils.text import ugettext_lazy as _
 
 from utils import generate_activation_key
 from utils import generate_random_password
+from utils import send_mail
 
 try:
     # Support Django 1.4 Timezone
@@ -59,6 +61,7 @@ class RegistrationManager(models.Manager):
             profile.send_registration_email()
 
         return new_user
+    register = transaction.commit_on_success(register)
 
     def accept_registration(self, profile, send_email=True):
         # rejected -> accepted is allowed
@@ -142,8 +145,9 @@ class RegistrationProfile(models.Model):
         verbose_name = _('registration profile')
         verbose_name_plural = _('registration profiles')
         permissions = (
-                ('accept_registrationprofile', 'Can accept user registration'),
-                ('reject_registrationprofile', 'Can reject user registration'),
+                ('accept_registration', 'Can accept user registration'),
+                ('reject_registration', 'Can reject user registration'),
+                ('activate_user', 'Can activate user in admin site'),
             )
 
     def _get_status(self):
@@ -177,7 +181,7 @@ class RegistrationProfile(models.Model):
         return expired
     activation_key_expired.boolean = True
 
-    def _create_email(self, action, extra_context=None):
+    def _send_email(self, action, extra_context=None):
         context = {
                 'user': self.user,
                 'profile': self,
@@ -190,28 +194,24 @@ class RegistrationProfile(models.Model):
         subject = ''.join(subject.splitlines())
         message = render_to_string('registration/%s_email.txt' % action, context)
 
-        return {'subject': subject, 'message': message, 'from_email': settings.DEFAULT_FROM_EMAIL}
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.user.email])
 
     def send_registration_email(self):
-        email = self._create_email('registration')
-        self.user.email_user(**email)
+        self._send_email('registration')
 
     def send_acception_email(self):
         extra_context = {
                 'activation_key': self.activation_key,
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
             }
-        email = self._create_email('acception', extra_context)
-        self.user.email_user(**email)
+        self._send_email('acception', extra_context)
 
     def send_rejection_email(self):
-        email = self._create_email('rejection')
-        self.user.email_user(**email)
+        self._send_email('rejection')
 
     def send_activation_email(self, password=None, generated=False):
         extra_context = {
                 'password': password,
                 'generated': generated,
             }
-        email = self._create_email('activation', extra_context)
-        self.user.email_user(**email)
+        self._send_email('activation', extra_context)
