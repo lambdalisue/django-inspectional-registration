@@ -285,7 +285,7 @@ class RegistrationManager(models.Manager):
         for profile in self.all():
             if profile.activation_key_expired():
                 user = profile.user
-                if user.is_active:
+                if not user.is_active:
                     user.delete()
 
     def delete_rejected_users(self):
@@ -330,7 +330,7 @@ class RegistrationManager(models.Manager):
         for profile in self.all():
             if profile.status == 'rejected':
                 user = profile.user
-                if user.is_active:
+                if not user.is_active:
                     user.delete()
 
 
@@ -380,7 +380,7 @@ class RegistrationProfile(models.Model):
         activation key has expired
 
         """
-        if self._status == 'accepted' and self.activation_key_expired():
+        if self.activation_key_expired():
             return 'expired'
         return self._status
     def _set_status(self, value):
