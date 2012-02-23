@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+Default backend of django-inspectional-registration
+
+This is a modification of django-registration_ ``admin.py``
+The original code is written by James Bennett
+
+.. _django-registration: https://bitbucket.org/ubernostrum/django-registration
 
 
 AUTHOR:
@@ -9,6 +14,36 @@ AUTHOR:
     
 Copyright:
     Copyright 2011 Alisue allright reserved.
+
+Original License:
+    Copyright (c) 2007-2011, James Bennett
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are
+    met:
+
+        * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+        * Redistributions in binary form must reproduce the above
+        copyright notice, this list of conditions and the following
+        disclaimer in the documentation and/or other materials provided
+        with the distribution.
+        * Neither the name of the author nor the names of other
+        contributors may be used to endorse or promote products derived
+        from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 License:
     Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -34,8 +69,78 @@ from ..forms import ActivationForm
 from ..forms import RegistrationForm
 
 class DefaultBackend(BackendBase):
+    """Default backend for django-inspectional-registration
+
+    A registration backend which floows a simple workflow:
+
+    1.  User sigs up, inactive account with unusable password is created.
+
+    2.  Inspector accept or reject the account registration.
+
+    3.  Email is sent to user with/without activation link (without when rejected)
+
+    4.  User clicks activation link, enter password, account is now active
+
+    Using this backend requires that
+
+    *   ``registration`` be listed in the ``INSTALLED_APPS`` settings
+        (since this backend makes use of models defined in this application).
+
+    *   ``django.contrib.site`` be listed in the ``INSTALLED_APPS`` settings
+        (since this application cannot handle ``django.contrib.site.RequestSite``)
+
+    *   The setting ``ACCOUNT_ACTIVATION_DAYS`` be supplied, specifying (as an
+        integer) the number of days from acception during which a user may 
+        activate their account (after that period expires, activation will be
+        disallowed). Default is ``7``
+
+    *   The creation of the templates
+
+        -   ``registration/registration_email.txt``
+        -   ``registration/registration_email_subject.txt``
+        -   ``registration/acception_email.txt``
+        -   ``registration/acception_email_subject.txt``
+        -   ``registration/rejection_email.txt``
+        -   ``registration/rejection_email_subject.txt``
+        -   ``registration/activation_email.txt``
+        -   ``registration/activation_email_subject.txt``
+
+    Additinally, registration can be temporarily closed by adding the setting
+    ``REGISTRATION_OPEN`` and setting it to ``False``. Omitting this setting, or
+    setting it to ``True``, will be imterpreted as meaning that registration is
+    currently open and permitted.
+
+    Internally, this is accomplished via storing an activation key in an instance
+    of ``registration.models.RegistrationProfile``. See that model and its custom
+    manager for full documentation of its fields and supported operations.
+
+    """
 
     def register(self, username, email):
+        """register new user with ``username`` and ``email``
+
+        Given a username, email address, register a new user account, which will
+        initially be inactive and has unusable password.
+
+        Along with the new ``User`` object, a new
+        ``registration.models.RegistrationProfile`` will be created, tied to that
+        ``User``, containing the inspection status and activation key which will
+        be used for this account (activation key is not generated untill its
+        inspection status is set to ``accepted``)
+
+        An email will be sent to the supplied email address; The email will be
+        rendered using two templates. See the documentation for
+        ``RegistrationProfile.send_registration_email()`` for information about
+        these templates and the contexts provided to them.
+
+        After the ``User`` and ``RegistrationProfile`` are created and the
+        registration email is sent, the signal
+        ``registration.signals.user_registered`` will be sent, with the new
+        ``User`` as the keyword argument ``user``, the ``RegistrationProfile``
+        of the new ``User`` as the keyword argument ``profile`` and the class
+        of this backend as the sender.
+
+        """
         new_user = RegistrationProfile.objects.register(username, email)
 
         signals.user_registered.send(
@@ -47,7 +152,24 @@ class DefaultBackend(BackendBase):
         return new_user
 
     def accept(self, profile):
+        """accept the account registration of ``profile``
 
+        Given a profile, accept account registration, which will
+        set inspection status of ``profile`` to ``accepted`` and generate new
+        activation key of ``profile``.
+
+        An email will be sent to the supplied email address; The email will be
+        rendered using two templates. See the documentation for
+        ``RegistrationProfile.send_acception_email()`` for information about
+        these templates and the contexts provided to them.
+
+        After successful acception, the signal
+        ``registration.signals.user_accepted`` will be sent, with the newly
+        accepted ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
+        of the ``User`` as the keyword argument ``profile`` and the class of this
+        backend as the sender
+
+        """
         accepted_user = RegistrationProfile.objects.accept_registration(profile)
 
         if accepted_user:
@@ -60,7 +182,24 @@ class DefaultBackend(BackendBase):
         return accepted_user
 
     def reject(self, profile):
+        """reject the account registration of ``profile``
 
+        Given a profile, reject account registration, which will
+        set inspection status of ``profile`` to ``rejected`` and delete 
+        activation key of ``profile`` if exists.
+
+        An email will be sent to the supplied email address; The email will be
+        rendered using two templates. See the documentation for
+        ``RegistrationProfile.send_rejection_email()`` for information about
+        these templates and the contexts provided to them.
+
+        After successful rejection, the signal
+        ``registration.signals.user_rejected`` will be sent, with the newly
+        rejected ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
+        of the ``User`` as the keyword argument ``profile`` and the class of this
+        backend as the sender
+
+        """
         rejected_user = RegistrationProfile.objects.reject_registration(profile)
 
         if rejected_user:
@@ -73,7 +212,26 @@ class DefaultBackend(BackendBase):
         return rejected_user
 
     def activate(self, activation_key, password=None):
+        """activate user with ``activation_key`` and ``password``
 
+        Given an activation key, password, look up and activate the user
+        account corresponding to that key (if possible) and set its password.
+
+        If ``password`` is not given, password will be generated
+
+        An email will be sent to the supplied email address; The email will be
+        rendered using two templates. See the documentation for
+        ``RegistrationProfile.send_activation_email()`` for information about
+        these templates and the contexts provided to them.
+
+        After successful activation, the signal
+        ``registration.signals.user_activated`` will be sent, with the newly
+        activated ``User`` as the keyword argument ``uesr``, the password
+        of the ``User`` as the keyword argument ``password``, whether the password
+        has generated or not as the keyword argument ``is_generated`` and the class
+        of this backend as the sender
+
+        """
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=activation_key,
                 password=password)
@@ -90,19 +248,36 @@ class DefaultBackend(BackendBase):
         return None
 
     def get_activation_form_class(self):
+        """Return the default form class used for user activation"""
         return ActivationForm
 
     def get_registration_form_class(self):
+        """Return the default form class used for user registration"""
         return RegistrationForm
         
     def get_activation_complete_url(self, user):
+        """Return a url to redirect to after successful user activation"""
         return reverse('registration_activation_complete')
 
     def get_registration_complete_url(self, user):
+        """Return a url to redirect to after successful user registration"""
         return reverse('registration_complete')
 
     def get_registration_closed_url(self):
+        """Return a url to redirect to if registration is closed"""
         return reverse('registration_disallowed')
 
     def registration_allowed(self):
+        """
+        Indicate whether account registration is currently permitted, based on
+        the value of the setting ``REGISTRATION_OEPN``. This is determined as
+        follows:
+
+        *   If ``REGISTRATION_OPEN`` is not specified in settings, or is set
+            to ``True``, registration is permitted.
+
+        *   If ``REGISTRATION_OPEN`` is both specified and set to ``False``,
+            registration is not permitted.
+
+        """
         return getattr(settings, 'REGISTRATION_OPEN', True)

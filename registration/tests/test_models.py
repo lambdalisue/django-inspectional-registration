@@ -28,6 +28,7 @@ import datetime
 
 from django.conf import settings
 from django.core import mail
+from django.core import management
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -96,6 +97,8 @@ class RegistrationProfileTestCase(BaseTestCase):
         self.assertEqual(profile.status, 'rejected')
         self.assertEqual(profile.activation_key_expired(), False)
         profile.status = 'accepted'
+        # status = accepted change date_joined
+        new_user.date_joined -= datetime.timedelta(settings.ACCOUNT_ACTIVATION_DAYS+1)
         self.assertEqual(profile.status, 'expired')
         self.assertEqual(profile.activation_key_expired(), True)
 
@@ -519,3 +522,190 @@ class RegistrationProfileManagerTestCase(BaseTestCase):
                           username='new rejected user')
         self.assertRaises(User.DoesNotExist, User.objects.get, 
                           username='expired rejected user')
+
+    def test_management_command_cleanup_expired_registrations(self):
+        RegistrationProfile.objects.register(
+                username='new untreated user',
+                email='new_untreated_user@example.com')
+        new_accepted_user = RegistrationProfile.objects.register(
+                username='new accepted user',
+                email='new_accepted_user@example.com')
+        new_rejected_user = RegistrationProfile.objects.register(
+                username='new rejected user',
+                email='new_rejected_user@example.com')
+        expired_untreated_user = RegistrationProfile.objects.register(
+                username='expired untreated user',
+                email='expired_untreated_user@example.com')
+        expired_accepted_user = RegistrationProfile.objects.register(
+                username='expired accepted user',
+                email='expired_accepted_user@example.com')
+        expired_rejected_user = RegistrationProfile.objects.register(
+                username='expired rejected user',
+                email='expired_rejected_user@example.com')
+
+        RegistrationProfile.objects.accept_registration(
+                new_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                new_rejected_user.registration_profile)
+        RegistrationProfile.objects.accept_registration(
+                expired_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                expired_rejected_user.registration_profile)
+
+        delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
+
+        expired_untreated_user.date_joined -= delta
+        expired_untreated_user.save()
+        expired_accepted_user.date_joined -= delta
+        expired_accepted_user.save()
+        expired_rejected_user.date_joined -= delta
+        expired_rejected_user.save()
+
+        management.call_command('cleanup_expired_registrations')
+        # Only expired accepted user is deleted
+        self.assertEqual(RegistrationProfile.objects.count(), 5)
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired accepted user')
+
+    def test_management_command_cleanup_rejected_registrations(self):
+        RegistrationProfile.objects.register(
+                username='new untreated user',
+                email='new_untreated_user@example.com')
+        new_accepted_user = RegistrationProfile.objects.register(
+                username='new accepted user',
+                email='new_accepted_user@example.com')
+        new_rejected_user = RegistrationProfile.objects.register(
+                username='new rejected user',
+                email='new_rejected_user@example.com')
+        expired_untreated_user = RegistrationProfile.objects.register(
+                username='expired untreated user',
+                email='expired_untreated_user@example.com')
+        expired_accepted_user = RegistrationProfile.objects.register(
+                username='expired accepted user',
+                email='expired_accepted_user@example.com')
+        expired_rejected_user = RegistrationProfile.objects.register(
+                username='expired rejected user',
+                email='expired_rejected_user@example.com')
+
+        RegistrationProfile.objects.accept_registration(
+                new_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                new_rejected_user.registration_profile)
+        RegistrationProfile.objects.accept_registration(
+                expired_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                expired_rejected_user.registration_profile)
+
+        delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
+
+        expired_untreated_user.date_joined -= delta
+        expired_untreated_user.save()
+        expired_accepted_user.date_joined -= delta
+        expired_accepted_user.save()
+        expired_rejected_user.date_joined -= delta
+        expired_rejected_user.save()
+
+        management.call_command('cleanup_rejected_registrations')
+        # new_rejected_user and expired rejected user are deleted
+        self.assertEqual(RegistrationProfile.objects.count(), 4)
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='new rejected user')
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired rejected user')
+
+    def test_management_command_cleanup_registrations(self):
+        RegistrationProfile.objects.register(
+                username='new untreated user',
+                email='new_untreated_user@example.com')
+        new_accepted_user = RegistrationProfile.objects.register(
+                username='new accepted user',
+                email='new_accepted_user@example.com')
+        new_rejected_user = RegistrationProfile.objects.register(
+                username='new rejected user',
+                email='new_rejected_user@example.com')
+        expired_untreated_user = RegistrationProfile.objects.register(
+                username='expired untreated user',
+                email='expired_untreated_user@example.com')
+        expired_accepted_user = RegistrationProfile.objects.register(
+                username='expired accepted user',
+                email='expired_accepted_user@example.com')
+        expired_rejected_user = RegistrationProfile.objects.register(
+                username='expired rejected user',
+                email='expired_rejected_user@example.com')
+
+        RegistrationProfile.objects.accept_registration(
+                new_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                new_rejected_user.registration_profile)
+        RegistrationProfile.objects.accept_registration(
+                expired_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                expired_rejected_user.registration_profile)
+
+        delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
+
+        expired_untreated_user.date_joined -= delta
+        expired_untreated_user.save()
+        expired_accepted_user.date_joined -= delta
+        expired_accepted_user.save()
+        expired_rejected_user.date_joined -= delta
+        expired_rejected_user.save()
+
+        management.call_command('cleanup_registrations')
+        # new_rejected_user, expired rejected_user and expired_accepted_user are deleted
+        self.assertEqual(RegistrationProfile.objects.count(), 3)
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='new rejected user')
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired rejected user')
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired accepted user')
+
+    def test_management_command_cleanupregistration(self):
+        RegistrationProfile.objects.register(
+                username='new untreated user',
+                email='new_untreated_user@example.com')
+        new_accepted_user = RegistrationProfile.objects.register(
+                username='new accepted user',
+                email='new_accepted_user@example.com')
+        new_rejected_user = RegistrationProfile.objects.register(
+                username='new rejected user',
+                email='new_rejected_user@example.com')
+        expired_untreated_user = RegistrationProfile.objects.register(
+                username='expired untreated user',
+                email='expired_untreated_user@example.com')
+        expired_accepted_user = RegistrationProfile.objects.register(
+                username='expired accepted user',
+                email='expired_accepted_user@example.com')
+        expired_rejected_user = RegistrationProfile.objects.register(
+                username='expired rejected user',
+                email='expired_rejected_user@example.com')
+
+        RegistrationProfile.objects.accept_registration(
+                new_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                new_rejected_user.registration_profile)
+        RegistrationProfile.objects.accept_registration(
+                expired_accepted_user.registration_profile)
+        RegistrationProfile.objects.reject_registration(
+                expired_rejected_user.registration_profile)
+
+        delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
+
+        expired_untreated_user.date_joined -= delta
+        expired_untreated_user.save()
+        expired_accepted_user.date_joined -= delta
+        expired_accepted_user.save()
+        expired_rejected_user.date_joined -= delta
+        expired_rejected_user.save()
+
+        # django-registration compatibility
+        management.call_command('cleanupregistration')
+        # new_rejected_user, expired rejected_user and expired_accepted_user are deleted
+        self.assertEqual(RegistrationProfile.objects.count(), 3)
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='new rejected user')
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired rejected user')
+        self.assertRaises(User.DoesNotExist, User.objects.get, 
+                          username='expired accepted user')

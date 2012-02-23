@@ -2,11 +2,11 @@
 {% load url from future %}
 
 {% block contents %}
-<h1>Login</h1>
+<h1>Activation</h1>
+<p>Please fill your account password to activate your account</p>
 
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <p><input type="submit" value="Login"></p>
+    <p><input type="submit" value="Register"></p>
 </form>
-<p>New user? -- <a href="{% url 'registration_register' %}">Register</a></p>
 {% endblock %}

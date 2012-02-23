@@ -1,0 +1,1 @@
+You are correctly registered in {{ site.name }}. Please wait until the inspector checks your registration.

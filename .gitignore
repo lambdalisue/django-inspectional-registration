@@ -3,6 +3,7 @@
 *.pyc
 *.egg
 *.egg-info
+local_settings.py
 /dist
 /sdist
 /tests/*.db

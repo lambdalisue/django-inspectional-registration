@@ -1,0 +1,7 @@
+{% load url from future %}
+Your account has activated.
+
+Username: {{ user.username }}
+Password: {% if is_generated %}{{ password }}{% else %}Not displayed because of security reason{% endif %}
+
+Login URL: http://{{ site.domain }}{% url 'auth_login' %}

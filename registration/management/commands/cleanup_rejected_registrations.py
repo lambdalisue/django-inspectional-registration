@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Backend
+A management command which deletes expired or rejected accounts (e.g.,
+accounts which signed up but never activated) from the database.
 
-This is a modification of django-registration_ ``backends/__init__.py``
+Calls ``RegistrationProfile.objects.delete_expired_users()`` and
+``RegistrationProfile.objects.delete_rejected_users()``, which
+contains the actual logic for determining which accounts are deleted.
+
+This is a modification of django-registration_ ``cleanupregistration.py``
 The original code is written by James Bennett
 
 .. _django-registration: https://bitbucket.org/ubernostrum/django-registration
@@ -59,36 +64,12 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from django.core.management.base import NoArgsCommand
 
-# Python 2.7 has an importlib with import_module; for older Pythons,
-# Django's bundled copy provides it.
-try: # pragma: no cover
-    from importlib import import_module # pragma: no cover
-except ImportError: # pragma: no cover
-    from django.utils.importlib import import_module # pragma: no cover
+from ...models import RegistrationProfile
 
-def get_backend(path=None):
-    """
-    Return an instance of a registration backend, given the dotted
-    Python import path (as a string) to the backend class.
+class Command(NoArgsCommand):
+    help = "Delete rejected user registrations from the database"
 
-    If the backend cannot be located (e.g., because no such module
-    exists, or because the module does not contain a class of the
-    appropriate name), ``django.core.exceptions.ImproperlyConfigured``
-    is raised.
-    
-    """
-    path = path or settings.REGISTRATION_BACKEND
-    i = path.rfind('.')
-    module, attr = path[:i], path[i+1:]
-    try:
-        mod = import_module(module)
-    except ImportError, e:
-        raise ImproperlyConfigured('Error loading registration backend %s: "%s"' % (module, e))
-    try:
-        backend_class = getattr(mod, attr)
-    except AttributeError:
-        raise ImproperlyConfigured('Module "%s" does not define a registration backend named "%s"' % (module, attr))
-    return backend_class()
+    def handle_noargs(self, **options):
+        RegistrationProfile.objects.delete_rejected_users()

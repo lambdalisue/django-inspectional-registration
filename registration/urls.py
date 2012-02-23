@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+URLconf for django-inspectional-registration
 
 
 AUTHOR:

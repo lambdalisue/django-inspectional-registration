@@ -1,0 +1,1 @@
+Your registration has accepted -- {{ site.name }}

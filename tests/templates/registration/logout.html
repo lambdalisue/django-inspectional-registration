@@ -1,0 +1,8 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+
+{% block contents %}
+<h1>Logged out</h1>
+<p>You are logged out</p>
+<p><a href="{% url 'auth_login' %}">Login</a> or <a href="{% url 'registration_register' %}">Register</a></p>
+{% endblock %}
