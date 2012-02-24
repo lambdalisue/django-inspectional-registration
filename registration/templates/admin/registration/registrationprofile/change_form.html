@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content_title %}<h1>{% blocktrans with original.user as user %}Inspect {{ user }}'s registration{% endblocktrans %}</h1>{% endblock %}
+
+{% block content %}
+<p>{% blocktrans %}Please chose action to this registration and click the Save button on bottom.{% endblocktrans %}</p>
+{{ block.super }}
+{% endblock %}

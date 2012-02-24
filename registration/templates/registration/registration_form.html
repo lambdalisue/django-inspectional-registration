@@ -1,0 +1,16 @@
+{% load url from future %}
+{% load i18n %}
+<html>
+    <head>
+        <title>{% trans 'Registration' %}</title>
+    </head>
+    <body>
+        <h1>{% trans 'Registration' %}</h1>
+        <p>{% trans 'Please fill the following form to create your registration' %}</p>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            {{ supplement_form.as_p }}
+            <p><input type="submit" value="{% trans 'Register' %}"></p>
+        </form>
+    </body>
+</html>

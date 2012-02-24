@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Base backends of django-inspecional-registration
+Base class of registration backend
 
 All backends of django-inspectional-registration should be a subclass
 of the ``BackendBase``
@@ -28,10 +28,23 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
-class BackendBase(object):
-    """Base backend class of django-inspectional-registration
+class RegistrationBackendBase(object):
+    """Base class of registration backend
 
     Methods:
+        register                        -- register a new user
+        accept                          -- accept a registration
+        reject                          -- reject a registration
+        activate                        -- activate a user
+        get_supplement_class            -- get registration supplement class
+        get_activation_form_class       -- get activation form class
+        get_registration_form_class     -- get registration form class
+        get_supplement_form_class       -- get registration supplement form class
+        get_activation_complete_url     -- get activation complete redirect url
+        get_registration_complete_url   -- get registration complete redirect url
+        get_registration_closed_url     -- get registration closed redirect url
+        registration_allowed            -- whether registration is allowed now
+
     """
 
     def register(self, username, email):
@@ -62,8 +75,6 @@ class BackendBase(object):
         This method **SHOULD NOT** work after the account registration has accepted.
 
         """
-
-
         raise NotImplementedError
 
     def activate(self, activation_key, password=None):
@@ -81,6 +92,10 @@ class BackendBase(object):
         """
         raise NotImplementedError
 
+    def get_supplement_class(self):
+        """Return the current registration supplement class"""
+        raise NotImplementedError
+
     def get_activation_form_class(self):
         """get activation form class"""
         raise NotImplementedError
@@ -89,6 +104,10 @@ class BackendBase(object):
         """get registration form class"""
         raise NotImplementedError
         
+    def get_supplement_form_class(self):
+        """get registration supplement form class"""
+        raise NotImplementedError
+
     def get_activation_complete_url(self, user):
         """get activation complete url"""
         raise NotImplementedError

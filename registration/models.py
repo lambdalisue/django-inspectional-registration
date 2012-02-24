@@ -78,6 +78,7 @@ from django.utils.text import ugettext_lazy as _
 from utils import generate_activation_key
 from utils import generate_random_password
 from utils import send_mail
+from supplements import get_supplement_class
 
 # Support Django 1.4 Timezone
 try:
@@ -363,6 +364,7 @@ class RegistrationProfile(models.Model):
                                       default=None, editable=False)
 
     objects = RegistrationManager()
+    supplement_class = get_supplement_class()
 
     class Meta:
         verbose_name = _('registration profile')
@@ -372,6 +374,11 @@ class RegistrationProfile(models.Model):
                 ('reject_registration', 'Can reject user registration'),
                 ('activate_user', 'Can activate user in admin site'),
             )
+
+    def _get_supplement(self):
+        """get supplement information of this registration"""
+        return getattr(self, '_supplement', None)
+    supplement = property(_get_supplement)
 
     def _get_status(self):
         """get inspection status of this profile
@@ -411,6 +418,7 @@ class RegistrationProfile(models.Model):
         sl.append(('expired', _('Activation key has expired')))
         sl = dict(sl)
         return sl.get(self.status)
+    get_status_display.short_description = _("Status")
 
     def __unicode__(self):
         return u"Registration information for %s" % self.user
@@ -440,6 +448,7 @@ class RegistrationProfile(models.Model):
         expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
         expired = self.user.date_joined + expiration_date <= datetime_now()
         return expired
+    activation_key_expired.short_description = _("Has activation key expired?")
     activation_key_expired.boolean = True
 
     def _send_email(self, action, extra_context=None):

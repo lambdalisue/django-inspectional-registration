@@ -1,7 +1,7 @@
 # vim: set fileencoding=utf8:
 from setuptools import setup, find_packages
 
-version = '0.1.1'
+version = '0.2.0'
 
 def read(filename):
     import os.path
@@ -14,7 +14,7 @@ setup(
     long_description=read('README.rst'),
     classifiers = [
         # http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -39,6 +39,6 @@ setup(
     tests_require=[
         'django>=1.3',
         'PyYAML',
-        'django-mailer',
+#        'django-mailer',
     ],
 )

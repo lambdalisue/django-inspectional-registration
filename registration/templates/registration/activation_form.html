@@ -1,0 +1,16 @@
+{% load url from future %}
+{% load i18n %}
+<html>
+    <head>
+        <title>{% trans 'Activate your account' %}</title>
+    </head>
+    <body>
+        <h1>{% trans 'Activate your account' %}</h1>
+        <p>{% trans 'Please fill your account password to complete account activation' %}</p>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <p><input type="submit" value="{% trans 'Activate' %}"></p>
+        </form>
+    </body>
+</html>
+

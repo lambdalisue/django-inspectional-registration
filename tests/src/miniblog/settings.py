@@ -129,7 +129,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'miniblog.autocmds',
     'miniblog.blogs',
-    'registration',
+    'registration',                         # django-inspectional-registration
+    'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
     'mailer',
 )
 

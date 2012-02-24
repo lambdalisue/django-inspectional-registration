@@ -35,19 +35,11 @@ from django.test import TestCase
 from .. import forms
 from ..models import RegistrationProfile
 from ..backends import get_backend
+from ..supplements.default import DefaultRegistrationSupplement
 
+from base import RegistrationTestCaseBase
 
-class RegistrationViewTests(TestCase):
-    urls = 'registration.tests.urls'
-    backend = get_backend()
-
-    def setUp(self):
-        self._activation_days_cache = settings.ACCOUNT_ACTIVATION_DAYS
-        self._registration_open_cache = settings.REGISTRATION_OPEN
-
-    def tearDown(self):
-        settings.ACCOUNT_ACTIVATION_DAYS = self._activation_days_cache
-        settings.REGISTRATION_OPEN = self._registration_open_cache
+class RegistrationViewTestCase(RegistrationTestCaseBase):
 
     def test_registration_view_get(self):
         """
@@ -191,3 +183,4 @@ class RegistrationViewTests(TestCase):
             'password2': 'swordfish'})
 
         self.assertEqual(response.status_code, 404)
+
