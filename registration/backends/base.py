@@ -55,7 +55,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def accept(self, profile):
+    def accept(self, profile, send_email=True, message=None):
         """accept account registration with given ``profile`` (an instance of ``RegistrationProfile``)
         
         Returning should be a instance of accepted ``User`` for success, ``None``
@@ -66,7 +66,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def reject(self, profile):
+    def reject(self, profile, send_email=True, message=None):
         """reject account registration with given ``profile`` (an instance of ``RegistrationProfile``)
 
         Returning should be a instance of accepted ``User`` for success, ``None``
@@ -77,7 +77,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def activate(self, activation_key, password=None):
+    def activate(self, activation_key, password=None, send_email=True, message=None):
         """activate account with ``activation_key`` and ``password``
 
         This method should be called after the account registration has accepted,
