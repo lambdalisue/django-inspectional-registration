@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Default backend of django-inspectional-registration
+Default registration backend class
 
 This is a modification of django-registration_ ``admin.py``
 The original code is written by James Bennett
@@ -59,19 +59,20 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+import sys
+
 from django.conf import settings
-from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse
 
-from base import BackendBase
-from .. import signals
-from ..models import RegistrationProfile
-from ..forms import ActivationForm
-from ..forms import RegistrationForm
-from ..additions import get_addition_class
+from ..base import RegistrationBackendBase
+from ... import signals
+from ...models import RegistrationProfile
+from ...forms import ActivationForm
+from ...forms import RegistrationForm
+from ...supplements import get_supplement_class
 
-class DefaultBackend(BackendBase):
-    """Default backend for django-inspectional-registration
+class DefaultRegistrationBackend(RegistrationBackendBase):
+    """Default registration backend class
 
     A registration backend which floows a simple workflow:
 
@@ -118,7 +119,7 @@ class DefaultBackend(BackendBase):
 
     """
 
-    def register(self, username, email):
+    def register(self, username, email, send_email=True):
         """register new user with ``username`` and ``email``
 
         Given a username, email address, register a new user account, which will
@@ -143,7 +144,8 @@ class DefaultBackend(BackendBase):
         of this backend as the sender.
 
         """
-        new_user = RegistrationProfile.objects.register(username, email)
+        new_user = RegistrationProfile.objects.register(
+                username, email, send_email=send_email)
 
         signals.user_registered.send(
                 sender=self.__class__,
@@ -153,7 +155,7 @@ class DefaultBackend(BackendBase):
 
         return new_user
 
-    def accept(self, profile):
+    def accept(self, profile, send_email=True):
         """accept the account registration of ``profile``
 
         Given a profile, accept account registration, which will
@@ -172,7 +174,8 @@ class DefaultBackend(BackendBase):
         backend as the sender
 
         """
-        accepted_user = RegistrationProfile.objects.accept_registration(profile)
+        accepted_user = RegistrationProfile.objects.accept_registration(
+                profile, send_email=send_email)
 
         if accepted_user:
             signals.user_accepted.send(
@@ -183,7 +186,7 @@ class DefaultBackend(BackendBase):
 
         return accepted_user
 
-    def reject(self, profile):
+    def reject(self, profile, send_email=True):
         """reject the account registration of ``profile``
 
         Given a profile, reject account registration, which will
@@ -202,7 +205,8 @@ class DefaultBackend(BackendBase):
         backend as the sender
 
         """
-        rejected_user = RegistrationProfile.objects.reject_registration(profile)
+        rejected_user = RegistrationProfile.objects.reject_registration(
+                profile, send_email=send_email)
 
         if rejected_user:
             signals.user_rejected.send(
@@ -213,7 +217,7 @@ class DefaultBackend(BackendBase):
 
         return rejected_user
 
-    def activate(self, activation_key, password=None):
+    def activate(self, activation_key, password=None, send_email=True):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -236,7 +240,8 @@ class DefaultBackend(BackendBase):
         """
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=activation_key,
-                password=password)
+                password=password,
+                send_email=send_email)
 
         if activated:
             user, password, is_generated = activated
@@ -249,6 +254,14 @@ class DefaultBackend(BackendBase):
             return user
         return None
 
+    def get_supplement_class(self):
+        """Return the current registration supplement class"""
+        # cache mechanisms will break the test thus disable it in test
+        if not hasattr(self, '_supplement_class_cache') or 'test' in sys.argv:
+            cls = get_supplement_class()
+            setattr(self, '_supplement_class_cache', cls)
+        return getattr(self, '_supplement_class_cache')
+
     def get_activation_form_class(self):
         """Return the default form class used for user activation"""
         return ActivationForm
@@ -257,20 +270,12 @@ class DefaultBackend(BackendBase):
         """Return the default form class used for user registration"""
         return RegistrationForm
 
-    def get_registration_addition_form_class(self):
-        """Return the default form class used for user registration addition"""
-        if not hasattr(self, '_addition_class_cache'):
-            addition_class = get_addition_class()
-            setattr(self, '_addition_class_cache', addition_class)
-        addition_class = getattr(self, '_addition_class_cache')
-        addition_class = get_addition_class()
-        if addition_class is None:
+    def get_supplement_form_class(self):
+        """Return the default form class used for user registration supplement"""
+        supplement_class = self.get_supplement_class()
+        if not supplement_class:
             return None
-        elif hasattr(addition_class, 'get_form_class'):
-            form_class = addition_class.get_form_class()
-        else:
-            form_class = modelform_factory(addition_class)
-        return form_class
+        return supplement_class.get_form_class()
         
     def get_activation_complete_url(self, user):
         """Return a url to redirect to after successful user activation"""

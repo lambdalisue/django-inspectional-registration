@@ -34,15 +34,9 @@ from django.contrib.auth.models import User
 
 from ..models import RegistrationProfile
 
-class BaseTestCase(TestCase):
-    def setUp(self):
-        self._activation_days_cache = settings.ACCOUNT_ACTIVATION_DAYS
-        settings.ACCOUNT_ACTIVATION_DAYS = 7
+from base import RegistrationTestCaseBase
 
-    def tearDown(self):
-        settings.ACCOUNT_ACTIVATION_DAYS = self._activation_days_cache
-
-class RegistrationProfileTestCase(BaseTestCase):
+class RegistrationProfileTestCase(RegistrationTestCaseBase):
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',
@@ -132,7 +126,7 @@ class RegistrationProfileTestCase(BaseTestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
-class RegistrationProfileManagerTestCase(BaseTestCase):
+class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',

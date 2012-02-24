@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+A simple registration supplement model which requires ``remarks``
 
 
 AUTHOR:
@@ -27,14 +27,12 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.db import models
 from django.utils.text import ugettext_lazy as _
 
-from registration.models import RegistrationProfile
+from registration.supplements import RegistrationSupplementBase
 
-class DefaultAddition(models.Model):
-    """A simple registration addition which requires remarks"""
-    registration_profile = models.OneToOneField(
-            RegistrationProfile, verbose_name=_('registration profile'),
-            editable=False)
+class DefaultRegistrationSupplement(RegistrationSupplementBase):
+    """A simple registration supplement model which requires remarks"""
     remarks = models.TextField(_('remarks'))
 
     def __unicode__(self):
+        """return a summary of this addition"""
         return self.remarks

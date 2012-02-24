@@ -13,6 +13,7 @@ def setconf(name, default_value):
 
 setconf('ACCOUNT_ACTIVATION_DAYS', 7)
 setconf('REGISTRATION_DEFAULT_PASSWORD_LENGTH', 10)
-setconf('REGISTRATION_BACKEND_CLASS', 'registration.backends.default.DefaultBackend')
-setconf('REGISTRATION_ADDITION_CLASS', 'registration.additions.default.DefaultAddition')
+setconf('REGISTRATION_BACKEND_CLASS', 'registration.backends.default.DefaultRegistrationBackend')
+setconf('REGISTRATION_SUPPLEMENT_CLASS', 'registration.supplements.default.DefaultRegistrationSupplement')
+setconf('REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS', 'registration.admin.RegistrationSupplementAdminInlineBase')
 setconf('REGISTRATION_OPEN', True)

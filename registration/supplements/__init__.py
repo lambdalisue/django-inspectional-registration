@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+Registration Supplement
 
 
 AUTHOR:
@@ -25,7 +25,6 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
-from django.db import models
 from django.core.exceptions import ImproperlyConfigured
 
 # Python 2.7 has an importlib with import_module; for older Pythons,
@@ -35,10 +34,14 @@ try: # pragma: no cover
 except ImportError: # pragma: no cover
     from django.utils.importlib import import_module # pragma: no cover
 
-def get_addition_class(path=None):
+from base import RegistrationSupplementBase
+
+__all__ = ['RegistrationSupplementBase', 'get_supplement_class']
+
+def get_supplement_class(path=None):
     """
-    Return an instance of a registration addition, given the dotted
-    Python import path (as a string) to the addition class.
+    Return an instance of a registration supplement, given the dotted
+    Python import path (as a string) to the supplement class.
 
     If the addition cannot be located (e.g., because no such module
     exists, or because the module does not contain a class of the
@@ -46,7 +49,7 @@ def get_addition_class(path=None):
     is raised.
     
     """
-    path = path or settings.REGISTRATION_ADDITION_CLASS
+    path = path or settings.REGISTRATION_SUPPLEMENT_CLASS
     if not path:
         return None
     i = path.rfind('.')
@@ -56,9 +59,9 @@ def get_addition_class(path=None):
     except ImportError, e:
         raise ImproperlyConfigured('Error loading registration addition %s: "%s"' % (module, e))
     try:
-        addition_class = getattr(mod, attr)
+        cls = getattr(mod, attr)
     except AttributeError:
-        raise ImproperlyConfigured('Module "%s" does not define a registration addition named "%s"' % (module, attr))
-    if addition_class and not issubclass(addition_class, models.Model):
-        raise ImproperlyConfigured('Addition class "%s" must be a subclass of ``django.db.models.Model``' % path)
-    return addition_class
+        raise ImproperlyConfigured('Module "%s" does not define a registration supplement named "%s"' % (module, attr))
+    if cls and not issubclass(cls, RegistrationSupplementBase):
+        raise ImproperlyConfigured('Registration supplement class "%s" must be a subclass of ``registration.supplements.RegistrationSupplementBase``' % path)
+    return cls
