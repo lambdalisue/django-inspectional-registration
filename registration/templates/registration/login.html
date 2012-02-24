@@ -1,1 +1,15 @@
-
+{% load url from future %}
+{% load i18n %}
+<html>
+    <head>
+        <title>{% trans 'Login' %}</title>
+    </head>
+    <body>
+        <h1>{% trans 'Login' %}</h1>
+        <p>{% trans 'Please fill your username and password to login' %}</p>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <p><input type="submit" value="{% trans 'Login' %}"></p>
+        </form>
+    </body>
+</html>

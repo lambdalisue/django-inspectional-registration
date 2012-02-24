@@ -1,1 +1,11 @@
-
+{% load url from future %}
+{% load i18n %}
+<html>
+    <head>
+        <title>{% trans 'Logged out' %}</title>
+    </head>
+    <body>
+        <h1>{% trans 'Logged out' %}</h1>
+        <p>{% trans 'You are logged out.' %}</p>
+    </body>
+</html>

@@ -1,7 +1,22 @@
 {% load url from future %}
-Your account has activated.
+{% load i18n %}
+{% blocktrans %}Dear {{ user }},{% endblocktrans %}
+{% if is_generated %}
+{% blocktrans with site.name as site_name %}Your account of {{ site_name }} was activated by inspectors{% endblocktrans %}
 
-Username: {{ user.username }}
-Password: {% if is_generated %}{{ password }}{% else %}Not displayed because of security reason{% endif %}
+{% blocktrans %}Please click the following url and change your account password because of security reason{% endblocktrans %}
 
-Login URL: http://{{ site.domain }}{% url 'auth_login' %}
+{% blocktrans %}USERNAME: {{ user }}{% endblocktrans %}
+{% blocktrans %}PASSWORD: {{ password }}{% endblocktrans %}
+
+http://{{ site.domain }}{% url 'auth_login' %}
+{% else %}
+{% blocktrans with site.name as site_name %}Your account of {{ site_name }} was successfully activated!{% endblocktrans %}
+
+{% blocktrans %}Please click the following url and enjoy! (The password is not shown because of security reason){% endblocktrans %}
+
+{% blocktrans %}USERNAME: {{ user }}{% endblocktrans %}
+{% blocktrans %}PASSWORD: *************{% endblocktrans %}
+
+http://{{ site.domain }}{% url 'auth_login' %}
+{% endif %}

@@ -1,0 +1,7 @@
+{% load url from future %}
+{% load i18n %}
+{% blocktrans %}Dear {{ user }},{% endblocktrans %}
+{% blocktrans %}Your account registration was created successfully{% endblocktrans %}
+
+{% blocktrans %}Please wait until the inspectors verify your registration.{% endblocktrans %}
+{% blocktrans %}E-mail will be sent to you when the inspectors accept/reject your registration.{% endblocktrans %}

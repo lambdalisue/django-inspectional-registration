@@ -1,8 +1,11 @@
 {% load url from future %}
-Your registration has accepted by inspector.
+{% load i18n %}
+{% blocktrans %}Dear {{ user }},{% endblocktrans %}
 
-Please access the url below to activate your account
+{% blocktrans %}Your registration of {{ site.name }} has been accepted by inspectors.{% endblocktrans %}
+
+{% blocktrans %}Please click the following url and set your account password to finish your account activation!{% endblocktrans %}
 
 http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
 
-The activation url will be expired in {{ expiration_days }}
+{% blocktrans %}The activation link above will be expired in {{ expiration_days }}.{% endblocktrans %}

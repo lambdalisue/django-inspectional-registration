@@ -1,7 +1,10 @@
-{% extends 'registration/base.html' %}
+{% extends 'base.html' %}
 {% load url from future %}
+{% load i18n %}
+{% block title %}{% trans 'Activation has complete!' %}{% endblock %}
 
 {% block contents %}
-<h1>Activation has success</h1>
-<p>Your account is successfully activated</p>
+<h1>{% trans 'Activation has complete' %}</h1>
+<p>{% trans 'Your account was correctly activated! Enjoy!' %}</p>
 {% endblock %}
+

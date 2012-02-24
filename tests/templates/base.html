@@ -25,6 +25,7 @@
 
                     {% else %}
                     <li id="login"><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
+                    <li id="register"><a href="{% url 'registration_register' %}">Sign up</a></li>
                     {% endif %}
                 </ul>
             </nav>
