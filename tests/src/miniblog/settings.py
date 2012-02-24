@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'miniblog.autocmds',
     'miniblog.blogs',
     'registration',
+    'registration.additions.default',
     'mailer',
 )
 

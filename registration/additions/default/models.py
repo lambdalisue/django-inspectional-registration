@@ -32,7 +32,8 @@ from registration.models import RegistrationProfile
 class DefaultAddition(models.Model):
     """A simple registration addition which requires remarks"""
     registration_profile = models.OneToOneField(
-            RegistrationProfile, verbose_name=_('registration profile'))
+            RegistrationProfile, verbose_name=_('registration profile'),
+            editable=False)
     remarks = models.TextField(_('remarks'))
 
     def __unicode__(self):

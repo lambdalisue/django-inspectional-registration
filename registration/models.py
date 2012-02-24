@@ -75,6 +75,7 @@ from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.utils.text import ugettext_lazy as _
 
+from additions import get_addition_class
 from utils import generate_activation_key
 from utils import generate_random_password
 from utils import send_mail
@@ -404,6 +405,21 @@ class RegistrationProfile(models.Model):
         elif value != 'accepted' and self.activation_key:
             self.activation_key = None
     status = property(_get_status, _set_status)
+
+    def _get_addition_class(self):
+        if not hasattr(self, '_addition_class_cache'):
+            addition_class = get_addition_class()
+            setattr(self, '_addition_class_cache', addition_class)
+        return getattr(self, '_addition_class_cache')
+
+    def _get_addition(self):
+        addition_class = self._get_addition_class()
+        try:
+            addition = addition_class.objects.get(registration_profile=self)
+        except addition_class.DoesNotExist:
+            return None
+        return addition
+    addition = property(_get_addition)
 
     def get_status_display(self):
         """get human readable status"""

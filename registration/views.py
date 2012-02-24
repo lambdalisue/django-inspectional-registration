@@ -149,7 +149,16 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
         """get registration form class via backend"""
         return self.backend.get_registration_form_class()
 
-    def form_valid(self, form):
+    def get_addition_form_class(self):
+        """get registration form class via backend"""
+        return self.backend.get_registration_addition_form_class()
+    
+    def get_addition_form(self, addition_form_class):
+        if not addition_form_class:
+            return None
+        return addition_form_class(**self.get_form_kwargs())
+
+    def form_valid(self, form, addition_form):
         """register user with ``username`` and ``email1``
         
         this method is called when form validation has successed.
@@ -157,7 +166,37 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
         username = form.cleaned_data['username']
         email = form.cleaned_data['email1']
         self.new_user = self.backend.register(username, email)
+        if addition_form:
+            profile = self.new_user.registration_profile
+            addition = addition_form.save(commit=False)
+            addition.registration_profile = profile
+            addition.save()
         return super(RegistrationView, self).form_valid(form)
+
+    def form_invalid(self, form, addition_form):
+        context = self.get_context_data(
+                form=form, addition_form=addition_form)
+        return self.render_to_response(context)
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        addition_form_class = self.get_addition_form_class()
+        addition_form = self.get_addition_form(addition_form_class)
+        context = self.get_context_data(
+                form=form, addition_form=addition_form)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        addition_form_class = self.get_addition_form_class()
+        addition_form = self.get_addition_form(addition_form_class)
+        if form.is_valid() and (not addition_form or addition_form.is_valid()):
+            return self.form_valid(form, addition_form)
+        else:
+            return self.form_invalid(form, addition_form)
+
 
     def dispatch(self, request, *args, **kwargs):
         if not self.backend.registration_allowed():

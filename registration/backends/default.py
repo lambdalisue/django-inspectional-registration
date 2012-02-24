@@ -60,6 +60,7 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
+from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse
 
 from base import BackendBase
@@ -67,6 +68,7 @@ from .. import signals
 from ..models import RegistrationProfile
 from ..forms import ActivationForm
 from ..forms import RegistrationForm
+from ..additions import get_addition_class
 
 class DefaultBackend(BackendBase):
     """Default backend for django-inspectional-registration
@@ -254,6 +256,21 @@ class DefaultBackend(BackendBase):
     def get_registration_form_class(self):
         """Return the default form class used for user registration"""
         return RegistrationForm
+
+    def get_registration_addition_form_class(self):
+        """Return the default form class used for user registration addition"""
+        if not hasattr(self, '_addition_class_cache'):
+            addition_class = get_addition_class()
+            setattr(self, '_addition_class_cache', addition_class)
+        addition_class = getattr(self, '_addition_class_cache')
+        addition_class = get_addition_class()
+        if addition_class is None:
+            return None
+        elif hasattr(addition_class, 'get_form_class'):
+            form_class = addition_class.get_form_class()
+        else:
+            form_class = modelform_factory(addition_class)
+        return form_class
         
     def get_activation_complete_url(self, user):
         """Return a url to redirect to after successful user activation"""

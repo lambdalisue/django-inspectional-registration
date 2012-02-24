@@ -34,6 +34,7 @@ from django.test import TestCase
 
 from .. import forms
 from ..models import RegistrationProfile
+from ..additions.default import DefaultAddition
 from ..backends import get_backend
 
 
@@ -44,10 +45,18 @@ class RegistrationViewTests(TestCase):
     def setUp(self):
         self._activation_days_cache = settings.ACCOUNT_ACTIVATION_DAYS
         self._registration_open_cache = settings.REGISTRATION_OPEN
+        self._registration_backend_class_cache = settings.REGISTRATION_BACKEND_CLASS
+        self._registration_addition_class_cache = settings.REGISTRATION_ADDITION_CLASS
+        settings.ACCOUNT_ACTIVATION_DAYS = 7
+        settings.REGISTRATION_OPEN = True
+        settings.REGISTRATION_BACKEND_CLASS = 'registration.backends.default.DefaultBackend'
+        settings.REGISTRATION_ADDITION_CLASS = None
 
     def tearDown(self):
         settings.ACCOUNT_ACTIVATION_DAYS = self._activation_days_cache
         settings.REGISTRATION_OPEN = self._registration_open_cache
+        settings.REGISTRATION_BACKEND_CLASS = self._registration_backend_class_cache
+        settings.REGISTRATION_ADDITION_CLASS = self._registration_addition_class_cache
 
     def test_registration_view_get(self):
         """
@@ -191,3 +200,89 @@ class RegistrationViewTests(TestCase):
             'password2': 'swordfish'})
 
         self.assertEqual(response.status_code, 404)
+
+class RegistrationViewWithDefaultAdditionTests(TestCase):
+    urls = 'registration.tests.urls'
+    backend = get_backend()
+
+    def setUp(self):
+        self._activation_days_cache = settings.ACCOUNT_ACTIVATION_DAYS
+        self._registration_open_cache = settings.REGISTRATION_OPEN
+        self._registration_backend_class_cache = settings.REGISTRATION_BACKEND_CLASS
+        self._registration_addition_class_cache = settings.REGISTRATION_ADDITION_CLASS
+        settings.ACCOUNT_ACTIVATION_DAYS = 7
+        settings.REGISTRATION_OPEN = True
+        settings.REGISTRATION_BACKEND_CLASS = 'registration.backends.default.DefaultBackend'
+        settings.REGISTRATION_ADDITION_CLASS = 'registration.additions.default.DefaultAddition'
+
+    def tearDown(self):
+        settings.ACCOUNT_ACTIVATION_DAYS = self._activation_days_cache
+        settings.REGISTRATION_OPEN = self._registration_open_cache
+        settings.REGISTRATION_BACKEND_CLASS = self._registration_backend_class_cache
+        settings.REGISTRATION_ADDITION_CLASS = self._registration_addition_class_cache
+
+    def test_registration_view_get(self):
+        """
+        A ``GET`` to the ``register`` view uses the appropriate
+        template and populates the registration form into the context.
+
+        """
+        response = self.client.get(reverse('registration_register'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'registration/registration_form.html')
+        self.failUnless(isinstance(response.context['form'],
+                                   forms.RegistrationForm))
+
+    def test_registration_view_post_success(self):
+        """
+        A ``POST`` to the ``register`` view with valid data properly
+        creates a new user and issues a redirect.
+
+        """
+        response = self.client.post(reverse('registration_register'),
+                                    data={'username': 'alice',
+                                          'email1': 'alice@example.com',
+                                          'email2': 'alice@example.com',
+                                          'remarks': 'Hello'})
+        self.assertRedirects(response,
+                             'http://testserver%s' % reverse('registration_complete'))
+        self.assertEqual(RegistrationProfile.objects.count(), 1)
+        self.assertEqual(DefaultAddition.objects.count(), 1)
+        self.assertEqual(len(mail.outbox), 1)
+
+        profile = RegistrationProfile.objects.get(user__username='alice')
+        self.assertEqual(profile.addition.remarks, 'Hello')
+
+    def test_registration_view_post_failure(self):
+        """
+        A ``POST`` to the ``register`` view with invalid data does not
+        create a user, and displays appropriate error messages.
+
+        """
+        response = self.client.post(reverse('registration_register'),
+                                    data={'username': 'bob',
+                                          'email1': 'bobe@example.com',
+                                          'email2': 'mark@example.com',
+                                          'remarks': 'Hello'})
+        self.assertEqual(response.status_code, 200)
+        self.failIf(response.context['form'].is_valid())
+        self.assertFormError(response, 'form', field=None,
+                             errors=u"The two email fields didn't match.")
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_registration_view_post_non_remarks_failure(self):
+        """
+        A ``POST`` to the ``register`` view with invalid data does not
+        create a user, and displays appropriate error messages.
+
+        """
+        response = self.client.post(reverse('registration_register'),
+                                    data={'username': 'bob',
+                                          'email1': 'bobe@example.com',
+                                          'email2': 'mark@example.com'})
+        self.assertEqual(response.status_code, 200)
+        self.failIf(response.context['form'].is_valid())
+        self.assertFormError(response, 'form', field=None,
+                             errors=u"The two email fields didn't match.")
+        self.assertEqual(len(mail.outbox), 0)
