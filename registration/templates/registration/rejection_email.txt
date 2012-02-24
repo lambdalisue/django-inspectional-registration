@@ -4,4 +4,9 @@
 
 {% blocktrans %}I am afraid that your account registration was rejected by inspectors.{% endblocktrans %}
 
+{% if message %}
+{% trans 'Rejection reason:' %}
+{{ message }}
+{% else %}
 {% blocktrans %}Please check your registration once again or E-mail the inspectors to ask why your registration was rejected.{% endblocktrans %}
+{% endif %}

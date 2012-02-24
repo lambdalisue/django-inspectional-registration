@@ -155,7 +155,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return new_user
 
-    def accept(self, profile, send_email=True):
+    def accept(self, profile, send_email=True, message=None):
         """accept the account registration of ``profile``
 
         Given a profile, accept account registration, which will
@@ -175,7 +175,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         accepted_user = RegistrationProfile.objects.accept_registration(
-                profile, send_email=send_email)
+                profile, send_email=send_email, message=message)
 
         if accepted_user:
             signals.user_accepted.send(
@@ -186,7 +186,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return accepted_user
 
-    def reject(self, profile, send_email=True):
+    def reject(self, profile, send_email=True, message=None):
         """reject the account registration of ``profile``
 
         Given a profile, reject account registration, which will
@@ -206,7 +206,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         rejected_user = RegistrationProfile.objects.reject_registration(
-                profile, send_email=send_email)
+                profile, send_email=send_email, message=message)
 
         if rejected_user:
             signals.user_rejected.send(
@@ -217,7 +217,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return rejected_user
 
-    def activate(self, activation_key, password=None, send_email=True):
+    def activate(self, activation_key, password=None, send_email=True, message=None):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -241,7 +241,8 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=activation_key,
                 password=password,
-                send_email=send_email)
+                send_email=send_email,
+                message=message)
 
         if activated:
             user, password, is_generated = activated

@@ -128,7 +128,7 @@ class RegistrationManager(models.Manager):
         return new_user
     register = transaction.commit_on_success(register)
 
-    def accept_registration(self, profile, send_email=True):
+    def accept_registration(self, profile, send_email=True, message=None):
         """accept account registration of ``profile``
 
         Accept account registration and email activation url to the ``User``,
@@ -155,12 +155,12 @@ class RegistrationManager(models.Manager):
             profile.save()
 
             if send_email:
-                profile.send_acception_email()
+                profile.send_acception_email(message=message)
 
             return profile.user
         return None
 
-    def reject_registration(self, profile, send_email=True):
+    def reject_registration(self, profile, send_email=True, message=None):
         """reject account registration of ``profile``
 
         Reject account registration and email rejection to the ``User``,
@@ -183,12 +183,12 @@ class RegistrationManager(models.Manager):
             profile.save()
 
             if send_email:
-                profile.send_rejection_email()
+                profile.send_rejection_email(message=message)
 
             return profile.user
         return None
 
-    def activate_user(self, activation_key, password=None, send_email=True):
+    def activate_user(self, activation_key, password=None, send_email=True, message=None):
         """activate account with ``activation_key`` and ``password``
 
         Activate account and email notification to the ``User``, returning 
@@ -236,7 +236,7 @@ class RegistrationManager(models.Manager):
             user.save()
 
             if send_email:
-                profile.send_activation_email(password, is_generated)
+                profile.send_activation_email(password, is_generated, message=message)
 
             # the profile is no longer required
             profile.delete()
@@ -498,7 +498,7 @@ class RegistrationProfile(models.Model):
         """
         self._send_email('registration')
 
-    def send_acception_email(self):
+    def send_acception_email(self, message=None):
         """send acception email to the user associated with this profile
 
         Send an acception email to the ``User`` associated with this
@@ -541,10 +541,11 @@ class RegistrationProfile(models.Model):
         extra_context = {
                 'activation_key': self.activation_key,
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
+                'message': message,
             }
         self._send_email('acception', extra_context)
 
-    def send_rejection_email(self):
+    def send_rejection_email(self, message=None):
         """send rejection email to the user associated with this profile
 
         Send a rejection email to the ``User`` associated with this
@@ -574,9 +575,12 @@ class RegistrationProfile(models.Model):
             A ``RegistrationProfile`` instance of the registration
 
         """
-        self._send_email('rejection')
+        extra_context = {
+                'message': message,
+            }
+        self._send_email('rejection', extra_context)
 
-    def send_activation_email(self, password=None, is_generated=False):
+    def send_activation_email(self, password=None, is_generated=False, message=None):
         """send activation email to the user associated with this profile
 
         Send a activation email to the ``User`` associated with this
@@ -617,5 +621,6 @@ class RegistrationProfile(models.Model):
         extra_context = {
                 'password': password,
                 'is_generated': is_generated,
+                'message': message,
             }
         self._send_email('activation', extra_context)

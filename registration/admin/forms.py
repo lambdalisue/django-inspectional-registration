@@ -57,6 +57,14 @@ class RegistrationAdminForm(forms.ModelForm):
         )
 
     action = forms.ChoiceField(label=_('Action'))
+    message = forms.CharField(label=_('Message'), 
+            widget=forms.Textarea, required=False,
+            help_text=_(
+                'This message will be displayed in email (you can get the value '
+                'of this message with "{{ message }}" in each email body template). '
+                'It is useful to explain why his/her account registration has been '
+                'rejected.'
+                ))
 
     class Meta:
         model = RegistrationProfile
@@ -106,15 +114,16 @@ class RegistrationAdminForm(forms.ModelForm):
             raise ValueError("The %s chould not be %s because the data did'nt"
                              "validate." % (opts.object_name, fail_message))
         action = self.cleaned_data['action']
+        message = self.cleaned_data['message']
         if action == 'accept':
-            self.registration_backend.accept(self.instance)
+            self.registration_backend.accept(self.instance, message=message)
         elif action == 'reject':
-            self.registration_backend.reject(self.instance)
+            self.registration_backend.reject(self.instance, message=message)
         elif action == 'activate':
-            self.registration_backend.activate(self.instance.activation_key)
+            self.registration_backend.activate(self.instance.activation_key, message=message)
         elif action == 'force_activate':
             self.registration_backend.accept(self.instance, send_email=False)
-            self.registration_backend.activate(self.instance.activation_key)
+            self.registration_backend.activate(self.instance.activation_key, message=message)
         else:
             raise AttributeError(_('Unknwon action "%s" was requested.' % action))
         if action not in ('activate', 'force_activate'):
