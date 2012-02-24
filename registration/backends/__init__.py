@@ -80,7 +80,7 @@ def get_backend(path=None):
     is raised.
     
     """
-    path = path or settings.REGISTRATION_BACKEND
+    path = path or settings.REGISTRATION_BACKEND_CLASS
     i = path.rfind('.')
     module, attr = path[:i], path[i+1:]
     try:

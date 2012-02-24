@@ -13,5 +13,5 @@ def setconf(name, default_value):
 
 setconf('ACCOUNT_ACTIVATION_DAYS', 7)
 setconf('REGISTRATION_DEFAULT_PASSWORD_LENGTH', 10)
-setconf('REGISTRATION_BACKEND', 'registration.backends.default.DefaultBackend')
+setconf('REGISTRATION_BACKEND_CLASS', 'registration.backends.default.DefaultBackend')
 setconf('REGISTRATION_OPEN', True)
