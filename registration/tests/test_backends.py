@@ -36,15 +36,17 @@ from django.contrib.auth.models import User
 from .. import forms
 from .. import signals
 from ..backends import get_backend
-from ..backends.default import DefaultBackend
+from ..backends.default import DefaultRegistrationBackend
 from ..models import RegistrationProfile
 from ..admin import RegistrationAdmin
 
-class BackendRetrievalTests(TestCase):
+from base import RegistrationTestCaseBase
+
+class RegistrationBackendRetrievalTests(RegistrationTestCaseBase):
 
     def test_get_backend(self):
-        backend = get_backend('registration.backends.default.DefaultBackend')
-        self.failUnless(isinstance(backend, DefaultBackend))
+        backend = get_backend('registration.backends.default.DefaultRegistrationBackend')
+        self.failUnless(isinstance(backend, DefaultRegistrationBackend))
 
     def test_backend_error_invalid(self):
         self.assertRaises(ImproperlyConfigured, get_backend,
@@ -54,16 +56,7 @@ class BackendRetrievalTests(TestCase):
         self.assertRaises(ImproperlyConfigured, get_backend,
                 'registration.backends.default.NonexistenBackend')
 
-class DefaultBackendTestCase(TestCase):
-    backend = DefaultBackend()
-    urls = 'registration.tests.urls'
-
-    def setUp(self):
-        self._activation_days_cache = settings.ACCOUNT_ACTIVATION_DAYS
-        settings.ACCOUNT_ACTIVATION_DAYS = 7
-
-    def tearDown(self):
-        settings.ACCOUNT_ACTIVATION_DAYS = self._activation_days_cache
+class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_registration(self):
         new_user = self.backend.register(
@@ -312,8 +305,7 @@ class DefaultBackendTestCase(TestCase):
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_activated])
 
-class RegistrationAdminTestCase(TestCase):
-    backend = DefaultBackend()
+class RegistrationAdminTestCase(RegistrationTestCaseBase):
 
     def test_resend_activation_email_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
@@ -344,10 +336,10 @@ class RegistrationAdminTestCase(TestCase):
             self.assertEqual(profile.status, 'rejected')
             self.assertEqual(profile.activation_key, None)
 
-    def test_activate_users_action(self):
+    def test_force_activate_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
         self.backend.register(username='bob', email='bob@example.com')
-        admin_class.activate_users(None, RegistrationProfile.objects.all())
+        admin_class.force_activate_users(None, RegistrationProfile.objects.all())
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)
