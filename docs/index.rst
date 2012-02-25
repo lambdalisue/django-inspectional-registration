@@ -1,3 +1,12 @@
+.. django-inspectional-registration documentation master file, created by
+   sphinx-quickstart on Sat Feb 25 12:18:30 2012.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to django-inspectional-registration's documentation!
+============================================================
+
+
 django-inspectional-registration is a enhanced application of
 django-registration_. The following features are available
 
@@ -13,7 +22,7 @@ django-registration_. The following features are available
 
 -   Any Django models are available to use as supplemental information of
     registration if the models are subclasses of
-    ``registration.supplements.RegistrationSupplementBase``. 
+    :py:class:`registration.supplements.RegistrationSupplementBase`. 
     It is commonly used for inspection.
 
 -   You can send any additional messages to the user in each steps
@@ -29,12 +38,36 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
+Contents:
+
+.. toctree::
+    :maxdepth: 2
+
+    quicktutorials
+    quickmigrations
+    about_registration_supplement
+    about_registration_backend
+    about_registration_templates
+    about_registration_settings
+
 The difference between django-registration
 ------------------------------------------------------------------------------------
 
 While django-registration_ requires 3 steps for registration,
 django-inspectional-registration requires 5 steps and inspector for
-registration.
+registration. See the conceptual summary below.
+
+
+.. image:: _static/img/difference_summary.png
+
 
 .. _django-registration: https://bitbucket.org/ubernostrum/django-registration/
 .. _south: http://south.aeracode.org/
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

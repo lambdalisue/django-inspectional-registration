@@ -9,3 +9,4 @@ local_settings.py
 /tests/*.db
 /tests/static/collection
 /tests/media
+/docs/_build
