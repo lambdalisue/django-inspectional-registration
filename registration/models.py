@@ -9,8 +9,11 @@ The original code is written by James Bennett
 
 
 CLASSES:
-    RegistrationManager     -- A custom model manager for ``RegistrationProfile``
-    RegistrationProfile     -- A simple registration profile model
+    RegistrationManager
+        A custom model manager for ``RegistrationProfile``
+
+    RegistrationProfile
+        A simple registration profile model
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -18,7 +21,8 @@ AUTHOR:
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
-Original License:
+Original License::
+
     Copyright (c) 2007-2011, James Bennett
     All rights reserved.
 
@@ -97,7 +101,7 @@ class RegistrationManager(models.Manager):
     expired/rejected inactive accounts.
 
     """
-    def register(self, username, email, send_email=True):
+    def register(self, username, email, site, send_email=True):
         """register new user with ``username`` and ``email``
 
         Create a new, inactive ``User``, generate a ``RegistrationProfile``
@@ -123,12 +127,12 @@ class RegistrationManager(models.Manager):
         profile = self.create(user=new_user)
 
         if send_email:
-            profile.send_registration_email()
+            profile.send_registration_email(site)
 
         return new_user
     register = transaction.commit_on_success(register)
 
-    def accept_registration(self, profile, send_email=True, message=None):
+    def accept_registration(self, profile, site, send_email=True, message=None):
         """accept account registration of ``profile``
 
         Accept account registration and email activation url to the ``User``,
@@ -155,12 +159,12 @@ class RegistrationManager(models.Manager):
             profile.save()
 
             if send_email:
-                profile.send_acception_email(message=message)
+                profile.send_acception_email(site, message=message)
 
             return profile.user
         return None
 
-    def reject_registration(self, profile, send_email=True, message=None):
+    def reject_registration(self, profile, site, send_email=True, message=None):
         """reject account registration of ``profile``
 
         Reject account registration and email rejection to the ``User``,
@@ -183,12 +187,12 @@ class RegistrationManager(models.Manager):
             profile.save()
 
             if send_email:
-                profile.send_rejection_email(message=message)
+                profile.send_rejection_email(site, message=message)
 
             return profile.user
         return None
 
-    def activate_user(self, activation_key, password=None, send_email=True, message=None):
+    def activate_user(self, activation_key, site, password=None, send_email=True, message=None):
         """activate account with ``activation_key`` and ``password``
 
         Activate account and email notification to the ``User``, returning 
@@ -236,7 +240,7 @@ class RegistrationManager(models.Manager):
             user.save()
 
             if send_email:
-                profile.send_activation_email(password, is_generated, message=message)
+                profile.send_activation_email(site, password, is_generated, message=message)
 
             # the profile is no longer required
             profile.delete()
@@ -248,7 +252,7 @@ class RegistrationManager(models.Manager):
         """delete expired users from database
 
         Remove expired instance of ``RegistrationProfile`` and their associated
-        ``User``s.
+        ``User``.
 
         Accounts to be deleted are identified by searching for instance of
         ``RegistrationProfile`` with expired activation keys, and then checking
@@ -293,7 +297,7 @@ class RegistrationManager(models.Manager):
         """delete rejected users from database
 
         Remove rejected instance of ``RegistrationProfile`` and their associated
-        ``User``s.
+        ``User``.
 
         Accounts to be deleted are identified by searching for instance of
         ``RegistrationProfile`` with rejected status, and then checking
@@ -451,12 +455,15 @@ class RegistrationProfile(models.Model):
     activation_key_expired.short_description = _("Has activation key expired?")
     activation_key_expired.boolean = True
 
-    def _send_email(self, action, extra_context=None):
+    def _send_email(self, site, action, extra_context=None):
         context = {
                 'user': self.user,
-                'profile': self,
-                'site': Site.objects.get_current()
+                'site': site,
             }
+        if action != 'activation':
+            # the profile was deleted in 'activation' action
+            context['profile'] = self
+
         if extra_context:
             context.update(extra_context)
 
@@ -466,7 +473,7 @@ class RegistrationProfile(models.Model):
 
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.user.email])
 
-    def send_registration_email(self):
+    def send_registration_email(self, site):
         """send registration email to the user associated with this profile
 
         Send a registration email to the ``User`` associated with this
@@ -487,7 +494,7 @@ class RegistrationProfile(models.Model):
 
         ``site``
             An object representing the site on which the user registered;this is
-            an instance of ``django.contrib.sites.Site``
+            an instance of ``django.contrib.sites.models.Site`` or ``django.contrib.sites.models.RequestSite``
 
         ``user``
             A ``User`` instance of the registration.
@@ -496,9 +503,9 @@ class RegistrationProfile(models.Model):
             A ``RegistrationProfile`` instance of the registration
 
         """
-        self._send_email('registration')
+        self._send_email(site, 'registration')
 
-    def send_acception_email(self, message=None):
+    def send_acception_email(self, site, message=None):
         """send acception email to the user associated with this profile
 
         Send an acception email to the ``User`` associated with this
@@ -519,7 +526,7 @@ class RegistrationProfile(models.Model):
 
         ``site``
             An object representing the site on which the user registered;this is
-            an instance of ``django.contrib.sites.Site``
+            an instance of ``django.contrib.sites.models.Site`` or ``django.contrib.sites.models.RequestSite``
 
         ``user``
             A ``User`` instance of the registration.
@@ -537,15 +544,18 @@ class RegistrationProfile(models.Model):
         ``expiration_days``
             The number of days remaining during which the account may be activated.
 
+        ``message``
+            A message from inspector. In default template, it is not shown.
+
         """
         extra_context = {
                 'activation_key': self.activation_key,
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                 'message': message,
             }
-        self._send_email('acception', extra_context)
+        self._send_email(site, 'acception', extra_context)
 
-    def send_rejection_email(self, message=None):
+    def send_rejection_email(self, site, message=None):
         """send rejection email to the user associated with this profile
 
         Send a rejection email to the ``User`` associated with this
@@ -566,7 +576,7 @@ class RegistrationProfile(models.Model):
 
         ``site``
             An object representing the site on which the user registered;this is
-            an instance of ``django.contrib.sites.Site``
+            an instance of ``django.contrib.sites.models.Site`` or ``django.contrib.sites.models.RequestSite``
 
         ``user``
             A ``User`` instance of the registration.
@@ -574,13 +584,17 @@ class RegistrationProfile(models.Model):
         ``profile``
             A ``RegistrationProfile`` instance of the registration
 
+        ``message``
+            A message from inspector. In default template, it is used for explain
+            why the account registration has been rejected.
+
         """
         extra_context = {
                 'message': message,
             }
-        self._send_email('rejection', extra_context)
+        self._send_email(site, 'rejection', extra_context)
 
-    def send_activation_email(self, password=None, is_generated=False, message=None):
+    def send_activation_email(self, site, password=None, is_generated=False, message=None):
         """send activation email to the user associated with this profile
 
         Send a activation email to the ``User`` associated with this
@@ -601,13 +615,10 @@ class RegistrationProfile(models.Model):
 
         ``site``
             An object representing the site on which the user registered;this is
-            an instance of ``django.contrib.sites.Site``
+            an instance of ``django.contrib.sites.models.Site`` or ``django.contrib.sites.models.RequestSite``
 
         ``user``
             A ``User`` instance of the registration.
-
-        ``profile``
-            A ``RegistrationProfile`` instance of the registration
 
         ``password``
             A raw password of ``User``. Use this to tell user to them password
@@ -617,10 +628,13 @@ class RegistrationProfile(models.Model):
             A boolean -- ``True`` if the password is generated. Don't forget to
             tell user to them password when the password is generated
 
+        ``message``
+            A message from inspector. In default template, it is not shown.
+
         """
         extra_context = {
                 'password': password,
                 'is_generated': is_generated,
                 'message': message,
             }
-        self._send_email('activation', extra_context)
+        self._send_email(site, 'activation', extra_context)

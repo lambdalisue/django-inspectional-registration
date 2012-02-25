@@ -5,13 +5,23 @@ Class based views for django-inspectional-registration
 
 
 CLASSES:
-    RegistrationCompleteView    -- Class based registracion complete view
-    RegistrationClosedView      -- Class based registration closed view which
-                                   is called when REGISTRATION_OPEN is ``False``
-    ActivationCompleteView      -- Class based activation complete view
-    ActivationView              -- Class based activation view. GET for displaying
-                                   activation form and POST for activation
-    RegistrationView            -- Class based registration view. GET for displaying
+
+    RegistrationCompleteView
+        Class based registracion complete view
+
+    RegistrationClosedView
+        Class based registration closed view which
+        is called when REGISTRATION_OPEN is ``False``
+
+    ActivationCompleteView
+        Class based activation complete view
+
+    ActivationView
+        Class based activation view. GET for displaying activation form and 
+        POST for activation
+
+    RegistrationView
+        Class based registration view. GET for displaying
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -110,7 +120,8 @@ class ActivationView(TemplateResponseMixin, FormMixin, SingleObjectMixin, Proces
         """
         profile = self.get_object()
         password = form.cleaned_data['password1']
-        self.activated_user = self.backend.activate(profile.activation_key, password)
+        self.activated_user = self.backend.activate(
+                profile.activation_key, self.request, password=password)
         return super(ActivationView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
@@ -168,7 +179,7 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
         """
         username = form.cleaned_data['username']
         email = form.cleaned_data['email1']
-        self.new_user = self.backend.register(username, email)
+        self.new_user = self.backend.register(username, email, self.request)
         if supplement_form:
             profile = self.new_user.registration_profile
             supplement = supplement_form.save(commit=False)

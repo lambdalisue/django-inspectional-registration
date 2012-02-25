@@ -99,21 +99,21 @@ class RegistrationProfileTestCase(RegistrationTestCaseBase):
     def test_send_registration_email(self):
         new_user = self.create_inactive_user()
         profile = RegistrationProfile.objects.create(user=new_user)
-        profile.send_registration_email()
+        profile.send_registration_email(site=self.mock_site)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
     def test_send_activation_email(self):
         new_user = self.create_inactive_user()
         profile = RegistrationProfile.objects.create(user=new_user)
-        profile.send_activation_email()
+        profile.send_activation_email(site=self.mock_site)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
     def test_send_acception_email(self):
         new_user = self.create_inactive_user()
         profile = RegistrationProfile.objects.create(user=new_user)
-        profile.send_acception_email()
+        profile.send_acception_email(site=self.mock_site)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
@@ -122,7 +122,7 @@ class RegistrationProfileTestCase(RegistrationTestCaseBase):
         profile = RegistrationProfile.objects.create(user=new_user)
         profile.status = 'rejected'
         profile.save()
-        profile.send_rejection_email()
+        profile.send_rejection_email(site=self.mock_site)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
@@ -133,158 +133,159 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
         }
 
     def test_register(self):
-        new_user = RegistrationProfile.objects.register(**self.user_info)
+        new_user = RegistrationProfile.objects.register(site=self.mock_site, **self.user_info)
         self.assertEqual(new_user.username, 'alice')
         self.assertEqual(new_user.email, 'alice@example.com')
         self.failIf(new_user.is_active)
         self.failIf(new_user.has_usable_password())
 
     def test_register_email(self):
-        RegistrationProfile.objects.register(**self.user_info)
+        RegistrationProfile.objects.register(site=self.mock_site, **self.user_info)
 
         self.assertEqual(len(mail.outbox), 1)
 
     def test_register_no_email(self):
-        RegistrationProfile.objects.register(send_email=False, **self.user_info)
+        RegistrationProfile.objects.register(site=self.mock_site, send_email=False, **self.user_info)
 
         self.assertEqual(len(mail.outbox), 0)
 
     def test_acception(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
 
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
     def test_acception_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
 
         self.assertEqual(len(mail.outbox), 1)
 
     def test_acception_no_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile, send_email=False)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site, send_email=False)
 
         self.assertEqual(len(mail.outbox), 0)
 
     def test_rejection(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.reject_registration(profile)
+        RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
 
         self.assertEqual(profile.status, 'rejected')
         self.assertEqual(profile.activation_key, None)
 
     def test_rejection_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.reject_registration(profile)
+        RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
 
         self.assertEqual(len(mail.outbox), 1)
 
     def test_rejection_no_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.reject_registration(profile, send_email=False)
+        RegistrationProfile.objects.reject_registration(profile, site=self.mock_site, send_email=False)
 
         self.assertEqual(len(mail.outbox), 0)
 
     def test_acception_after_rejection_success(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
 
         # reject
-        result = RegistrationProfile.objects.reject_registration(profile)
+        result = RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
         self.failUnless(result)
         self.assertEqual(profile.status, 'rejected')
         self.assertEqual(profile.activation_key, None)
 
         # accept should work even after rejection
-        result = RegistrationProfile.objects.accept_registration(profile)
+        result = RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
         self.failUnless(result)
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
     def test_acception_after_acception_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
 
         # accept
-        result = RegistrationProfile.objects.accept_registration(profile)
+        result = RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
         self.failUnless(result)
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
         # accept should not work
-        result = RegistrationProfile.objects.accept_registration(profile)
+        result = RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
         self.failIf(result)
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
     def test_rejection_after_acception_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
 
         # accept
-        result = RegistrationProfile.objects.accept_registration(profile)
+        result = RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
         self.failUnless(result)
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
         # reject should not work
-        result = RegistrationProfile.objects.reject_registration(profile)
+        result = RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
         self.failIf(result)
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
     def test_rejection_after_rejection_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
 
         # accept
-        result = RegistrationProfile.objects.reject_registration(profile)
+        result = RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
         self.failUnless(result)
         self.assertEqual(profile.status, 'rejected')
         self.assertEqual(profile.activation_key, None)
 
         # reject should not work
-        result = RegistrationProfile.objects.reject_registration(profile)
+        result = RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
         self.failIf(result)
         self.assertEqual(profile.status, 'rejected')
         self.assertEqual(profile.activation_key, None)
 
     def test_activation_with_password(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile, send_email=False)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site, send_email=False)
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 password='swordfish',
                 send_email=False)
 
@@ -304,12 +305,13 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
     def test_activation_without_password(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile, send_email=False)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site, send_email=False)
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 send_email=False)
 
         self.failUnless(activated)
@@ -328,35 +330,39 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
     def test_activation_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile, send_email=False)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site, send_email=False)
         RegistrationProfile.objects.activate_user(
-                activation_key=profile.activation_key)
+                activation_key=profile.activation_key,
+                site=self.mock_site,
+                )
 
         self.assertEqual(len(mail.outbox), 1)
 
     def test_activation_no_email(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile, send_email=False)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site, send_email=False)
         RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 send_email=False)
 
         self.assertEqual(len(mail.outbox), 0)
 
     def test_activation_with_untreated_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
 
         result = RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 password='swordfish')
 
         self.failIf(result)
@@ -369,13 +375,14 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
     def test_activation_with_rejected_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.reject_registration(profile)
+        RegistrationProfile.objects.reject_registration(profile, site=self.mock_site)
 
         result = RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 password='swordfish')
 
         self.failIf(result)
@@ -388,16 +395,17 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
     def test_activation_with_expired_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
 
         new_user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS + 1)
         new_user.save()
 
         result = RegistrationProfile.objects.activate_user(
                 activation_key=profile.activation_key,
+                site=self.mock_site,
                 password='swordfish')
 
         self.failIf(result)
@@ -410,13 +418,14 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
     def test_activation_with_invalid_key_fail(self):
         new_user = RegistrationProfile.objects.register(
-                send_email=False, **self.user_info)
+                site=self.mock_site, send_email=False, **self.user_info)
 
         profile = new_user.registration_profile
-        RegistrationProfile.objects.accept_registration(profile)
+        RegistrationProfile.objects.accept_registration(profile, site=self.mock_site)
 
         result = RegistrationProfile.objects.activate_user(
                 activation_key='foo',
+                site=self.mock_site,
                 password='swordfish')
 
         self.failIf(result)
@@ -430,31 +439,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_expired_user_deletion(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 
@@ -474,31 +503,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_rejected_user_deletion(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 
@@ -520,31 +569,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_management_command_cleanup_expired_registrations(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 
@@ -564,31 +633,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_management_command_cleanup_rejected_registrations(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 
@@ -610,31 +699,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_management_command_cleanup_registrations(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 
@@ -658,31 +767,51 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
     def test_management_command_cleanupregistration(self):
         RegistrationProfile.objects.register(
                 username='new untreated user',
-                email='new_untreated_user@example.com')
+                email='new_untreated_user@example.com',
+                site=self.mock_site,
+            )
         new_accepted_user = RegistrationProfile.objects.register(
                 username='new accepted user',
-                email='new_accepted_user@example.com')
+                email='new_accepted_user@example.com',
+                site=self.mock_site,
+            )
         new_rejected_user = RegistrationProfile.objects.register(
                 username='new rejected user',
-                email='new_rejected_user@example.com')
+                email='new_rejected_user@example.com',
+                site=self.mock_site,
+            )
         expired_untreated_user = RegistrationProfile.objects.register(
                 username='expired untreated user',
-                email='expired_untreated_user@example.com')
+                email='expired_untreated_user@example.com',
+                site=self.mock_site,
+            )
         expired_accepted_user = RegistrationProfile.objects.register(
                 username='expired accepted user',
-                email='expired_accepted_user@example.com')
+                email='expired_accepted_user@example.com',
+                site=self.mock_site,
+            )
         expired_rejected_user = RegistrationProfile.objects.register(
                 username='expired rejected user',
-                email='expired_rejected_user@example.com')
+                email='expired_rejected_user@example.com',
+                site=self.mock_site,
+            )
 
         RegistrationProfile.objects.accept_registration(
-                new_accepted_user.registration_profile)
+                new_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                new_rejected_user.registration_profile)
+                new_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.accept_registration(
-                expired_accepted_user.registration_profile)
+                expired_accepted_user.registration_profile,
+                site=self.mock_site,
+            )
         RegistrationProfile.objects.reject_registration(
-                expired_rejected_user.registration_profile)
+                expired_rejected_user.registration_profile,
+                site=self.mock_site,
+            )
 
         delta = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
 

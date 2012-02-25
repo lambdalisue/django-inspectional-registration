@@ -15,7 +15,8 @@ AUTHOR:
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
-Original License:
+Original License::
+
     Copyright (c) 2007-2011, James Bennett
     All rights reserved.
 
@@ -74,6 +75,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from ..backends import get_backend
 from ..models import RegistrationProfile
+from ..utils import get_site
 from forms import RegistrationAdminForm
 
 csrf_protect_m = method_decorator(csrf_protect)
@@ -188,7 +190,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             'accept_users',
             'reject_users',
             'force_activate_users',
-            'resend_activation_email'
+            'resend_acception_email'
         )
 
     def __init__(self, model, admin_site):
@@ -244,35 +246,36 @@ class RegistrationAdmin(admin.ModelAdmin):
     def accept_users(self, request, queryset):
         """Accept the selected users, if they are not already accepted"""
         for profile in queryset:
-            RegistrationProfile.objects.accept_registration(profile)
+            self.backend.accept(profile, request=request)
     accept_users.short_description = _("Accept users")
 
     def reject_users(self, request, queryset):
         """Reject the selected users, if they are not already accepted"""
         for profile in queryset:
-            RegistrationProfile.objects.reject_registration(profile)
+            self.backend.reject(profile, request=request)
     reject_users.short_description = _("Reject users")
 
     def force_activate_users(self, request, queryset):
         """Activates the selected users, if they are not already activated"""
         for profile in queryset:
-            RegistrationProfile.objects.accept_registration(profile, send_email=False)
-            RegistrationProfile.objects.activate_user(profile.activation_key)
+            self.backend.accept(profile, request=request, send_email=False)
+            self.backend.activate(profile.activation_key, request=request)
     force_activate_users.short_description = _("Force activate users")
 
-    def resend_activation_email(self, request, queryset):
-        """Re-sends activation emails for the selected users
+    def resend_acception_email(self, request, queryset):
+        """Re-sends acception emails for the selected users
 
-        Note that this will *only* send activation emails for users
+        Note that this will *only* send acception emails for users
         who are eligible to activate; emails will not be sent to users
         whose activation keys have expired or who have already
-        activated.
+        activated or rejected.
         
         """
+        site = get_site(request)
         for profile in queryset:
             if not profile.activation_key_expired():
-                profile.send_activation_email()
-    resend_activation_email.short_description = _("Re-send activation emails")
+                profile.send_acception_email(site=site)
+    resend_acception_email.short_description = _("Re-send acception emails")
 
     def display_supplement_summary(self, obj):
         """Display supplement summary

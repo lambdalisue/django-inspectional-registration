@@ -20,7 +20,8 @@ AUTHOR:
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
-Original License:
+Original License::
+
     Copyright (c) 2007-2011, James Bennett
     All rights reserved.
 

@@ -26,7 +26,6 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import datetime
 from django.conf import settings
-from django.test import TestCase
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
@@ -60,7 +59,8 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_registration(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         self.assertEqual(new_user.username, 'bob')
         self.assertEqual(new_user.email, 'bob@example.com')
@@ -75,10 +75,11 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_acception(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
-        accepted_user = self.backend.accept(profile)
+        accepted_user = self.backend.accept(profile, request=self.mock_request)
 
         self.failUnless(accepted_user)
         self.assertEqual(profile, accepted_user.registration_profile)
@@ -87,10 +88,11 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_rejection(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
-        rejected_user = self.backend.reject(profile)
+        rejected_user = self.backend.reject(profile, request=self.mock_request)
 
         self.failUnless(rejected_user)
         self.assertEqual(profile, rejected_user.registration_profile)
@@ -99,12 +101,14 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_activation_with_password(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
         activated_user = self.backend.activate(
                 activation_key=profile.activation_key,
+                request=self.mock_request,
                 password='swardfish')
 
         self.failUnless(activated_user)
@@ -115,12 +119,14 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_activation_without_password(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
         activated_user = self.backend.activate(
-                activation_key=profile.activation_key)
+                activation_key=profile.activation_key,
+                request=self.mock_request)
 
         self.failUnless(activated_user)
         self.assertEqual(activated_user, new_user)
@@ -129,11 +135,13 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_untreated_activation(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
         activated_user = self.backend.activate(
                 activation_key=profile.activation_key,
+                request=self.mock_request,
                 password='swardfish')
 
         self.failIf(activated_user)
@@ -143,12 +151,14 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_rejected_activation(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = new_user.registration_profile
-        self.backend.reject(profile)
+        self.backend.reject(profile, request=self.mock_request)
         activated_user = self.backend.activate(
                 activation_key=profile.activation_key,
+                request=self.mock_request,
                 password='swardfish')
 
         self.failIf(activated_user)
@@ -158,16 +168,18 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
     def test_expired_activation(self):
         expired_user = self.backend.register(
-                username='bob', email='bob@example.com')
+                username='bob', email='bob@example.com',
+                request=self.mock_request)
 
         profile = expired_user.registration_profile
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
 
         expired_user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
         expired_user.save()
 
         activated_user = self.backend.activate(
                 activation_key=profile.activation_key,
+                request=self.mock_request,
                 password='swardfish')
 
         self.failIf(activated_user)
@@ -215,7 +227,7 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         received_signals = []
         signals.user_registered.connect(receiver, sender=self.backend.__class__)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
 
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_registered])
@@ -229,9 +241,9 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         received_signals = []
         signals.user_accepted.connect(receiver, sender=self.backend.__class__)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='bob')
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
 
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_accepted])
@@ -244,13 +256,13 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
         received_signals = []
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='bob')
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
 
         signals.user_accepted.connect(receiver, sender=self.backend.__class__)
         # accept -> accept is not allowed thus fail
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
 
         self.assertEqual(len(received_signals), 0)
 
@@ -263,9 +275,9 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         received_signals = []
         signals.user_rejected.connect(receiver, sender=self.backend.__class__)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='bob')
-        self.backend.reject(profile)
+        self.backend.reject(profile, request=self.mock_request)
 
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_rejected])
@@ -279,11 +291,11 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         received_signals = []
         signals.user_rejected.connect(receiver, sender=self.backend.__class__)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='bob')
-        self.backend.accept(profile)
+        self.backend.accept(profile, request=self.mock_request)
         # accept -> reject is not allowed
-        self.backend.reject(profile)
+        self.backend.reject(profile, request=self.mock_request)
 
         self.assertEqual(len(received_signals), 0)
 
@@ -297,21 +309,21 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         received_signals = []
         signals.user_activated.connect(receiver, sender=self.backend.__class__)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         profile = RegistrationProfile.objects.get(user__username='bob')
-        self.backend.accept(profile)
-        self.backend.activate(profile.activation_key, 'swordfish')
+        self.backend.accept(profile, request=self.mock_request)
+        self.backend.activate(profile.activation_key, request=self.mock_request, password='swordfish')
 
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_activated])
 
 class RegistrationAdminTestCase(RegistrationTestCaseBase):
 
-    def test_resend_activation_email_action(self):
+    def test_resend_acception_email_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com')
-        admin_class.resend_activation_email(None, RegistrationProfile.objects.all())
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
+        admin_class.resend_acception_email(None, RegistrationProfile.objects.all())
 
         # one for registration, one for resend
         self.assertEqual(len(mail.outbox), 2)
@@ -319,7 +331,7 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
     def test_accept_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         admin_class.accept_users(None, RegistrationProfile.objects.all())
 
         for profile in RegistrationProfile.objects.all():
@@ -329,7 +341,7 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
     def test_reject_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         admin_class.reject_users(None, RegistrationProfile.objects.all())
 
         for profile in RegistrationProfile.objects.all():
@@ -339,7 +351,7 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
     def test_force_activate_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com')
+        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
         admin_class.force_activate_users(None, RegistrationProfile.objects.all())
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)

@@ -9,7 +9,7 @@ django-inspectional-registration can be migrate from django-registration by
 south. To migrate, follow the instructions
 
 1.  Confirm your application has ``'south'``, ``'django.contrib.admin'`` and
-    ``'django.contrib.site'`` in your ``INSTALLED_APPS``, if you haven't, 
+    in your ``INSTALLED_APPS``, if you haven't, 
     add these and run ``syncdb`` command to create the database table required.
 
 2.  Execute following commands::

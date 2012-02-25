@@ -15,7 +15,8 @@ AUTHOR:
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
-Original License:
+Original License::
+
     Copyright (c) 2007-2011, James Bennett
     All rights reserved.
 
@@ -89,8 +90,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
     *   ``registration`` be listed in the ``INSTALLED_APPS`` settings
         (since this backend makes use of models defined in this application).
 
-    *   ``django.contrib.site`` be listed in the ``INSTALLED_APPS`` settings
-        (since this application cannot handle ``django.contrib.site.RequestSite``)
+    *   ``django.contrib.admin`` be listed in the ``INSTALLED_APPS`` settings
 
     *   The setting ``ACCOUNT_ACTIVATION_DAYS`` be supplied, specifying (as an
         integer) the number of days from acception during which a user may 
@@ -119,7 +119,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
     """
 
-    def register(self, username, email, send_email=True):
+    def register(self, username, email, request, send_email=True):
         """register new user with ``username`` and ``email``
 
         Given a username, email address, register a new user account, which will
@@ -145,17 +145,19 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         new_user = RegistrationProfile.objects.register(
-                username, email, send_email=send_email)
+                username, email, self.get_site(request),
+                send_email=send_email)
 
         signals.user_registered.send(
                 sender=self.__class__,
                 user=new_user,
-                profile=new_user.registration_profile
+                profile=new_user.registration_profile,
+                request=request,
             )
 
         return new_user
 
-    def accept(self, profile, send_email=True, message=None):
+    def accept(self, profile, request, send_email=True, message=None):
         """accept the account registration of ``profile``
 
         Given a profile, accept account registration, which will
@@ -175,18 +177,20 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         accepted_user = RegistrationProfile.objects.accept_registration(
-                profile, send_email=send_email, message=message)
+                profile, self.get_site(request),
+                send_email=send_email, message=message)
 
         if accepted_user:
             signals.user_accepted.send(
                     sender=self.__class__,
                     user=accepted_user,
-                    profile=profile
+                    profile=profile,
+                    request=request,
                 )
 
         return accepted_user
 
-    def reject(self, profile, send_email=True, message=None):
+    def reject(self, profile, request, send_email=True, message=None):
         """reject the account registration of ``profile``
 
         Given a profile, reject account registration, which will
@@ -206,18 +210,20 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         rejected_user = RegistrationProfile.objects.reject_registration(
-                profile, send_email=send_email, message=message)
+                profile, self.get_site(request), 
+                send_email=send_email, message=message)
 
         if rejected_user:
             signals.user_rejected.send(
                     sender=self.__class__,
                     user=rejected_user,
                     profile=profile,
+                    request=request,
                 )
 
         return rejected_user
 
-    def activate(self, activation_key, password=None, send_email=True, message=None):
+    def activate(self, activation_key, request, password=None, send_email=True, message=None):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -240,6 +246,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         """
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=activation_key,
+                site=self.get_site(request),
                 password=password,
                 send_email=send_email,
                 message=message)
@@ -251,6 +258,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
                     user=user,
                     password=password,
                     is_generated=is_generated,
+                    request=request,
                 )
             return user
         return None

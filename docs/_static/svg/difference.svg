@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="583.78864"
-   height="735.49902"
+   width="1232.9127"
+   height="495.41266"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="difference.svg">
+   sodipodi:docname="difference.svg"
+   inkscape:export-filename="/home/alisue/Dropbox/Codes/django-inspectional-registration/docs/_static/img/difference_summary.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -22,11 +25,11 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="-30.229038"
-     inkscape:cy="394.41657"
+     inkscape:cx="618.89498"
+     inkscape:cy="391.58812"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -38,7 +41,14 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="0,1"
+       position="316.78383,260.21527"
+       id="guide4154" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -55,10 +65,10 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-32.726568,-97.382318)">
+     transform="translate(616.39745,-334.64023)">
     <g
        id="g3847"
-       transform="matrix(0.11212732,0,0,0.11212732,215.34555,311.46989)"
+       transform="matrix(0.11212732,0,0,0.11212732,-433.77847,656.538)"
        style="fill:#3d3d3d;fill-opacity:1"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -169,7 +179,7 @@
        inkscape:export-filename="/home/alisue/Dropbox/Codes/django-inspectional-registration/docs/_static/img/django_inspectional_registration_summary.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
-       transform="matrix(0.11212732,0,0,0.11212732,1119.8316,353.77459)">
+       transform="matrix(0.11212732,0,0,0.11212732,1119.8316,350.94616)">
       <g
          transform="translate(-8044.0973,3925.674)"
          id="g3892"
@@ -365,5 +375,27 @@
            x="-5887.0332"
            y="4064.1501">3. Accept or Reject the account registration</tspan></text>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee Bold"
+       x="-453.60239"
+       y="349.22031"
+       id="text4146"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4148"
+         x="-453.60239"
+         y="349.22031">django-registration</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4150"
+       y="349.22031"
+       x="181.90605"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee Bold"
+       xml:space="preserve"><tspan
+         y="349.22031"
+         x="181.90605"
+         id="tspan4152"
+         sodipodi:role="line">django-inspectional-registration</tspan></text>
   </g>
 </svg>

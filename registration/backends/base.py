@@ -27,11 +27,13 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from ..utils import get_site
 
 class RegistrationBackendBase(object):
     """Base class of registration backend
 
     Methods:
+        get_site                        -- return current site
         register                        -- register a new user
         accept                          -- accept a registration
         reject                          -- reject a registration
@@ -46,8 +48,16 @@ class RegistrationBackendBase(object):
         registration_allowed            -- whether registration is allowed now
 
     """
+    def get_site(self, request):
+        """get current ``django.contrib.Site`` instance
 
-    def register(self, username, email):
+        return ``django.contrib.RequestSite`` instance when the ``Site`` is
+        not installed.
+
+        """
+        return get_site(request)
+
+    def register(self, username, email, request, send_email=True):
         """register a new user account with given ``username`` and ``email``
         
         Returning should be a instance of new ``User``
@@ -55,7 +65,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def accept(self, profile, send_email=True, message=None):
+    def accept(self, profile, request, send_email=True, message=None):
         """accept account registration with given ``profile`` (an instance of ``RegistrationProfile``)
         
         Returning should be a instance of accepted ``User`` for success, ``None``
@@ -66,7 +76,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def reject(self, profile, send_email=True, message=None):
+    def reject(self, profile, request, send_email=True, message=None):
         """reject account registration with given ``profile`` (an instance of ``RegistrationProfile``)
 
         Returning should be a instance of accepted ``User`` for success, ``None``
@@ -77,7 +87,7 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def activate(self, activation_key, password=None, send_email=True, message=None):
+    def activate(self, activation_key, request, password=None, send_email=True, message=None):
         """activate account with ``activation_key`` and ``password``
 
         This method should be called after the account registration has accepted,
