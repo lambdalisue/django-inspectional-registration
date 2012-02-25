@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="583.78864"
+   height="735.49902"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="difference.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="-30.229038"
+     inkscape:cy="394.41657"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1552"
+     inkscape:window-height="906"
+     inkscape:window-x="1680"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-32.726568,-97.382318)">
+    <g
+       id="g3847"
+       transform="matrix(0.11212732,0,0,0.11212732,215.34555,311.46989)"
+       style="fill:#3d3d3d;fill-opacity:1"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/home/alisue/Dropbox/Codes/django-inspectional-registration/docs/_static/img/django_registration_summary.png">
+      <path
+         inkscape:connector-curvature="0"
+         id="path2985"
+         d="m -1319.6361,-1342.3051 c -85.2097,0 -154.3125,65.8915 -154.3125,147.1563 0,67.0798 47.0821,123.6609 111.4375,141.375 -0.3802,0.7814 -0.736,1.5323 -1.125,2.3437 -1.5175,3.1659 -3.3073,6.9775 -5.4063,11.5313 -4.1979,9.1075 -9.5544,20.9341 -14.9062,32.7812 -5.3517,11.84713 -10.6722,23.67753 -14.6875,32.62503 -2.0076,4.4738 -3.6836,8.2473 -4.875,10.9063 -1.1913,2.659 -3.5089,7.6604 -1.7813,3.875 1.7224,-3.7739 -0.5568,1.2719 -1.7812,3.9062 -1.2244,2.63434 -2.9416,6.34574 -5,10.78134 -4.1168,8.8712 -9.5667,20.6216 -15,32.4062 -5.4333,11.7847 -10.8337,23.5674 -14.9688,32.7188 -2.0675,4.5757 -3.8104,8.4423 -5.2187,11.6875 -0.7041,1.6226 -1.2872,2.9691 -2.0625,4.9062 -0.3876,0.9686 -0.7827,1.8965 -1.625,4.375 -0.4211,1.2393 -0.9712,2.6226 -1.9375,6.625 -0.4831,2.0012 -1.134,4.486 -1.7188,10.1563 -0.5848,5.6702 -4.7857,15.0875 6.1563,39.0625 10.9425,23.9762 19.4828,24.0559 23.6562,26.25 4.1735,2.1941 6.2013,2.7162 7.8125,3.1875 3.2226,0.9425 4.4413,1.0292 5.5,1.1875 2.1176,0.3166 2.9557,0.3778 3.8125,0.4375 1.7136,0.1193 2.9121,0.1475 4.375,0.1875 2.9259,0.08 6.4273,0.102 10.5938,0.125 8.333,0.046 19.1212,0.028 29.9062,-0.031 10.785,-0.06 21.5554,-0.1446 29.6875,-0.2188 4.0661,-0.037 7.4905,-0.07 9.9063,-0.094 0.9511,-0.01 2.1278,-0.024 3.125,-0.031 1.0176,0.01 2.7606,0.019 3.9687,0.031 2.4163,0.024 5.8394,0.057 9.9063,0.094 8.1338,0.074 18.9002,0.1593 29.6875,0.2188 10.7873,0.06 21.5403,0.077 29.875,0.031 4.1673,-0.023 7.6675,-0.045 10.5937,-0.125 1.4632,-0.04 2.724,-0.068 4.4375,-0.1875 0.8569,-0.06 1.664,-0.1211 3.7813,-0.4375 1.0586,-0.1582 2.2779,-0.2453 5.5,-1.1875 1.6111,-0.4711 3.6392,-0.9939 7.8125,-3.1875 4.1733,-2.1937 12.7113,-2.2687 23.6562,-26.25 a 49.002297,61.991848 0 0 0 0,-0.031 c 10.9434,-23.9811 6.742,-33.3606 6.1563,-39.0313 -0.5857,-5.6706 -1.2353,-8.1551 -1.7188,-10.1562 -0.9669,-4.0023 -1.5161,-5.3859 -1.9375,-6.625 -0.8425,-2.4783 -1.2372,-3.4065 -1.625,-4.375 -0.7755,-1.937 -1.358,-3.2837 -2.0625,-4.9063 -1.4088,-3.2451 -3.1503,-7.1118 -5.2187,-11.6875 -4.1369,-9.1513 -9.5332,-20.9653 -14.9688,-32.75 -5.4355,-11.7846 -10.8814,-23.5351 -15,-32.4062 -2.0592,-4.4356 -3.8064,-8.1158 -5.0312,-10.75004 -1.2248,-2.6342 -3.5414,-7.7628 -1.7813,-3.9063 1.7277,3.7855 -0.5586,-1.216 -1.75,-3.875 -1.1913,-2.659 -2.8673,-6.4324 -4.875,-10.9062 -4.0152,-8.9476 -9.3357,-20.7779 -14.6875,-32.62503 -5.3517,-11.8471 -10.7083,-23.6737 -14.9062,-32.7813 -2.0989,-4.5537 -3.92,-8.3654 -5.4375,-11.5312 -0.389,-0.8116 -0.7448,-1.5622 -1.125,-2.3438 64.3701,-17.7051 111.4687,-74.2852 111.4687,-141.375 0,-81.2647 -69.0716,-147.1562 -154.2812,-147.1562 z"
+         style="fill:#3d3d3d;fill-opacity:1;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect2994"
+         d="m 300.56233,-1080.303 145.625,97.375 c 0.2244,0.15006 0.55685,0.15006 0.78125,0 l 145.625,-97.375 -292.03125,0 z m 303.21875,16.7813 -156.71875,104.81245 c -0.24391,0.16311 -0.66235,0.19436 -0.90625,0.0312 l -156.71875,-104.81245 0,177.06245 c 0,0.23067 0.17558,0.40625 0.40625,0.40625 l 313.53125,0 c 0.23067,0 0.40625,-0.17558 0.40625,-0.40625 l 0,-177.09375 z"
+         style="fill:#3d3d3d;fill-opacity:1;stroke:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect3787"
+         d="m 2005.2201,-1344.543 c -0.1875,0 -0.3301,0.1206 -0.3301,0.2789 l 0,82.1189 770.7756,0 0,-82.1189 c 0,-0.1583 -0.1427,-0.2789 -0.3301,-0.2789 l -770.1154,0 z m -0.3301,107.8897 0,464.68939 c 0,0.15835 0.1426,0.27894 0.3301,0.27894 l 770.1154,0 c 0.1874,0 0.3301,-0.12059 0.3301,-0.27894 l 0,-464.68939 -770.7756,0 z m 176.7345,54.9319 547.3181,0 c 0.169,0 0.3048,0.1147 0.3048,0.2575 l 0,374.20196 c 0,0.14272 -0.1358,0.25748 -0.3048,0.25748 l -547.3181,0 c -0.169,0 -0.3047,-0.11476 -0.3047,-0.25748 l 0,-374.20196 c 0,-0.1428 0.1357,-0.2575 0.3047,-0.2575 z"
+         style="fill:#3d3d3d;fill-opacity:1;stroke:none" />
+      <g
+         transform="translate(18.926428,0)"
+         id="g3799"
+         style="fill:#3d3d3d;fill-opacity:1">
+        <path
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+           d="m 1397.4611,-1730.2122 0,33.9375 -2109.77705,0 0,20 2109.77705,0 0,33.9063 85.1102,-21.9688 85.1102,-21.9375 -85.1102,-21.9687 -85.1102,-21.9688 z"
+           id="path3777"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           x="416.15152"
+           y="-1804.3491"
+           id="text3795"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan3797"
+             x="416.15152"
+             y="-1804.3491">1. Register the account</tspan></text>
+      </g>
+      <g
+         transform="translate(18.926428,541.44176)"
+         id="g3804"
+         style="fill:#3d3d3d;fill-opacity:1">
+        <path
+           inkscape:connector-curvature="0"
+           id="path3806"
+           d="m -542.09555,-1730.2122 0,33.9375 2109.77705,0 0,20 -2109.77705,0 0,33.9063 -85.1102,-21.9688 -85.1102,-21.9375 85.1102,-21.9687 85.1102,-21.9688 z"
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+        <text
+           sodipodi:linespacing="125%"
+           id="text3808"
+           y="-1804.3491"
+           x="416.15152"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           xml:space="preserve"><tspan
+             y="-1804.3491"
+             x="416.15152"
+             id="tspan3810"
+             sodipodi:role="line">2. Get activation email and link</tspan></text>
+      </g>
+      <g
+         id="g3799-5"
+         transform="translate(22.501293,1203.884)"
+         style="fill:#3d3d3d;fill-opacity:1">
+        <path
+           style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+           d="m 1393.8862,-1730.2122 0,33.9375 -2109.77701,0 0,20 2109.77701,0 0,33.9063 85.1102,-21.9688 85.1102,-21.9375 -85.1102,-21.9687 -85.1102,-21.9688 z"
+           id="path3777-8"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           x="419.32666"
+           y="-1804.3491"
+           id="text3795-5"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan3797-7"
+             x="419.32666"
+             y="-1804.3491">3. Activate the account with the link</tspan></text>
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3839"
+         y="-1485.141"
+         x="-1640.4877"
+         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+         xml:space="preserve"><tspan
+           y="-1485.141"
+           x="-1640.4877"
+           id="tspan3841"
+           sodipodi:role="line">New user</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3843"
+         y="-1485.141"
+         x="1979.8989"
+         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+         xml:space="preserve"><tspan
+           y="-1485.141"
+           x="1979.8989"
+           id="tspan3845"
+           sodipodi:role="line">The web site</tspan></text>
+    </g>
+    <g
+       id="g4085"
+       inkscape:export-filename="/home/alisue/Dropbox/Codes/django-inspectional-registration/docs/_static/img/django_inspectional_registration_summary.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="matrix(0.11212732,0,0,0.11212732,1119.8316,353.77459)">
+      <g
+         transform="translate(-8044.0973,3925.674)"
+         id="g3892"
+         style="fill:#3d3d3d;fill-opacity:1">
+        <g
+           transform="translate(0,-185.61553)"
+           id="g4069">
+          <path
+             inkscape:connector-curvature="0"
+             id="path3872"
+             d="m -7766.0363,1781.487 145.625,97.375 c 0.2244,0.15 0.5569,0.15 0.7813,0 l 145.625,-97.375 -292.0313,0 z m 303.2188,16.781 -156.7188,104.813 c -0.2439,0.163 -0.6623,0.194 -0.9062,0.03 l -156.7188,-104.813 0,177.063 c 0,0.23 0.1756,0.406 0.4063,0.406 l 313.5312,0 c 0.2307,0 0.4063,-0.176 0.4063,-0.406 l 0,-177.094 z"
+             style="fill:#3d3d3d;fill-opacity:1;stroke:none"
+             transform="translate(8044.0973,-3925.674)" />
+          <g
+             style="fill:#3d3d3d;fill-opacity:1"
+             transform="translate(-3.5749,-1203.884)"
+             id="g3876">
+            <path
+               style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+               d="m 1397.4611,-1730.2122 0,33.9375 -2109.77705,0 0,20 2109.77705,0 0,33.9063 85.1102,-21.9688 85.1102,-21.9375 -85.1102,-21.9687 -85.1102,-21.9688 z"
+               id="path3878"
+               inkscape:connector-curvature="0" />
+            <text
+               xml:space="preserve"
+               style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+               x="416.15152"
+               y="-1804.3491"
+               id="text3880"
+               sodipodi:linespacing="125%"><tspan
+                 sodipodi:role="line"
+                 id="tspan3882"
+                 x="416.15152"
+                 y="-1804.3491">1. Register the account</tspan></text>
+          </g>
+          <g
+             style="fill:#3d3d3d;fill-opacity:1"
+             transform="translate(-3.5749,-522.442)"
+             id="g3884">
+            <path
+               inkscape:connector-curvature="0"
+               id="path3886"
+               d="m -542.09555,-1730.2122 0,33.9375 2109.77705,0 0,20 -2109.77705,0 0,33.9063 -85.1102,-21.9688 -85.1102,-21.9375 85.1102,-21.9687 85.1102,-21.9688 z"
+               style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+            <text
+               sodipodi:linespacing="125%"
+               id="text3888"
+               y="-1945.7705"
+               x="407.31268"
+               style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+               xml:space="preserve"><tspan
+                 y="-1945.7705"
+                 x="407.31268"
+                 id="tspan3890"
+                 sodipodi:role="line">4. Get acception email and link</tspan><tspan
+                 y="-1765.7705"
+                 x="407.31268"
+                 sodipodi:role="line"
+                 id="tspan4055">or rejection email.</tspan></text>
+          </g>
+          <path
+             style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+             d="m 1393.8862,-1410.2122 0,33.9375 -2109.77701,0 0,20 2109.77701,0 0,33.9063 85.1102,-21.9688 85.1102,-21.9375 -85.1102,-21.9687 -85.1102,-21.9688 z"
+             id="path3894"
+             inkscape:connector-curvature="0" />
+          <text
+             xml:space="preserve"
+             style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+             x="419.32666"
+             y="-1664.3491"
+             id="text3896"
+             sodipodi:linespacing="125%"><tspan
+               sodipodi:role="line"
+               id="tspan3898"
+               x="419.32666"
+               y="-1664.3491">5. Activate the account with the link</tspan><tspan
+               sodipodi:role="line"
+               x="419.32666"
+               y="-1484.3491"
+               id="tspan4057">if the registration was accepted</tspan></text>
+        </g>
+      </g>
+      <g
+         id="g3982">
+        <path
+           inkscape:connector-curvature="0"
+           id="path3870"
+           d="m -9386.2347,1379.4847 c -85.2097,0 -154.3125,65.8913 -154.3125,147.1563 0,67.08 47.0821,123.661 111.4375,141.375 -0.3802,0.781 -0.736,1.532 -1.125,2.344 -1.5175,3.166 -3.3073,6.977 -5.4063,11.531 -4.1979,9.107 -9.5544,20.934 -14.9062,32.781 -5.3517,11.847 -10.6722,23.678 -14.6875,32.625 -2.0076,4.474 -3.6836,8.248 -4.875,10.907 -1.1913,2.659 -3.5089,7.66 -1.7813,3.875 1.7224,-3.774 -0.5568,1.271 -1.7812,3.906 -1.2244,2.634 -2.9416,6.345 -5,10.781 -4.1168,8.871 -9.5667,20.622 -15,32.406 -5.4333,11.785 -10.8337,23.568 -14.9688,32.719 -2.0675,4.576 -3.8104,8.442 -5.2187,11.688 -0.7041,1.622 -1.2872,2.969 -2.0625,4.906 -0.3876,0.968 -0.7827,1.896 -1.625,4.375 -0.4211,1.239 -0.9712,2.622 -1.9375,6.625 -0.4831,2.001 -1.134,4.486 -1.7188,10.156 -0.5848,5.67 -4.7857,15.088 6.1563,39.063 10.9425,23.976 19.4828,24.055 23.6562,26.25 4.1735,2.194 6.2013,2.716 7.8125,3.187 3.2226,0.943 4.4413,1.029 5.5,1.188 2.1176,0.316 2.9557,0.377 3.8125,0.437 1.7136,0.119 2.9121,0.148 4.375,0.188 2.9259,0.08 6.4273,0.102 10.5938,0.125 8.333,0.05 19.1212,0.03 29.9062,-0.03 10.785,-0.06 21.5554,-0.145 29.6875,-0.219 4.0661,-0.04 7.4905,-0.07 9.9063,-0.09 0.9511,-0.01 2.1278,-0.02 3.125,-0.03 1.0176,0.01 2.7606,0.02 3.9687,0.03 2.4163,0.02 5.8394,0.06 9.9063,0.09 8.1338,0.07 18.9002,0.159 29.6875,0.219 10.7873,0.06 21.5403,0.08 29.875,0.03 4.1673,-0.02 7.6675,-0.05 10.5937,-0.125 1.4632,-0.04 2.724,-0.07 4.4375,-0.188 0.8569,-0.06 1.664,-0.121 3.7813,-0.437 1.0586,-0.159 2.2779,-0.246 5.5,-1.188 1.6111,-0.471 3.6392,-0.994 7.8125,-3.187 4.1733,-2.194 12.7113,-2.269 23.6562,-26.25 a 49.002297,61.991848 0 0 0 0,-0.03 c 10.9434,-23.982 6.742,-33.361 6.1563,-39.032 -0.5857,-5.67 -1.2353,-8.155 -1.7188,-10.156 -0.9669,-4.002 -1.5161,-5.386 -1.9375,-6.625 -0.8425,-2.478 -1.2372,-3.406 -1.625,-4.375 -0.7755,-1.937 -1.358,-3.284 -2.0625,-4.906 -1.4088,-3.245 -3.1503,-7.112 -5.2187,-11.688 -4.1369,-9.151 -9.5332,-20.965 -14.9688,-32.75 -5.4355,-11.784 -10.8814,-23.535 -15,-32.406 -2.0592,-4.436 -3.8064,-8.116 -5.0312,-10.75 -1.2248,-2.634 -3.5414,-7.763 -1.7813,-3.906 1.7277,3.785 -0.5586,-1.216 -1.75,-3.875 -1.1913,-2.659 -2.8673,-6.433 -4.875,-10.906 -4.0152,-8.948 -9.3357,-20.778 -14.6875,-32.626 -5.3517,-11.847 -10.7083,-23.673 -14.9062,-32.781 -2.0989,-4.554 -3.92,-8.365 -5.4375,-11.531 -0.389,-0.812 -0.7448,-1.562 -1.125,-2.344 64.3701,-17.705 111.4687,-74.285 111.4687,-141.375 0,-81.265 -69.0716,-147.156 -154.2812,-147.156 z"
+           style="fill:#3d3d3d;fill-opacity:1;stroke:none" />
+        <text
+           sodipodi:linespacing="125%"
+           id="text3900"
+           y="1236.6484"
+           x="-9707.0859"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           xml:space="preserve"><tspan
+             y="1236.6484"
+             x="-9707.0859"
+             id="tspan3902"
+             sodipodi:role="line">New user</tspan></text>
+      </g>
+      <g
+         id="g3987">
+        <path
+           inkscape:connector-curvature="0"
+           id="path3874"
+           d="m -6061.3785,1377.2468 c -0.1875,0 -0.3301,0.1206 -0.3301,0.2789 l 0,82.1193 770.7756,0 0,-82.1193 c 0,-0.1583 -0.1427,-0.2789 -0.3301,-0.2789 l -770.1154,0 z m -0.3301,107.8892 0,464.69 c 0,0.158 0.1426,0.279 0.3301,0.279 l 770.1154,0 c 0.1874,0 0.3301,-0.121 0.3301,-0.279 l 0,-464.69 -770.7756,0 z m 176.7345,54.932 547.3181,0 c 0.169,0 0.3048,0.115 0.3048,0.258 l 0,374.202 c 0,0.143 -0.1358,0.257 -0.3048,0.257 l -547.3181,0 c -0.169,0 -0.3047,-0.114 -0.3047,-0.257 l 0,-374.202 c 0,-0.143 0.1357,-0.258 0.3047,-0.258 z"
+           style="fill:#3d3d3d;fill-opacity:1;stroke:none" />
+        <text
+           sodipodi:linespacing="125%"
+           id="text3904"
+           y="1236.6484"
+           x="-6086.7002"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           xml:space="preserve"><tspan
+             y="1236.6484"
+             x="-6086.7002"
+             id="tspan3906"
+             sodipodi:role="line">The web site</tspan></text>
+      </g>
+      <g
+         transform="translate(-6.9503273,0)"
+         id="g3996">
+        <path
+           style="fill:#3d3d3d;fill-opacity:1;stroke:none"
+           d="m -7693.8047,3632.603 13,84.625 c -51.2289,23.939 -86.5313,74.121 -86.5313,132.188 0,67.079 47.0822,123.661 111.4376,141.375 -0.3802,0.781 -0.7361,1.532 -1.125,2.343 -1.5175,3.166 -3.3074,6.978 -5.4063,11.532 -4.1979,9.107 -9.5545,20.934 -14.9062,32.781 -5.3517,11.847 -10.6722,23.677 -14.6875,32.625 -2.0076,4.474 -3.6836,8.247 -4.875,10.906 -1.1914,2.659 -3.5089,7.661 -1.7813,3.875 1.7224,-3.774 -0.5568,1.272 -1.7812,3.906 -1.2244,2.635 -2.9416,6.346 -5,10.782 -4.1168,8.871 -9.5668,20.621 -15,32.406 -5.4333,11.785 -10.8337,23.567 -14.9688,32.719 -2.0675,4.575 -3.8104,8.442 -5.2187,11.687 -0.7042,1.623 -1.2872,2.969 -2.0626,4.906 -0.3876,0.969 -0.7826,1.897 -1.625,4.375 -0.4211,1.24 -0.9711,2.623 -1.9374,6.625 -0.4833,2.002 -1.134,4.486 -1.7188,10.157 -0.5848,5.67 -4.7858,15.087 6.1562,39.062 10.9426,23.976 19.4829,24.056 23.6563,26.25 4.1735,2.194 6.2013,2.716 7.8125,3.188 3.2226,0.942 4.4413,1.029 5.5,1.187 2.1176,0.317 2.9557,0.378 3.8125,0.438 1.7136,0.119 2.9121,0.147 4.375,0.187 2.9259,0.08 6.4273,0.102 10.5938,0.125 8.333,0.05 19.1212,0.03 29.9062,-0.03 10.785,-0.06 21.5554,-0.145 29.6875,-0.219 4.0661,-0.04 7.4905,-0.07 9.9063,-0.09 0.9511,-0.01 2.1278,-0.02 3.125,-0.03 1.0176,0.01 2.7606,0.02 3.9687,0.03 2.4163,0.02 5.8393,0.06 9.9063,0.09 8.1338,0.07 18.9001,0.159 29.6875,0.219 10.7873,0.06 21.5403,0.08 29.875,0.03 4.1673,-0.02 7.6675,-0.04 10.5937,-0.125 1.4632,-0.04 2.724,-0.07 4.4375,-0.187 0.8569,-0.06 1.664,-0.121 3.7813,-0.438 1.0586,-0.158 2.2779,-0.245 5.5,-1.187 1.611,-0.471 3.6392,-0.994 7.8125,-3.188 4.1733,-2.194 12.7113,-2.269 23.6562,-26.25 a 49.002297,61.991848 0 0 0 0,-0.03 c 10.9433,-23.981 6.742,-33.361 6.1563,-39.031 -0.5857,-5.671 -1.2353,-8.155 -1.7188,-10.157 -0.9669,-4.002 -1.5162,-5.385 -1.9375,-6.625 -0.8426,-2.478 -1.2372,-3.406 -1.625,-4.375 -0.7755,-1.936 -1.358,-3.283 -2.0625,-4.906 -1.4089,-3.245 -3.1503,-7.112 -5.2187,-11.687 -4.1369,-9.152 -9.5332,-20.966 -14.9688,-32.75 -5.4355,-11.785 -10.8814,-23.535 -15,-32.407 -2.0592,-4.435 -3.8064,-8.115 -5.0312,-10.75 -1.2249,-2.634 -3.5414,-7.762 -1.7813,-3.906 1.7277,3.786 -0.5586,-1.216 -1.75,-3.875 -1.1914,-2.659 -2.8674,-6.432 -4.875,-10.906 -4.0153,-8.948 -9.3358,-20.778 -14.6875,-32.625 -5.3517,-11.847 -10.7083,-23.674 -14.9062,-32.781 -2.0989,-4.554 -3.92,-8.366 -5.4375,-11.531 -0.389,-0.812 -0.7448,-1.563 -1.125,-2.344 64.3701,-17.705 111.4687,-74.285 111.4687,-141.375 0,-57.005 -33.9831,-106.406 -83.6875,-130.844 l 15.75,-83.031 -84.3437,42.469 -82.7813,-45.407 z"
+           id="path2992"
+           inkscape:connector-curvature="0" />
+        <text
+           xml:space="preserve"
+           style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           x="-7912.5"
+           y="3467.3623"
+           id="text3992"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             id="tspan3994"
+             x="-7912.5"
+             y="3467.3623">Inspector</tspan></text>
+      </g>
+      <path
+         style="fill:#3d3d3d;fill-opacity:1;stroke:none"
+         d="m -6429.4701,2791.887 145.625,97.375 c 0.2244,0.15 0.5569,0.15 0.7813,0 l 145.625,-97.375 -292.0313,0 z m 303.2188,16.781 -156.7188,104.813 c -0.2439,0.163 -0.6623,0.194 -0.9062,0.03 l -156.7188,-104.813 0,177.063 c 0,0.23 0.1756,0.406 0.4063,0.406 l 313.5312,0 c 0.2307,0 0.4063,-0.176 0.4063,-0.406 l 0,-177.094 z"
+         id="path3872-7"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3886-3"
+         d="m -7266.2189,3552.5665 24.9097,23.0492 1432.888,-1548.5448 14.6798,13.5833 -1432.8881,1548.5448 24.8866,23.028 -73.9286,47.5492 -73.9057,47.5703 41.6792,-77.3899 41.6791,-77.3901 z"
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3888-1"
+         y="2704.1052"
+         x="-5520.998"
+         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+         xml:space="preserve"><tspan
+           y="2704.1052"
+           x="-5520.998"
+           id="tspan3890-4"
+           sodipodi:role="line">2. Get notification email</tspan></text>
+      <path
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3d3d3d;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+         d="m -5099.4375,1667.3125 c -8.753,-0.1736 -13.5625,0.062 -13.5625,0.062 l 1,19.9688 c 0,0 294.9558,-15.2892 461.375,269.1874 142.1262,242.9501 252.796,709.6343 -55.375,1120.625 -308.171,410.9908 -1037.961,769.4206 -2581.625,790.2188 l 0.25,20 c 1546.6719,-20.8387 2283.4716,-379.583 2597.375,-798.2188 313.9034,-418.6357 202.1364,-894.0354 56.6562,-1142.7187 -150.3258,-256.9668 -404.8224,-277.9095 -466.0937,-279.125 z"
+         id="path4047"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:transform-center-x="23.961138"
+         transform="matrix(0.08299314,-0.46123735,1.0010112,0.18011779,-7171.1707,-4522.6417)"
+         inkscape:transform-center-y="10.069261"
+         d="m -12128.175,3145.764 -96.825,0 -96.825,0 48.413,-83.8525 48.412,-83.8526 48.412,83.8526 z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="false"
+         sodipodi:arg2="1.5707963"
+         sodipodi:arg1="0.52359878"
+         sodipodi:r2="55.901699"
+         sodipodi:r1="111.8034"
+         sodipodi:cy="3089.8623"
+         sodipodi:cx="-12225"
+         sodipodi:sides="3"
+         id="path4049"
+         style="fill:#3d3d3d;fill-opacity:1;stroke:none"
+         sodipodi:type="star" />
+      <text
+         xml:space="preserve"
+         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#3d3d3d;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+         x="-5887.0332"
+         y="4064.1501"
+         id="text4051"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4053"
+           x="-5887.0332"
+           y="4064.1501">3. Accept or Reject the account registration</tspan></text>
+    </g>
+  </g>
+</svg>
