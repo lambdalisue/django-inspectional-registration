@@ -13,7 +13,7 @@ django-registration_. The following features are available
 
 -   Any Django models are available to use as supplemental information of
     registration if the models are subclasses of
-    :py:class:`registration.supplements.RegistrationSupplementBase`. 
+    ``registration.supplements.RegistrationSupplementBase``. 
     It is commonly used for inspection.
 
 -   You can send any additional messages to the user in each steps
