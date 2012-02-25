@@ -40,13 +40,13 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.dispatch import Signal
 
 # A new user has registered
-user_registered = Signal(providing_args=['user', 'profile'])
+user_registered = Signal(providing_args=['user', 'profile', 'request'])
 
 # A user has been accepted his/her registration
-user_accepted = Signal(providing_args=['user', 'profile'])
+user_accepted = Signal(providing_args=['user', 'profile', 'request'])
 
 # A user has been rejected his/her registration
-user_rejected = Signal(providing_args=['user', 'profile'])
+user_rejected = Signal(providing_args=['user', 'profile', 'request'])
 
 # A user has activated his/her account.
-user_activated = Signal(providing_args=['user', 'password', 'is_generated'])
+user_activated = Signal(providing_args=['user', 'password', 'is_generated', 'request'])
