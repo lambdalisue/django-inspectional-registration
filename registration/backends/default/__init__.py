@@ -119,7 +119,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
     """
 
-    def register(self, username, email, request, send_email=True):
+    def register(self, username, email, request, send_email=None):
         """register new user with ``username`` and ``email``
 
         Given a username, email address, register a new user account, which will
@@ -136,6 +136,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_registration_email()`` for information about
         these templates and the contexts provided to them.
 
+        If ``REGISTRATION_REGISTRATION_EMAIL`` of settings is ``None``, no 
+        registration email will be sent.
+
         After the ``User`` and ``RegistrationProfile`` are created and the
         registration email is sent, the signal
         ``registration.signals.user_registered`` will be sent, with the new
@@ -144,6 +147,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         of this backend as the sender.
 
         """
+        if send_email is None:
+            send_email = settings.REGISTRATION_REGISTRATION_EMAIL
+
         new_user = RegistrationProfile.objects.register(
                 username, email, self.get_site(request),
                 send_email=send_email)
@@ -157,7 +163,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return new_user
 
-    def accept(self, profile, request, send_email=True, message=None):
+    def accept(self, profile, request, send_email=None, message=None):
         """accept the account registration of ``profile``
 
         Given a profile, accept account registration, which will
@@ -169,6 +175,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_acception_email()`` for information about
         these templates and the contexts provided to them.
 
+        If ``REGISTRATION_ACCEPTION_EMAIL`` of settings is ``None``, no 
+        acception email will be sent.
+
         After successful acception, the signal
         ``registration.signals.user_accepted`` will be sent, with the newly
         accepted ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
@@ -176,6 +185,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         backend as the sender
 
         """
+        if send_email is None:
+            send_email = settings.REGISTRATION_ACCEPTION_EMAIL
+
         accepted_user = RegistrationProfile.objects.accept_registration(
                 profile, self.get_site(request),
                 send_email=send_email, message=message)
@@ -190,7 +202,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return accepted_user
 
-    def reject(self, profile, request, send_email=True, message=None):
+    def reject(self, profile, request, send_email=None, message=None):
         """reject the account registration of ``profile``
 
         Given a profile, reject account registration, which will
@@ -202,6 +214,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_rejection_email()`` for information about
         these templates and the contexts provided to them.
 
+        If ``REGISTRATION_REJECTION_EMAIL`` of settings is ``None``, no 
+        rejection email will be sent.
+
         After successful rejection, the signal
         ``registration.signals.user_rejected`` will be sent, with the newly
         rejected ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
@@ -209,6 +224,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         backend as the sender
 
         """
+        if send_email is None:
+            send_email = settings.REGISTRATION_REJECTION_EMAIL
+
         rejected_user = RegistrationProfile.objects.reject_registration(
                 profile, self.get_site(request), 
                 send_email=send_email, message=message)
@@ -223,7 +241,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return rejected_user
 
-    def activate(self, activation_key, request, password=None, send_email=True, message=None):
+    def activate(self, activation_key, request, password=None, send_email=None, message=None):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -236,6 +254,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_activation_email()`` for information about
         these templates and the contexts provided to them.
 
+        If ``REGISTRATION_ACTIVATION_EMAIL`` of settings is ``None``, no 
+        activation email will be sent.
+
         After successful activation, the signal
         ``registration.signals.user_activated`` will be sent, with the newly
         activated ``User`` as the keyword argument ``uesr``, the password
@@ -244,6 +265,9 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         of this backend as the sender
 
         """
+        if send_email is None:
+            send_email = settings.REGISTRATION_ACTIVATION_EMAIL
+
         activated = RegistrationProfile.objects.activate_user(
                 activation_key=activation_key,
                 site=self.get_site(request),
