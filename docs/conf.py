@@ -13,9 +13,15 @@
 
 import sys, os
 
+# Set DJANGO_SETTINGS_MODULE
+os.environ['DJANGO_SETTINGS_MODULE'] = 'miniblog.settings'
+
 root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../'))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
+test_dir = os.path.join(root_dir, 'tests', 'src')
+if test_dir not in sys.path:
+    sys.path.insert(0, test_dir)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -29,7 +35,13 @@ if root_dir not in sys.path:
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.viewcode'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -50,6 +50,8 @@ Contents:
     about_registration_templates
     about_registration_settings
 
+    api/modules
+
 The difference between django-registration
 ------------------------------------------------------------------------------------
 
