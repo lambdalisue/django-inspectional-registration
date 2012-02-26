@@ -1,1 +1,1 @@
-from ..urls import *
+from ..urls import urlpatterns
