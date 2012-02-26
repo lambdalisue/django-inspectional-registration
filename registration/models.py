@@ -192,7 +192,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
-    def activate_user(self, activation_key, site, password=None, send_email=True, message=None):
+    def activate_user(self, activation_key, site, password=None, send_email=True, message=None, no_profile_delete=False):
         """activate account with ``activation_key`` and ``password``
 
         Activate account and email notification to the ``User``, returning 
@@ -242,8 +242,9 @@ class RegistrationManager(models.Manager):
             if send_email:
                 profile.send_activation_email(site, password, is_generated, message=message)
 
-            # the profile is no longer required
-            profile.delete()
+            if not no_profile_delete:
+                # the profile is no longer required
+                profile.delete()
             return user, password, is_generated
         return None
 

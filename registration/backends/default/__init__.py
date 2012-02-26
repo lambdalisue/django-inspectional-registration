@@ -241,7 +241,8 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         return rejected_user
 
-    def activate(self, activation_key, request, password=None, send_email=None, message=None):
+    def activate(self, activation_key, request, password=None, send_email=None, 
+            message=None, no_profile_delete=False):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -273,7 +274,8 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
                 site=self.get_site(request),
                 password=password,
                 send_email=send_email,
-                message=message)
+                message=message,
+                no_profile_delete=no_profile_delete)
 
         if activated:
             user, password, is_generated = activated
