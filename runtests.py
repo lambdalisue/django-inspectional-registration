@@ -44,6 +44,7 @@ def runtests(verbosity=1, interactive=True):
     failures = test_runner.run_tests([
         'registration',
         'notification',     # registration.contrib.notification
+        'autologin',        # registration.contrib.autologin
         'blogs'
     ])
     sys.exit(bool(failures))

@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'registration',                         # django-inspectional-registration
     'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
     'registration.contrib.notification',
+    'registration.contrib.autologin',
 )
 
 FIXTURE_DIRS = (
