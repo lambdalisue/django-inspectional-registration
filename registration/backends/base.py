@@ -87,7 +87,8 @@ class RegistrationBackendBase(object):
         """
         raise NotImplementedError
 
-    def activate(self, activation_key, request, password=None, send_email=True, message=None):
+    def activate(self, activation_key, request, password=None, send_email=True,
+            message=None, no_profile_delete=False):
         """activate account with ``activation_key`` and ``password``
 
         This method should be called after the account registration has accepted,

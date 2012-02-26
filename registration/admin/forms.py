@@ -124,10 +124,18 @@ class RegistrationAdminForm(forms.ModelForm):
         elif action == 'reject':
             self.registration_backend.reject(self.instance, _request, message=message)
         elif action == 'activate':
-            self.registration_backend.activate(self.instance.activation_key, _request, message=message)
+            # DO NOT delete profile otherwise Django Admin will raise IndexError
+            self.registration_backend.activate(
+                    self.instance.activation_key, _request, message=message,
+                    no_profile_delete=True,
+                )
         elif action == 'force_activate':
             self.registration_backend.accept(self.instance, _request, send_email=False)
-            self.registration_backend.activate(self.instance.activation_key, _request, message=message)
+            # DO NOT delete profile otherwise Django Admin will raise IndexError
+            self.registration_backend.activate(
+                    self.instance.activation_key, _request, message=message,
+                    no_profile_delete=True,
+                )
         else:
             raise AttributeError(_('Unknwon action "%s" was requested.' % action))
         if action not in ('activate', 'force_activate'):
@@ -136,7 +144,7 @@ class RegistrationAdminForm(forms.ModelForm):
             new_instance = self.instance
             # the instance has been deleted by activate method however
             # ``save()`` method will be called, thus set mock save method
-            new_instance.save = lambda x: x
+            new_instance.save = lambda *args, **kwargs: new_instance
         return new_instance
 
     # this form doesn't have ``save_m2m()`` method and it is required
