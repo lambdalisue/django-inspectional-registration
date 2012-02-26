@@ -35,7 +35,7 @@ class RegistrationTestCaseBase(TestCase):
     urls = 'registration.tests.urls'
     backend = DefaultRegistrationBackend()
 
-    test_settings = (
+    _test_settings = (
         ('ACCOUNT_ACTIVATION_DAYS', 7),
         ('REGISTRATION_OPEN', True),
         ('REGISTRATION_BACKEND_CLASS', 'registration.backends.default.DefaultRegistrationBackend'),
@@ -58,9 +58,9 @@ class RegistrationTestCaseBase(TestCase):
             setattr(self, name, cache)
 
     def setUp(self):
-        self._store_and_overwrite_settings(self.test_settings)
+        self._store_and_overwrite_settings(self._test_settings)
         self.mock_request = mock_request()
         self.mock_site = mock_site()
 
     def tearDown(self):
-        self._restore_settings(self.test_settings)
+        self._restore_settings(self._test_settings)

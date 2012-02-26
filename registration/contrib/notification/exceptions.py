@@ -25,4 +25,5 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 
-# Need tests
+class ImproperlyConfiguredWarning(Warning):
+    """Warnings for ImproperlyConfigured"""
