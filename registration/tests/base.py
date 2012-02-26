@@ -32,7 +32,9 @@ from mock import mock_request
 from mock import mock_site
 
 class RegistrationTestCaseBase(TestCase):
-    urls = 'registration.tests.urls'
+    # I'm not sure but I now think setting urls is not
+    # good idea for re-usable app.
+    #urls = 'registration.tests.urls'
     backend = DefaultRegistrationBackend()
 
     _test_settings = (
