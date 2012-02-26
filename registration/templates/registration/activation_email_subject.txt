@@ -1,2 +1,2 @@
 {% load i18n %}
-{% blocktrans %}Your account was activated -- {{ site.name }}{% endblocktrans %}
+{% blocktrans with site.name as site_name %}Your account was activated -- {{ site_name }}{% endblocktrans %}

@@ -90,6 +90,9 @@ try:
 except ImportError:
     datetime_now = datetime.datetime.now
 
+from logging import getLogger
+logger = getLogger(__name__)
+
 SHA1_RE = re.compile(r'^[a-f0-9]{40}$')
 
 class RegistrationManager(models.Manager):
