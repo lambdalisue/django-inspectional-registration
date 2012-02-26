@@ -33,3 +33,24 @@
     A boolean value whether the registration is currently allowed.
 
     Default: ``True``
+
+``REGISTRATION_REGISTRATION_EMAIL``
+    Set ``False`` to disable sending registration email to the user.
+
+    Default: ``True``
+
+``REGISTRATION_ACCEPTION_EMAIL``
+    Set ``False`` to disable sending acception email to the user.
+
+    Default: ``True``
+
+``REGISTRATION_REJECTION_EMAIL``
+    Set ``False`` to disable sending rejection email to the user.
+
+    Default: ``True``
+
+``REGISTRATION_ACTIVATION_EMAIL``
+    Set ``False`` to disable sending activation email to the user.
+
+    Default: ``True``
+
