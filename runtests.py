@@ -41,7 +41,11 @@ def runtests(verbosity=1, interactive=True):
     """Run Django Test"""
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
-    failures = test_runner.run_tests(['registration', 'blogs'])
+    failures = test_runner.run_tests([
+        'registration',
+        'notification',     # registration.contrib.notification
+        'blogs'
+    ])
     sys.exit(bool(failures))
 
 if __name__ == '__main__':

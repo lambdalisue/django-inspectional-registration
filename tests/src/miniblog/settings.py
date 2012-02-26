@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'miniblog.blogs',
     'registration',                         # django-inspectional-registration
     'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
+    'registration.contrib.notification',
 )
 
 FIXTURE_DIRS = (
