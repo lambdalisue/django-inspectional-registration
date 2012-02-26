@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Backend
+Mock request for unittest
 
-This is a modification of django-registration_ ``backends/__init__.py``
+This is a modification of django-registration_ ``admin.py``
 The original code is written by James Bennett
 
 .. _django-registration: https://bitbucket.org/ubernostrum/django-registration
@@ -60,55 +60,67 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from django.test import Client
+from django.core.handlers.wsgi import WSGIRequest
+from django.contrib.sessions.middleware import SessionMiddleware
 
-# Python 2.7 has an importlib with import_module; for older Pythons,
-# Django's bundled copy provides it.
-try: # pragma: no cover
-    from importlib import import_module # pragma: no cover
-except ImportError: # pragma: no cover
-    from django.utils.importlib import import_module # pragma: no cover
+from ..utils import get_site
 
-from base import RegistrationBackendBase
-
-__all__ = ['get_backend', 'RegistrationBackendBase']
-
-def get_backend_class(path=None):
+class MockRequestClient(Client):
     """
-    Return an class of a registration backend, given the dotted
-    Python import path (as a string) to the backend class.
-
-    If the backend cannot be located (e.g., because no such module
-    exists, or because the module does not contain a class of the
-    appropriate name), ``django.core.exceptions.ImproperlyConfigured``
-    is raised.
+    A ``django.test.Client`` subclass which can return mock
+    ``HttpRequest`` objects.
     
     """
-    path = path or settings.REGISTRATION_BACKEND_CLASS
-    i = path.rfind('.')
-    module, attr = path[:i], path[i+1:]
-    try:
-        mod = import_module(module)
-    except ImportError, e:
-        raise ImproperlyConfigured('Error loading registration backend %s: "%s"' % (module, e))
-    try:
-        cls = getattr(mod, attr)
-    except AttributeError:
-        raise ImproperlyConfigured('Module "%s" does not define a registration backend named "%s"' % (module, attr))
-    if cls and not issubclass(cls, RegistrationBackendBase):
-        raise ImproperlyConfigured('Registration backend class "%s" must be a subclass of ``registration.backends.RegistrationBackendBase``' % path)
-    return cls
+    def request(self, **request):
+        """
+        Rather than issuing a request and returning the response, this
+        simply constructs an ``HttpRequest`` object and returns it.
+        
+        """
+        environ = {
+            'HTTP_COOKIE': self.cookies,
+            'PATH_INFO': '/',
+            'QUERY_STRING': '',
+            'REMOTE_ADDR': '127.0.0.1',
+            'REQUEST_METHOD': 'GET',
+            'SCRIPT_NAME': '',
+            'SERVER_NAME': 'testserver',
+            'SERVER_PORT': '80',
+            'SERVER_PROTOCOL': 'HTTP/1.1',
+            'wsgi.version': (1,0),
+            'wsgi.url_scheme': 'http',
+            'wsgi.errors': self.errors,
+            'wsgi.multiprocess':True,
+            'wsgi.multithread': False,
+            'wsgi.run_once': False,
+            'wsgi.input': None,
+            }
+        environ.update(self.defaults)
+        environ.update(request)
+        request = WSGIRequest(environ)
 
-def get_backend(path=None):
+        # We have to manually add a session since we'll be bypassing
+        # the middleware chain.
+        session_middleware = SessionMiddleware()
+        session_middleware.process_request(request)
+        return request
+
+
+def mock_request():
     """
-    Return an instance of a registration backend, given the dotted
-    Python import path (as a string) to the backend class.
-
-    If the backend cannot be located (e.g., because no such module
-    exists, or because the module does not contain a class of the
-    appropriate name), ``django.core.exceptions.ImproperlyConfigured``
-    is raised.
+    Construct and return a mock ``HttpRequest`` object; this is used
+    in testing backend methods which expect an ``HttpRequest`` but
+    which are not being called from views.
     
     """
-    return get_backend_class(path)()
+    return MockRequestClient().request()
+
+def mock_site():
+    """
+    Construct and return a mock `Site`` object; this is used
+    in testing methods which expect an ``Site``
+    
+    """
+    return get_site(mock_request())
+

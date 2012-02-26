@@ -5,13 +5,16 @@ Utilities for django-inspectional-registration
 
 
 METHODS:
-    generate_activation_key     -- generate activation key via username
-                                   originally written by James Bennett in
-                                   django-registration
-    generate_random_password    -- generate random password with passed
-                                   password length
-    send_mail                   -- send mail to recipients. use django-mailer
-                                   ``send_mail`` method when possible
+    generate_activation_key
+        generate activation key via username originally written by 
+        James Bennett in django-registration
+
+    generate_random_password
+        generate random password with passed password length
+
+    send_mail
+        send mail to recipients. use django-mailer ``send_mail`` method 
+        when possible
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -35,7 +38,21 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import random
 
+from django.contrib.sites.models import Site
+from django.contrib.sites.models import RequestSite
 from django.utils.hashcompat import sha_constructor
+
+def get_site(request):
+    """get current ``django.contrib.Site`` instance
+
+    return ``django.contrib.RequestSite`` instance when the ``Site`` is
+    not installed.
+
+    """
+    if Site._meta.installed:
+        return Site.objects.get_current()
+    else:
+        return RequestSite(request)
 
 def generate_activation_key(username):
     """generate activation key with username
@@ -64,7 +81,7 @@ def send_mail(subject, message, from_email, recipients):
     this method use django-mailer_ ``send_mail`` method when
     the app is in ``INSTALLED_APPS``
 
-    .. Notice::
+    .. Note::
         django-mailer_ ``send_mail`` is not used duaring unittest
         because it is a little bit difficult to check the number of
         mail sent in unittest for both django-mailer and original

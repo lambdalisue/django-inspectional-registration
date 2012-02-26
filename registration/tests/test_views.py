@@ -113,8 +113,8 @@ class RegistrationViewTestCase(RegistrationTestCaseBase):
         A ``GET`` to the ``ActivationView`` view with valid activation_key
 
         """
-        new_user = self.backend.register(username='alice', email='alice@example.com')
-        new_user = self.backend.accept(new_user.registration_profile)
+        new_user = self.backend.register(username='alice', email='alice@example.com', request=self.mock_request)
+        new_user = self.backend.accept(new_user.registration_profile, request=self.mock_request)
     
         activation_url = reverse('registration_activate', kwargs={
             'activation_key': new_user.registration_profile.activation_key})
@@ -132,7 +132,7 @@ class RegistrationViewTestCase(RegistrationTestCaseBase):
         raise Http404
 
         """
-        self.backend.register(username='alice', email='alice@example.com')
+        self.backend.register(username='alice', email='alice@example.com', request=self.mock_request)
     
         activation_url = reverse('registration_activate', kwargs={
             'activation_key': 'invalidactivationkey'})
@@ -146,8 +146,8 @@ class RegistrationViewTestCase(RegistrationTestCaseBase):
         handles a valid activation
 
         """
-        new_user = self.backend.register(username='alice', email='alice@example.com')
-        new_user = self.backend.accept(new_user.registration_profile)
+        new_user = self.backend.register(username='alice', email='alice@example.com', request=self.mock_request)
+        new_user = self.backend.accept(new_user.registration_profile, request=self.mock_request)
     
         activation_url = reverse('registration_activate', kwargs={
             'activation_key': new_user.registration_profile.activation_key})
@@ -170,8 +170,8 @@ class RegistrationViewTestCase(RegistrationTestCaseBase):
         activate a user, and raise Http404
 
         """
-        expired_user = self.backend.register(username='alice', email='alice@example.com')
-        expired_user = self.backend.accept(expired_user.registration_profile)
+        expired_user = self.backend.register(username='alice', email='alice@example.com', request=self.mock_request)
+        expired_user = self.backend.accept(expired_user.registration_profile, request=self.mock_request)
         expired_user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS+1)
         expired_user.save()
     

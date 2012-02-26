@@ -29,6 +29,8 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
+See `django-inspectional-registration official documents <http://readthedocs.org/docs/django-inspectional-registration/en/latest/>`_ for more detail
+
 The difference between django-registration
 ------------------------------------------------------------------------------------
 

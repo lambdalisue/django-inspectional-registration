@@ -10,15 +10,21 @@ The original code is written by James Bennett
 
 
 CLASSES:
-    ActivationForm                  -- Form for activation
-    RegistrationForm                -- Form for registration
-    RegistrationFormTermOfService   -- ``RegistrationForm`` with agreement to
-                                       a site's Terms of Services
-    RegistrationFormUniqueEmail     -- ``RegistrationForm`` which enforce
-                                       uniqueness of email addresses
-    RegistrationFormNoFreeEmail     -- ``RegistrationForm`` which disallows
-                                       registration with email addresses from
-                                       popular free webmail services
+    ActivationForm
+        Form for activation
+
+    RegistrationForm
+        Form for registration
+
+    RegistrationFormTermOfService
+        ``RegistrationForm`` with agreement to a site's Terms of Services
+
+    RegistrationFormUniqueEmail
+        ``RegistrationForm`` which enforce uniqueness of email addresses
+
+    RegistrationFormNoFreeEmail
+        ``RegistrationForm`` which disallows registration with email 
+        addresses from popular free webmail services
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -26,7 +32,8 @@ AUTHOR:
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
-Original License:
+Original License::
+
     Copyright (c) 2007-2011, James Bennett
     All rights reserved.
 

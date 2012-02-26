@@ -116,14 +116,14 @@ class RegistrationAdminForm(forms.ModelForm):
         action = self.cleaned_data['action']
         message = self.cleaned_data['message']
         if action == 'accept':
-            self.registration_backend.accept(self.instance, message=message)
+            self.registration_backend.accept(self.instance, self.request, message=message)
         elif action == 'reject':
-            self.registration_backend.reject(self.instance, message=message)
+            self.registration_backend.reject(self.instance, self.request, message=message)
         elif action == 'activate':
-            self.registration_backend.activate(self.instance.activation_key, message=message)
+            self.registration_backend.activate(self.instance.activation_key, self.request, message=message)
         elif action == 'force_activate':
-            self.registration_backend.accept(self.instance, send_email=False)
-            self.registration_backend.activate(self.instance.activation_key, message=message)
+            self.registration_backend.accept(self.instance, self.request, send_email=False)
+            self.registration_backend.activate(self.instance.activation_key, self.request, message=message)
         else:
             raise AttributeError(_('Unknwon action "%s" was requested.' % action))
         if action not in ('activate', 'force_activate'):

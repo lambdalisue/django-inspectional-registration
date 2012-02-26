@@ -17,3 +17,8 @@ setconf('REGISTRATION_BACKEND_CLASS', 'registration.backends.default.DefaultRegi
 setconf('REGISTRATION_SUPPLEMENT_CLASS', 'registration.supplements.default.DefaultRegistrationSupplement')
 setconf('REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS', 'registration.admin.RegistrationSupplementAdminInlineBase')
 setconf('REGISTRATION_OPEN', True)
+
+setconf('REGISTRATION_REGISTRATION_EMAIL', True)
+setconf('REGISTRATION_ACCEPTION_EMAIL', True)
+setconf('REGISTRATION_REJECTION_EMAIL', True)
+setconf('REGISTRATION_ACTIVATION_EMAIL', True)
