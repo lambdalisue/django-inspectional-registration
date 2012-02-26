@@ -55,6 +55,15 @@ If you want to change the name of template, use following settings
 -   ``REGISTRATION_NOTIFICATION_EMAIL_SUBJECT_TEMPLATE_NAME``
 
     
+.. Note:
+    This feature is not available in tests because default tests of 
+    django-inspectional-registration are not assumed to test with contributes.
+
+    If you do want this feature to be available in tests, set
+    ``_REGISTRATION_NOTIFICATION_IN_TESTS`` to ``True`` in ``setUp()`` method
+    of the test case class and delete the attribute in ``tearDown()`` method.
+
+
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
     
@@ -82,14 +91,10 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 
+from registration import setconf
 from registration.utils import get_site
 from registration.utils import send_mail
 from registration.signals import user_registered
-
-def setconf(name, default_value):
-    """set default value to django.conf.settings"""
-    value = getattr(settings, name, default_value)
-    setattr(settings, name, value)
 
 setconf('REGISTRATION_NOTIFICATION', True)
 setconf('REGISTRATION_NOTIFICATION_ADMINS', True)
@@ -100,6 +105,7 @@ setconf('REGISTRATION_NOTIFICATION_EMAIL_TEMPLATE_NAME',
         r'registration/notification_email.txt')
 setconf('REGISTRATION_NOTIFICATION_EMAIL_SUBJECT_TEMPLATE_NAME',
         r'registration/notification_email_subject.txt')
+
 
 def is_notification_enable():
     """get whether the registration notification is enable"""
@@ -127,6 +133,7 @@ def is_notification_enable():
             )
         return False
     return True
+
 
 def send_notification_email_reciver(sender, user, profile, request, **kwargs):
     """send a notification email to admins/managers"""
