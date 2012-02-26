@@ -8,12 +8,12 @@ Email templates
 ==============================
 Used to create the email
 
-Acception Email
+acceptance Email
 ------------------------------
 Sent when inspector accpet the account registration
 
-``registration/acception_email.txt``
-    Used to create acception email. The following context will be passed
+``registration/acceptance_email.txt``
+    Used to create acceptance email. The following context will be passed
 
     ``site``
         An instance of ``django.contrib.site.Site`` to determine the site name
@@ -39,8 +39,8 @@ Sent when inspector accpet the account registration
     ``message``
         A message from inspector. Not used in default template.
 
-``registration/acception_email_subject.txt``
-    Used to create acception email subject. The following context will be passed
+``registration/acceptance_email_subject.txt``
+    Used to create acceptance email subject. The following context will be passed
 
     ``site``
         An instance of ``django.contrib.site.Site`` to determine the site name

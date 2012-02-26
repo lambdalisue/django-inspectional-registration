@@ -93,7 +93,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
     *   ``django.contrib.admin`` be listed in the ``INSTALLED_APPS`` settings
 
     *   The setting ``ACCOUNT_ACTIVATION_DAYS`` be supplied, specifying (as an
-        integer) the number of days from acception during which a user may 
+        integer) the number of days from acceptance during which a user may 
         activate their account (after that period expires, activation will be
         disallowed). Default is ``7``
 
@@ -101,8 +101,8 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         -   ``registration/registration_email.txt``
         -   ``registration/registration_email_subject.txt``
-        -   ``registration/acception_email.txt``
-        -   ``registration/acception_email_subject.txt``
+        -   ``registration/acceptance_email.txt``
+        -   ``registration/acceptance_email_subject.txt``
         -   ``registration/rejection_email.txt``
         -   ``registration/rejection_email_subject.txt``
         -   ``registration/activation_email.txt``
@@ -172,13 +172,13 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         An email will be sent to the supplied email address; The email will be
         rendered using two templates. See the documentation for
-        ``RegistrationProfile.send_acception_email()`` for information about
+        ``RegistrationProfile.send_acceptance_email()`` for information about
         these templates and the contexts provided to them.
 
-        If ``REGISTRATION_ACCEPTION_EMAIL`` of settings is ``None``, no 
-        acception email will be sent.
+        If ``REGISTRATION_acceptance_EMAIL`` of settings is ``None``, no 
+        acceptance email will be sent.
 
-        After successful acception, the signal
+        After successful acceptance, the signal
         ``registration.signals.user_accepted`` will be sent, with the newly
         accepted ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
         of the ``User`` as the keyword argument ``profile`` and the class of this
@@ -186,7 +186,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
         """
         if send_email is None:
-            send_email = settings.REGISTRATION_ACCEPTION_EMAIL
+            send_email = settings.REGISTRATION_ACCEPTANCE_EMAIL
 
         accepted_user = RegistrationProfile.objects.accept_registration(
                 profile, self.get_site(request),

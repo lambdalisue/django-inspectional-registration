@@ -110,10 +110,10 @@ class RegistrationProfileTestCase(RegistrationTestCaseBase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
-    def test_send_acception_email(self):
+    def test_send_acceptance_email(self):
         new_user = self.create_inactive_user()
         profile = RegistrationProfile.objects.create(user=new_user)
-        profile.send_acception_email(site=self.mock_site)
+        profile.send_acceptance_email(site=self.mock_site)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
@@ -149,7 +149,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
         self.assertEqual(len(mail.outbox), 0)
 
-    def test_acception(self):
+    def test_acceptance(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
@@ -159,7 +159,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
-    def test_acception_email(self):
+    def test_acceptance_email(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
@@ -168,7 +168,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
         self.assertEqual(len(mail.outbox), 1)
 
-    def test_acception_no_email(self):
+    def test_acceptance_no_email(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
@@ -205,7 +205,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
 
         self.assertEqual(len(mail.outbox), 0)
 
-    def test_acception_after_rejection_success(self):
+    def test_acceptance_after_rejection_success(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
@@ -223,7 +223,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
-    def test_acception_after_acception_fail(self):
+    def test_acceptance_after_acceptance_fail(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
@@ -241,7 +241,7 @@ class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
         self.assertEqual(profile.status, 'accepted')
         self.assertNotEqual(profile.activation_key, None)
 
-    def test_rejection_after_acception_fail(self):
+    def test_rejection_after_acceptance_fail(self):
         new_user = RegistrationProfile.objects.register(
                 site=self.mock_site, send_email=False, **self.user_info)
 
