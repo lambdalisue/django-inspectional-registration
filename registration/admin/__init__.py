@@ -330,7 +330,17 @@ class RegistrationAdmin(admin.ModelAdmin):
                 inline_instances.append(inline_instance)
             return inline_instances
 
-            
+    def get_object(self, request, object_id):
+        """add ``request`` instance to model instance and return
+        
+        To get ``request`` instance in form, ``request`` instance is stored
+        in the model instance.
+
+        """
+        obj = super(RegistrationAdmin, self).get_object(request, object_id)
+        setattr(obj, settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE, request)
+        return obj
+
     @csrf_protect_m
     @transaction.commit_on_success
     def change_view(self, request, object_id, form_url='', extra_context=None):
