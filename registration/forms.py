@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 Forms of django-inspectional-registration
 
@@ -79,7 +79,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 attrs_dict = {'class': 'required'}
 

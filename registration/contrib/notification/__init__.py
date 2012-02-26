@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 Send notification emails to admins, managers or particular recipients 
 when new user has registered in the site

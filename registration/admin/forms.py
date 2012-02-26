@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 A forms used in RegistrationAdmin
 
@@ -45,27 +45,26 @@ class RegistrationAdminForm(forms.ModelForm):
     registration_backend = get_backend()
 
     UNTREATED_ACTIONS = (
-            ('accept', _('Accept the registration')),
-            ('reject', _('Reject the registration')),
-            ('force_activate', _('Force activate the user')),
+            ('accept', _('Accept this registration')),
+            ('reject', _('Reject this registration')),
+            ('force_activate', _('Activate the associated user of this registration forcibly')),
         )
     ACCEPTED_ACTIONS = (
-            ('activate', _('Activate the user')),
+            ('activate', _('Activate the associated user of this registration')),
         )
     REJECTED_ACTIONS = (
-            ('accept', _('Accept the registration')),
-            ('force_activate', _('Force activate the user')),
+            ('accept', _('Accept this registration')),
+            ('force_activate', _('Activate the associated user of this registration forcibly')),
         )
 
     action = forms.ChoiceField(label=_('Action'))
     message = forms.CharField(label=_('Message'), 
             widget=forms.Textarea, required=False,
             help_text=_(
-                'This message will be displayed in email (you can get the value '
-                'of this message with "{{ message }}" in each email body template). '
-                'It is useful to explain why his/her account registration has been '
-                'rejected.'
-                ))
+                'You can use the value of this field in templates for acception, '
+                'rejection and activation email with "{{ message }}". It is displayed '
+                'in rejection email as "Rejection reasons" in default templates.'
+            ))
 
     class Meta:
         model = RegistrationProfile
@@ -91,15 +90,16 @@ class RegistrationAdminForm(forms.ModelForm):
         action = self.cleaned_data['action']
         if action == 'accept':
             if self.instance._status == 'accepted':
-                raise ValidationError(_("You cannot accept registration which already be accepted."))
+                raise ValidationError(_("You cannot accept the registration which was accepted already."))
         elif action == 'reject':
             if self.instance._status == 'accepted':
-                raise ValidationError(_("You cannot reject registration which already be accepted."))
+                raise ValidationError(_("You cannot reject the registration which was accepted already."))
         elif action == 'activate':
             if self.instance._status != 'accepted':
-                raise ValidationError(_("You cannot activate user whom registration haven't been accepted."))
+                raise ValidationError(_("You cannot activate the user whom registration was not accepted yet."))
         elif action != 'force_activate':
-            raise ValidationError(_("Unknown action '%s' was requested." % action))
+            # with using django admin page, the code below never be called.
+            raise ValidationError("Unknown action '%s' was requested." % action)
         return self.cleaned_data['action']
 
     def save(self, commit=True):
@@ -137,7 +137,7 @@ class RegistrationAdminForm(forms.ModelForm):
                     no_profile_delete=True,
                 )
         else:
-            raise AttributeError(_('Unknwon action "%s" was requested.' % action))
+            raise AttributeError('Unknwon action "%s" was requested.' % action)
         if action not in ('activate', 'force_activate'):
             new_instance = self.instance.__class__.objects.get(pk=self.instance.pk)
         else:
