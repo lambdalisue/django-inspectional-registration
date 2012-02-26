@@ -1,0 +1,7 @@
+{% load url from future %}
+{% load i18n %}
+{% blocktrans %}New user ({{ user }}) has registered to {{ site.name }}.{% endblocktrans %}
+
+{% blocktrans %}Please click the following url and inspect his/her registration.{% endblocktrans %}
+
+http://{{ site.domain }}{% url 'admin:index' %}registration/registrationprofile/{{ profile.pk }}/
