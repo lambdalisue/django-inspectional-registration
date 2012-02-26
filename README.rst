@@ -17,7 +17,7 @@ django-registration_. The following features are available
     It is commonly used for inspection.
 
 -   You can send any additional messages to the user in each steps
-    (acception, rejection and activation)
+    (acceptance, rejection and activation)
 
 -   The behaviors of the application are customizable with Backend feature.
 

@@ -190,7 +190,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             'accept_users',
             'reject_users',
             'force_activate_users',
-            'resend_acception_email'
+            'resend_acceptance_email'
         )
 
     def __init__(self, model, admin_site):
@@ -262,10 +262,10 @@ class RegistrationAdmin(admin.ModelAdmin):
             self.backend.activate(profile.activation_key, request=request)
     force_activate_users.short_description = _("Activate selected users forcibly")
 
-    def resend_acception_email(self, request, queryset):
-        """Re-sends acception emails for the selected users
+    def resend_acceptance_email(self, request, queryset):
+        """Re-sends acceptance emails for the selected users
 
-        Note that this will *only* send acception emails for users
+        Note that this will *only* send acceptance emails for users
         who are eligible to activate; emails will not be sent to users
         whose activation keys have expired or who have already
         activated or rejected.
@@ -274,8 +274,8 @@ class RegistrationAdmin(admin.ModelAdmin):
         site = get_site(request)
         for profile in queryset:
             if not profile.activation_key_expired():
-                profile.send_acception_email(site=site)
-    resend_acception_email.short_description = _("Re-send acception emails to selected users")
+                profile.send_acceptance_email(site=site)
+    resend_acceptance_email.short_description = _("Re-send acceptance emails to selected users")
 
     def display_supplement_summary(self, obj):
         """Display supplement summary
