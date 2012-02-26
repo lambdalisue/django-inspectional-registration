@@ -1,7 +1,7 @@
 # vim: set fileencoding=utf8:
 from setuptools import setup, find_packages
 
-version = '0.2.2'
+version = '0.2.3'
 
 def read(filename):
     import os.path
@@ -32,13 +32,12 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     install_requires=[
+        'django>=1.3',
         'distribute',
         'setuptools-git',
     ],
     test_suite='runtests.runtests',
     tests_require=[
-        'django>=1.3',
         'PyYAML',
-        'django-mailer',
     ],
 )
