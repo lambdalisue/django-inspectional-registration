@@ -312,7 +312,6 @@ class RegistrationAdmin(admin.ModelAdmin):
         """return inline instances with registration supplement inline instance"""
         supplement_class = self.backend.get_supplement_class()
         if supplement_class:
-            print "Called"
             inline_form = type(
                     "RegistrationSupplementInlineAdmin", 
                     (get_supplement_admin_inline_base_class(),),
