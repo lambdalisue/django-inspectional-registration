@@ -337,7 +337,9 @@ class RegistrationAdmin(admin.ModelAdmin):
 
         """
         obj = super(RegistrationAdmin, self).get_object(request, object_id)
-        setattr(obj, settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE, request)
+        if obj:
+            attr_name = settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE
+            setattr(obj, attr_name, request)
         return obj
 
     @csrf_protect_m
