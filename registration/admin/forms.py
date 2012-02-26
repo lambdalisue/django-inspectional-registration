@@ -25,6 +25,7 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
@@ -115,15 +116,18 @@ class RegistrationAdminForm(forms.ModelForm):
                              "validate." % (opts.object_name, fail_message))
         action = self.cleaned_data['action']
         message = self.cleaned_data['message']
+        # this is a bit hack. to get request instance in form instance,
+        # RegistrationAdmin save its request to bundle model instance
+        _request = getattr(self.instance, settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE)
         if action == 'accept':
-            self.registration_backend.accept(self.instance, self.request, message=message)
+            self.registration_backend.accept(self.instance, _request, message=message)
         elif action == 'reject':
-            self.registration_backend.reject(self.instance, self.request, message=message)
+            self.registration_backend.reject(self.instance, _request, message=message)
         elif action == 'activate':
-            self.registration_backend.activate(self.instance.activation_key, self.request, message=message)
+            self.registration_backend.activate(self.instance.activation_key, _request, message=message)
         elif action == 'force_activate':
-            self.registration_backend.accept(self.instance, self.request, send_email=False)
-            self.registration_backend.activate(self.instance.activation_key, self.request, message=message)
+            self.registration_backend.accept(self.instance, _request, send_email=False)
+            self.registration_backend.activate(self.instance.activation_key, _request, message=message)
         else:
             raise AttributeError(_('Unknwon action "%s" was requested.' % action))
         if action not in ('activate', 'force_activate'):
