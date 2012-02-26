@@ -289,9 +289,13 @@ class RegistrationManager(models.Manager):
         """
         for profile in self.all():
             if profile.activation_key_expired():
-                user = profile.user
-                if not user.is_active:
-                    user.delete()
+                try:
+                    user = profile.user
+                    if not user.is_active:
+                        user.delete()
+                        profile.delete()    # just in case
+                except User.DoesNotExist:
+                    profile.delete()
 
     def delete_rejected_users(self):
         """delete rejected users from database
@@ -334,9 +338,13 @@ class RegistrationManager(models.Manager):
         """
         for profile in self.all():
             if profile.status == 'rejected':
-                user = profile.user
-                if not user.is_active:
-                    user.delete()
+                try:
+                    user = profile.user
+                    if not user.is_active:
+                        user.delete()
+                        profile.delete() # just in case
+                except User.DoesNotExist:
+                    profile.delete()
 
 
 class RegistrationProfile(models.Model):
