@@ -1,0 +1,17 @@
+{% load url from future %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    {% block content_title %}{% endblock %}
+    {% block contents %}
+    {% endblock %}
+</body>
+</html>
+

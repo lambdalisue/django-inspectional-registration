@@ -1,1 +1,2 @@
-New user ({{ user }}) has registered -- {{ site.name }}
+{% load i18n %}
+{% blocktrans with site.name as site_name %}A new registration was created by {{ user }} -- {{ site_name }}{% endblocktrans %}

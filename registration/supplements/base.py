@@ -76,7 +76,7 @@ class RegistrationSupplementBase(models.Model):
         
         Subclasses must define them own method
         """
-        raise NotImplementedError(_("You must define '__unicode__' method and return summary of the supplement"))
+        raise NotImplementedError("You must define '__unicode__' method and return summary of the supplement")
 
     @classmethod
     def get_form_class(cls):

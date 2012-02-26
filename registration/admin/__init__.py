@@ -247,20 +247,20 @@ class RegistrationAdmin(admin.ModelAdmin):
         """Accept the selected users, if they are not already accepted"""
         for profile in queryset:
             self.backend.accept(profile, request=request)
-    accept_users.short_description = _("Accept users")
+    accept_users.short_description = _("Accept registrations of selected users")
 
     def reject_users(self, request, queryset):
         """Reject the selected users, if they are not already accepted"""
         for profile in queryset:
             self.backend.reject(profile, request=request)
-    reject_users.short_description = _("Reject users")
+    reject_users.short_description = _("Reject registrations of selected users")
 
     def force_activate_users(self, request, queryset):
         """Activates the selected users, if they are not already activated"""
         for profile in queryset:
             self.backend.accept(profile, request=request, send_email=False)
             self.backend.activate(profile.activation_key, request=request)
-    force_activate_users.short_description = _("Force activate users")
+    force_activate_users.short_description = _("Activate selected users forcibly")
 
     def resend_acception_email(self, request, queryset):
         """Re-sends acception emails for the selected users
@@ -275,7 +275,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         for profile in queryset:
             if not profile.activation_key_expired():
                 profile.send_acception_email(site=site)
-    resend_acception_email.short_description = _("Re-send acception emails")
+    resend_acception_email.short_description = _("Re-send acception emails to selected users")
 
     def display_supplement_summary(self, obj):
         """Display supplement summary
@@ -286,8 +286,8 @@ class RegistrationAdmin(admin.ModelAdmin):
         """
         if obj.supplement:
             return force_unicode(obj.supplement)
-        return 'Not available'
-    display_supplement_summary.short_description = _('Supplemental Information')
+        return _('Not available')
+    display_supplement_summary.short_description = _('A summry of supplemental information')
 
     def display_activation_key(self, obj):
         """Display activation key with link
@@ -304,7 +304,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         if obj.status == 'accepted':
             activation_url = reverse('registration_activate', kwargs={'activation_key': obj.activation_key})
             return mark_safe(u"""<a href="%s">%s</a>""" % (activation_url, obj.activation_key))
-        return 'Not available'
+        return _('Not available')
     display_activation_key.short_description = _('Activation key')
     display_activation_key.allow_tags = True
 
@@ -312,7 +312,6 @@ class RegistrationAdmin(admin.ModelAdmin):
         """return inline instances with registration supplement inline instance"""
         supplement_class = self.backend.get_supplement_class()
         if supplement_class:
-            print "Called"
             inline_form = type(
                     "RegistrationSupplementInlineAdmin", 
                     (get_supplement_admin_inline_base_class(),),

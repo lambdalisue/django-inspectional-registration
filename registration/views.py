@@ -100,7 +100,7 @@ class ActivationView(TemplateResponseMixin, FormMixin, SingleObjectMixin, Proces
         try:
             obj = queryset.get(activation_key=self.kwargs['activation_key'])
             if obj.activation_key_expired():
-                raise Http404(_('The activation key has expired'))
+                raise Http404(_('Activation key has expired'))
         except self.model.DoesNotExist:
             raise Http404(_('An invalid activation key has passed'))
         return obj
