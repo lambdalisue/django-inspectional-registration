@@ -55,7 +55,7 @@ If you want to change the name of template, use following settings
 -   ``REGISTRATION_NOTIFICATION_EMAIL_SUBJECT_TEMPLATE_NAME``
 
     
-.. Note:
+.. Note::
     This feature is not available in tests because default tests of 
     django-inspectional-registration are not assumed to test with contributes.
 

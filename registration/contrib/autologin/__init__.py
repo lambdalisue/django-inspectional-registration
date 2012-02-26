@@ -12,7 +12,7 @@ To disable temporarily this feature, set ``False`` to ``REGISTRATION_AUTO_LOGIN`
 of your ``settings.py``
 
 
-.. Note:
+.. Note::
     This feature is not available in tests because default tests of 
     django-inspectional-registration are not assumed to test with contributes.
 

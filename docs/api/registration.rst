@@ -64,6 +64,7 @@ Subpackages
 
     registration.admin
     registration.backends
+    registration.contrib
     registration.management
     registration.migrations
     registration.supplements

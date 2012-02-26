@@ -25,8 +25,7 @@ can install it from the repository as::
 
 To configure django-inspectional-registration, follow the instructions below
 
-1.  Add ``'registration'``, ``'django.contrib.admin'`` and ``'django.contrib.site'`` 
-    to your ``INSTALLED_APPS`` of ``settings.py``
+1.  Add ``'registration'``, ``'django.contrib.admin'`` to your ``INSTALLED_APPS`` of ``settings.py``
 
     .. Note::
         If you already use django-registration, see :doc:`quickmigrations` for

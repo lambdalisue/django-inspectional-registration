@@ -17,6 +17,14 @@ tests Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`mock` Module
+------------------
+
+.. automodule:: registration.tests.mock
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`test_backends` Module
 ---------------------------
 
