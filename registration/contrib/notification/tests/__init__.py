@@ -30,7 +30,7 @@ from django.core import mail
 from registration.tests import RegistrationTestCaseBase
 
 class RegistrationNotificationTestCase(RegistrationTestCaseBase):
-    urls = 'registration.contrib.notification.tests.urls'
+    #urls = 'registration.contrib.notification.tests.urls'
 
     test_settings = (
         ('ADMINS', (

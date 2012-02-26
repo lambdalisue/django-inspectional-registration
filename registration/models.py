@@ -104,6 +104,7 @@ class RegistrationManager(models.Manager):
     expired/rejected inactive accounts.
 
     """
+    @transaction.commit_on_success 
     def register(self, username, email, site, send_email=True):
         """register new user with ``username`` and ``email``
 
@@ -133,8 +134,8 @@ class RegistrationManager(models.Manager):
             profile.send_registration_email(site)
 
         return new_user
-    register = transaction.commit_on_success(register)
 
+    @transaction.commit_on_success 
     def accept_registration(self, profile, site, send_email=True, message=None):
         """accept account registration of ``profile``
 
@@ -167,6 +168,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
+    @transaction.commit_on_success 
     def reject_registration(self, profile, site, send_email=True, message=None):
         """reject account registration of ``profile``
 
@@ -195,6 +197,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
+    @transaction.commit_on_success 
     def activate_user(self, activation_key, site, password=None, send_email=True, message=None, no_profile_delete=False):
         """activate account with ``activation_key`` and ``password``
 
@@ -251,7 +254,7 @@ class RegistrationManager(models.Manager):
             return user, password, is_generated
         return None
 
-
+    @transaction.commit_on_success 
     def delete_expired_users(self):
         """delete expired users from database
 
@@ -301,6 +304,7 @@ class RegistrationManager(models.Manager):
                 except User.DoesNotExist:
                     profile.delete()
 
+    @transaction.commit_on_success 
     def delete_rejected_users(self):
         """delete rejected users from database
 
