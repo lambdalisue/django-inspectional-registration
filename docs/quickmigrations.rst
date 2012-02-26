@@ -42,7 +42,7 @@ south. To migrate, follow the instructions
     .. Note::
         django-inspectional-registration can handle registration supplemental
         information. If you want to use your own custom registration
-        supplemental information, check :doc:`about_registration_supplement`` for
+        supplemental information, check :doc:`about_registration_supplement` for
         documents.
 
         Settings ``REGISTRATION_SUPPLEMENT_CLASS`` to ``None`` mean no
