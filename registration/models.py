@@ -1,4 +1,4 @@
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 Models of django-inspectional-registration
 

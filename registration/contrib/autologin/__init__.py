@@ -1,5 +1,5 @@
 #!/usr/bin/env pythonh
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 Automatically log activated user in when they have activated with their activation
 link. This doesn't happen when the user was activated programatically with Django

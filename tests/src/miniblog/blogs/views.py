@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 Mini blog views
 

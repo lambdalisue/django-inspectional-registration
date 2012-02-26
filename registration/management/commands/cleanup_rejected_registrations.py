@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf8:
+# vim: set fileencoding=utf-8 :
 """
 A management command which deletes expired or rejected accounts (e.g.,
 accounts which signed up but never activated) from the database.
