@@ -130,7 +130,7 @@ msgid "Activate selected users forcibly"
 msgstr "強制的に選択されているユーザーを有効化する"
 
 #: admin/__init__.py:278
-msgid "Re-send acception emails to selected users"
+msgid "Re-send acceptance emails to selected users"
 msgstr "選択されているユーザーに承認メールを再送信する"
 
 #: admin/__init__.py:289 admin/__init__.py:307
@@ -171,7 +171,7 @@ msgstr "メッセージ"
 
 #: admin/forms.py:64
 msgid ""
-"You can use the value of this field in templates for acception, rejection "
+"You can use the value of this field in templates for acceptance, rejection "
 "and activation email with \"{{ message }}\". It is displayed in rejection "
 "email as \"Rejection reasons\" in default templates."
 msgstr ""
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Please select an action and click the Save button on bottom."
 msgstr "アクションを選択後ページ下部の保存ボタンを押してください。"
 
-#: templates/registration/acception_email.txt:3
+#: templates/registration/acceptance_email.txt:3
 #: templates/registration/activation_email.txt:3
 #: templates/registration/registration_email.txt:3
 #: templates/registration/rejection_email.txt:3
@@ -230,12 +230,12 @@ msgstr "アクションを選択後ページ下部の保存ボタンを押して
 msgid "Dear %(user)s,"
 msgstr "%(user)s 様"
 
-#: templates/registration/acception_email.txt:5
+#: templates/registration/acceptance_email.txt:5
 #, python-format
 msgid "Your registration of %(site_name)s was accepted by inspector."
 msgstr "%(site_name)sの会員登録が承認されました。"
 
-#: templates/registration/acception_email.txt:7
+#: templates/registration/acceptance_email.txt:7
 msgid ""
 "Please click the following url and set your account password to finish "
 "activation."
@@ -243,12 +243,12 @@ msgstr ""
 "下記URLをクリック後アカウントパスワードを設定してアカウントを有効化してくださ"
 "い。"
 
-#: templates/registration/acception_email.txt:11
+#: templates/registration/acceptance_email.txt:11
 #, python-format
 msgid "The activation link above will be expired in %(expiration_days)s days."
 msgstr "上記アクティベーションURLは%(expiration_days)s日で失効します。"
 
-#: templates/registration/acception_email_subject.txt:2
+#: templates/registration/acceptance_email_subject.txt:2
 #, python-format
 msgid "Your registration was accepted -- %(site_name)s"
 msgstr "会員登録が承認されました -- %(site_name)s"
@@ -352,16 +352,16 @@ msgstr "申し訳有りませんが現在新規会員登録は行っておりま
 #: templates/registration/registration_complete.html:5
 #: templates/registration/registration_complete.html:7
 msgid "Registration was complete"
-msgstr "新規会員登録完了"
+msgstr "新規仮会員登録完了"
 
 #: templates/registration/registration_complete.html:11
 msgid "Your registration was created successfully."
-msgstr "会員登録が正常に作成されました。"
+msgstr "仮会員登録が完了しました。"
 
 #: templates/registration/registration_complete.html:12
 #: templates/registration/registration_email.txt:6
 msgid "Please wait until the inspector verify your registration."
-msgstr "管理者が会員登録を確認するまでお待ちください。"
+msgstr "管理者が仮会員登録を確認するまでお待ちください。"
 
 #: templates/registration/registration_complete.html:13
 #: templates/registration/registration_email.txt:7
@@ -370,25 +370,25 @@ msgstr "数日以内に承認・否認メールが送信されます。"
 
 #: templates/registration/registration_email.txt:4
 msgid "Your account registration was created successfully."
-msgstr "会員登録が正常に作成されました。"
+msgstr "仮会員登録が完了しました。"
 
 #: templates/registration/registration_email_subject.txt:2
 #, python-format
 msgid "Your registration was created -- %(site_name)s"
-msgstr "会員登録が正常に作成されました -- %(site_name)s"
+msgstr "仮会員登録が完了しました -- %(site_name)s"
 
 #: templates/registration/registration_form.html:5
 #: templates/registration/registration_form.html:7
 msgid "Registration"
-msgstr "新規会員登録"
+msgstr "新規仮会員登録"
 
 #: templates/registration/registration_form.html:11
 msgid "Please fill the following fields to create your registration"
-msgstr "下記フォームに入力して新規会員登録をしてください"
+msgstr "下記フォームに入力して新規仮会員登録をしてください"
 
 #: templates/registration/registration_form.html:15
 msgid "Register"
-msgstr "新規会員登録"
+msgstr "新規仮会員登録"
 
 #: templates/registration/rejection_email.txt:5
 msgid "I am afraid that your account registration was rejected by inspector."

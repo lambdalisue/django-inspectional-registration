@@ -73,7 +73,7 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         self.assertEqual(RegistrationProfile.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
 
-    def test_acception(self):
+    def test_acceptance(self):
         new_user = self.backend.register(
                 username='bob', email='bob@example.com',
                 request=self.mock_request)
@@ -232,7 +232,7 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_registered])
 
-    def test_acception_signal(self):
+    def test_acceptance_signal(self):
         def receiver(sender, user, profile, **kwargs):
             self.assertEqual(user.username, 'bob')
             self.assertEqual(user.registration_profile, profile)
@@ -248,7 +248,7 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_accepted])
 
-    def test_acception_signal_fail(self):
+    def test_acceptance_signal_fail(self):
         def receiver(sender, user, profile, **kwargs):
             self.assertEqual(user.username, 'bob')
             self.assertEqual(user.registration_profile, profile)
@@ -319,11 +319,11 @@ class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
 
 class RegistrationAdminTestCase(RegistrationTestCaseBase):
 
-    def test_resend_acception_email_action(self):
+    def test_resend_acceptance_email_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
         self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
-        admin_class.resend_acception_email(None, RegistrationProfile.objects.all())
+        admin_class.resend_acceptance_email(None, RegistrationProfile.objects.all())
 
         # one for registration, one for resend
         self.assertEqual(len(mail.outbox), 2)

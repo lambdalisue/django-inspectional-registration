@@ -34,7 +34,7 @@ class RegistrationSupplementBase(models.Model):
     Registration supplement model is used to add supplemental information to
     the account registration. The supplemental information is written by the
     user who tried to register the site and displaied in django admin page to
-    help determine the acception/rejection of the registration
+    help determine the acceptance/rejection of the registration
 
     The ``__unicode__()`` method is used to display the summary of the 
     supplemental information in django admin's change list view. Thus subclasses

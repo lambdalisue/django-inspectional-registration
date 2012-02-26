@@ -160,7 +160,7 @@ class RegistrationViewTestCase(RegistrationTestCaseBase):
         self.assertRedirects(response, success_redirect)
         # RegistrationProfile should be removed with activation
         self.assertEqual(RegistrationProfile.objects.count(), 0)
-        # registration, acception and activation
+        # registration, acceptance and activation
         self.assertEqual(len(mail.outbox), 3)
         self.failUnless(User.objects.get(username='alice').is_active)
 

@@ -39,8 +39,8 @@
 
     Default: ``True``
 
-``REGISTRATION_ACCEPTION_EMAIL``
-    Set ``False`` to disable sending acception email to the user.
+``REGISTRATION_ACCEPTANCE_EMAIL``
+    Set ``False`` to disable sending acceptance email to the user.
 
     Default: ``True``
 

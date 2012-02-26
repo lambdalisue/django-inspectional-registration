@@ -61,7 +61,7 @@ class RegistrationAdminForm(forms.ModelForm):
     message = forms.CharField(label=_('Message'), 
             widget=forms.Textarea, required=False,
             help_text=_(
-                'You can use the value of this field in templates for acception, '
+                'You can use the value of this field in templates for acceptance, '
                 'rejection and activation email with "{{ message }}". It is displayed '
                 'in rejection email as "Rejection reasons" in default templates.'
             ))
