@@ -360,13 +360,26 @@ class RegistrationAdmin(admin.ModelAdmin):
                 raise PermissionDenied
             elif action == 'reject' and not self.has_reject_permission(request, obj):
                 raise PermissionDenied
-            elif action in 'activate' and not self.has_activate_permission(request, obj):
+            elif action == 'activate' and not self.has_activate_permission(request, obj):
                 raise PermissionDenied
             elif action == 'force_activate' and (
                     not self.has_accept_permission(request, obj) or 
                     not self.has_activate_permission(request, obj)):
                 raise PermissionDenied
 
-        return super(RegistrationAdmin, self).change_view(
+        #
+        # Note:
+        #   actions will be treated in form.save() method.
+        #   in general, activate action will remove the profile because
+        #   the profile is no longer required after the activation
+        #   but if I remove the profile in form.save() method, django admin
+        #   will raise IndexError thus I passed `no_profile_delete = True`
+        #   to activate with backend in form.save() method.
+        #   
+        response = super(RegistrationAdmin, self).change_view(
                 request, object_id, extra_context)
+        if request.method == 'POST' and action in ('activate', 'force_activate'):
+            # Remove the profile now
+            obj.delete()
+        return response
 admin.site.register(RegistrationProfile, RegistrationAdmin)
