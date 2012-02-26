@@ -1,2 +1,2 @@
 {% load i18n %}
-{% blocktrans with site.name as site_name %}Your registration was rejected -- {{ site_name }}{% endblocktrans %}
+{% blocktrans %}Your registration was rejected -- {{ site.name }}{% endblocktrans %}

@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>{% trans 'Registration' %}</h1>
-        <p>{% trans 'Please fill the following form to create your registration' %}</p>
+        <p>{% trans 'Please fill the following fields to create your registration' %}</p>
         <form action="" method="post">{% csrf_token %}
             {{ form.as_p }}
             {{ supplement_form.as_p }}

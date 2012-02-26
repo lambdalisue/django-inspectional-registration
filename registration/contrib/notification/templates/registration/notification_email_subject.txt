@@ -1,1 +1,1 @@
-New user ({{ user }}) has registered -- {{ site.name }}
+A new registration was created by {{ user }} -- {{ site.name }}

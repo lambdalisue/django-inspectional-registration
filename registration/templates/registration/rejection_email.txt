@@ -2,11 +2,9 @@
 {% load i18n %}
 {% blocktrans %}Dear {{ user }},{% endblocktrans %}
 
-{% blocktrans %}I am afraid that your account registration was rejected by inspectors.{% endblocktrans %}
+{% trans 'I am afraid that your account registration was rejected by inspector.' %}
 
 {% if message %}
-{% trans 'Rejection reason:' %}
+{% trans 'Rejection reasons:' %}
 {{ message }}
-{% else %}
-{% blocktrans %}Please check your registration once again or E-mail the inspectors to ask why your registration was rejected.{% endblocktrans %}
 {% endif %}

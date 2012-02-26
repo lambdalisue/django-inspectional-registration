@@ -366,8 +366,8 @@ class RegistrationProfile(models.Model):
     """
     STATUS_LIST = (
         ('untreated', _('Untreated yet')),
-        ('accepted', _('Accepted')),
-        ('rejected', _('Rejected')),
+        ('accepted', _('Registration has accepted')),
+        ('rejected', _('Registration has rejected')),
     )
     user = models.OneToOneField(User, verbose_name=_('user'), 
                                 related_name='registration_profile', editable=False)
@@ -383,8 +383,8 @@ class RegistrationProfile(models.Model):
         verbose_name = _('registration profile')
         verbose_name_plural = _('registration profiles')
         permissions = (
-                ('accept_registration', 'Can accept user registration'),
-                ('reject_registration', 'Can reject user registration'),
+                ('accept_registration', 'Can accept registration'),
+                ('reject_registration', 'Can reject registration'),
                 ('activate_user', 'Can activate user in admin site'),
             )
 
@@ -431,7 +431,7 @@ class RegistrationProfile(models.Model):
         sl.append(('expired', _('Activation key has expired')))
         sl = dict(sl)
         return sl.get(self.status)
-    get_status_display.short_description = _("Status")
+    get_status_display.short_description = _("status")
 
     def __unicode__(self):
         return u"Registration information for %s" % self.user
@@ -461,7 +461,6 @@ class RegistrationProfile(models.Model):
         expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
         expired = self.user.date_joined + expiration_date <= datetime_now()
         return expired
-    activation_key_expired.short_description = _("Has activation key expired?")
     activation_key_expired.boolean = True
 
     def _send_email(self, site, action, extra_context=None):

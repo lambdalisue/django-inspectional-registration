@@ -1,7 +1,7 @@
 {% load url from future %}
 {% load i18n %}
-{% blocktrans %}New user ({{ user }}) has registered to {{ site.name }}.{% endblocktrans %}
+{% blocktrans %}A new registration of {{ site.name }} was created by {{ user }}.{% endblocktrans %}
 
-{% blocktrans %}Please click the following url and inspect his/her registration.{% endblocktrans %}
+{% trans 'Please click the following url and inspect his/her registration.' %}
 
 http://{{ site.domain }}{% url 'admin:index' %}registration/registrationprofile/{{ profile.pk }}/
