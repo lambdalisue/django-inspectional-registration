@@ -62,6 +62,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.contrib import admin
 from django.contrib.admin.util import unquote
 from django.core.exceptions import PermissionDenied
@@ -380,7 +381,9 @@ class RegistrationAdmin(admin.ModelAdmin):
         response = super(RegistrationAdmin, self).change_view(
                 request, object_id, extra_context)
         if request.method == 'POST' and action in ('activate', 'force_activate'):
-            # Remove the profile now
-            obj.delete()
+            # if the requested data is valid then response will be an instance
+            # of ``HttpResponseRedirect`` otherwise ``TemplateResponse``
+            if isinstance(response, HttpResponseRedirect):
+                obj.delete()
         return response
 admin.site.register(RegistrationProfile, RegistrationAdmin)
