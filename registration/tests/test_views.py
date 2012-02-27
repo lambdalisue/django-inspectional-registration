@@ -26,20 +26,28 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import datetime
 
+from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
 from django.core.urlresolvers import reverse
-from django.test import TestCase
 
 from .. import forms
 from ..models import RegistrationProfile
-from ..backends import get_backend
-from ..supplements.default import DefaultRegistrationSupplement
+from ..backends.default import DefaultRegistrationBackend
 
-from base import RegistrationTestCaseBase
+from override_settings import override_settings
+from mock import mock_request
 
-class RegistrationViewTestCase(RegistrationTestCaseBase):
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class RegistrationViewTestCase(TestCase):
+    backend = DefaultRegistrationBackend()
+    mock_request = mock_request()
 
     def test_registration_view_get(self):
         """

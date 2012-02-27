@@ -135,7 +135,7 @@ class RegistrationManager(models.Manager):
 
         return new_user
 
-    @transaction.commit_on_success 
+#    @transaction.commit_on_success 
     def accept_registration(self, profile, site, send_email=True, message=None):
         """accept account registration of ``profile``
 
@@ -168,7 +168,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
-    @transaction.commit_on_success 
+#    @transaction.commit_on_success 
     def reject_registration(self, profile, site, send_email=True, message=None):
         """reject account registration of ``profile``
 
@@ -197,7 +197,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
-    @transaction.commit_on_success 
+#    @transaction.commit_on_success 
     def activate_user(self, activation_key, site, password=None, send_email=True, message=None, no_profile_delete=False):
         """activate account with ``activation_key`` and ``password``
 

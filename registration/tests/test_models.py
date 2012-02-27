@@ -26,17 +26,25 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import datetime
 
+from django.test import TestCase
 from django.conf import settings
 from django.core import mail
 from django.core import management
-from django.test import TestCase
 from django.contrib.auth.models import User
 
 from ..models import RegistrationProfile
 
-from base import RegistrationTestCaseBase
+from override_settings import override_settings
+from mock import mock_site
 
-class RegistrationProfileTestCase(RegistrationTestCaseBase):
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class RegistrationProfileTestCase(TestCase):
+    mock_site = mock_site()
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',
@@ -126,7 +134,14 @@ class RegistrationProfileTestCase(RegistrationTestCaseBase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.user_info['email']])
 
-class RegistrationProfileManagerTestCase(RegistrationTestCaseBase):
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class RegistrationProfileManagerTestCase(TestCase):
+    mock_site = mock_site()
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',

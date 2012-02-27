@@ -23,165 +23,159 @@ License:
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-__AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from __future__ import with_statement
+from django.test import TestCase
 from django.conf import settings
 from django.core import mail
 
-from registration.tests import RegistrationTestCaseBase
+from registration.backends.default import DefaultRegistrationBackend
+from registration.tests.override_settings import override_settings
+from registration.tests.mock import mock_request
 
-class RegistrationNotificationTestCase(RegistrationTestCaseBase):
-    #urls = 'registration.contrib.notification.tests.urls'
-
-    test_settings = (
-        ('ADMINS', (
-                ('admin1', 'admin1@test.com'),
-                ('admin2', 'admin2@test.com'),
-        )),
-        ('MANAGERS', (
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        ADMINS=(
+            ('admin1', 'admin1@test.com'),
+            ('admin2', 'admin2@test.com'),
+        ),
+        MANAGERS=(
             ('manager1', 'manager1@test.com'), 
             ('manager2', 'manager2@test.com'),
-        )),
-        ('REGISTRATION_NOTIFICATION', True),
-        ('REGISTRATION_NOTIFICATION_ADMINS', True),
-        ('REGISTRATION_NOTIFICATION_MANAGERS', True),
-        ('REGISTRATION_NOTIFICATION_RECIPIENTS', None),
-        # disable the registration email
-        ('REGISTRATION_REGISTRATION_EMAIL', False),
+        ),
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+        REGISTRATION_REGISTRATION_EMAIL=False,
+        REGISTRATION_NOTIFICATION=True,
+        REGISTRATION_NOTIFICATION_ADMINS=True,
+        REGISTRATION_NOTIFICATION_MANAGERS=True,
+        REGISTRATION_NOTIFICATION_RECIPIENTS=False,
+        _REGISTRATION_NOTIFICATION_IN_TESTS=True,
     )
-
-    def setUp(self):
-        super(RegistrationNotificationTestCase, self).setUp()
-        self._store_and_overwrite_settings(self.test_settings)
-        settings._REGISTRATION_NOTIFICATION_IN_TESTS = True
-
-    def tearDown(self):
-        super(RegistrationNotificationTestCase, self).tearDown()
-        self._restore_settings(self.test_settings)
-        del settings._REGISTRATION_NOTIFICATION_IN_TESTS
+class RegistrationNotificationTestCase(TestCase):
+    backend = DefaultRegistrationBackend()
+    mock_request = mock_request()
 
     def test_notify_admins(self):
-        settings.REGISTRATION_NOTIFICATION_MANAGERS = False
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
+        with override_settings(REGISTRATION_NOTIFICATION_MANAGERS=False):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'admin1@test.com',
-                'admin2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'admin1@test.com',
+                    'admin2@test.com',
+                ]))
 
     def test_notify_managers(self):
-        settings.REGISTRATION_NOTIFICATION_ADMINS = False
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
+        with override_settings(REGISTRATION_NOTIFICATION_ADMINS=False):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'manager1@test.com',
-                'manager2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'manager1@test.com',
+                    'manager2@test.com',
+                ]))
 
     def test_notify_recipients_iterable(self):
-        settings.REGISTRATION_NOTIFICATION_ADMINS = False
-        settings.REGISTRATION_NOTIFICATION_MANAGERS = False
-        settings.REGISTRATION_NOTIFICATION_RECIPIENTS = (
-                'recipient1@test.com',
-                'recipient2@test.com',
-            )
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
+        with override_settings(
+            REGISTRATION_NOTIFICATION_ADMINS = False,
+            REGISTRATION_NOTIFICATION_MANAGERS = False,
+            REGISTRATION_NOTIFICATION_RECIPIENTS=(
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                )):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'recipient1@test.com',
-                'recipient2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                ]))
 
     def test_notify_recipients_function(self):
-        settings.REGISTRATION_NOTIFICATION_ADMINS = False
-        settings.REGISTRATION_NOTIFICATION_MANAGERS = False
-        settings.REGISTRATION_NOTIFICATION_RECIPIENTS = lambda : (
-                'recipient1@test.com',
-                'recipient2@test.com',
-            )
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
+        with override_settings(
+            REGISTRATION_NOTIFICATION_ADMINS=False,
+            REGISTRATION_NOTIFICATION_MANAGERS=False,
+            REGISTRATION_NOTIFICATION_RECIPIENTS=lambda:(
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                )):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'recipient1@test.com',
-                'recipient2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                ]))
 
     def test_notify_all(self):
-        settings.REGISTRATION_NOTIFICATION_ADMINS = True
-        settings.REGISTRATION_NOTIFICATION_MANAGERS = True
-        settings.REGISTRATION_NOTIFICATION_RECIPIENTS = (
-                'recipient1@test.com',
-                'recipient2@test.com',
-            )
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
+        with override_settings(
+            REGISTRATION_NOTIFICATION_ADMINS=True,
+            REGISTRATION_NOTIFICATION_MANAGERS=True,
+            REGISTRATION_NOTIFICATION_RECIPIENTS=(
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                )):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'admin1@test.com',
-                'admin2@test.com',
-                'manager1@test.com',
-                'manager2@test.com',
-                'recipient1@test.com',
-                'recipient2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'admin1@test.com',
+                    'admin2@test.com',
+                    'manager1@test.com',
+                    'manager2@test.com',
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                ]))
 
     def test_notify_duplicated(self):
-        settings.REGISTRATION_NOTIFICATION_ADMINS = True
-        settings.REGISTRATION_NOTIFICATION_MANAGERS = True
-        settings.REGISTRATION_NOTIFICATION_RECIPIENTS = (
-                'admin1@test.com',
-                'admin2@test.com',
-                'manager1@test.com',
-                'manager2@test.com',
-                'recipient1@test.com',
-                'recipient2@test.com',
-            )
-        settings.ADMINS = (
-            ('admin1', 'admin1@test.com'),
-            ('admin2', 'admin2@test.com'),
-            ('manager1', 'manager1@test.com'), 
-            ('manager2', 'manager2@test.com'),
-            ('recipient1', 'recipient1@test.com'), 
-            ('recipient2', 'recipient2@test.com'),
-        )
-        settings.MANAGERS = (
-            ('admin1', 'admin1@test.com'),
-            ('admin2', 'admin2@test.com'),
-            ('manager1', 'manager1@test.com'), 
-            ('manager2', 'manager2@test.com'),
-            ('recipient1', 'recipient1@test.com'), 
-            ('recipient2', 'recipient2@test.com'),
-        )
+        with override_settings(
+            REGISTRATION_NOTIFICATION_ADMINS=True,
+            REGISTRATION_NOTIFICATION_MANAGERS=True,
+            REGISTRATION_NOTIFICATION_RECIPIENTS=(
+                    'admin1@test.com',
+                    'admin2@test.com',
+                    'manager1@test.com',
+                    'manager2@test.com',
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                ),
+            ADMINS=(
+                    ('admin1', 'admin1@test.com'),
+                    ('admin2', 'admin2@test.com'),
+                    ('manager1', 'manager1@test.com'), 
+                    ('manager2', 'manager2@test.com'),
+                    ('recipient1', 'recipient1@test.com'), 
+                    ('recipient2', 'recipient2@test.com'),
+                ),
+            MANAGERS=(
+                    ('admin1', 'admin1@test.com'),
+                    ('admin2', 'admin2@test.com'),
+                    ('manager1', 'manager1@test.com'), 
+                    ('manager2', 'manager2@test.com'),
+                    ('recipient1', 'recipient1@test.com'), 
+                    ('recipient2', 'recipient2@test.com'),
+                )):
+            self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request
+                )
 
-        
-        self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request
-            )
-
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([
-                'admin1@test.com',
-                'admin2@test.com',
-                'manager1@test.com',
-                'manager2@test.com',
-                'recipient1@test.com',
-                'recipient2@test.com',
-            ]))
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(sorted(mail.outbox[0].to), sorted([
+                    'admin1@test.com',
+                    'admin2@test.com',
+                    'manager1@test.com',
+                    'manager2@test.com',
+                    'recipient1@test.com',
+                    'recipient2@test.com',
+                ]))
