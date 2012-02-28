@@ -23,44 +23,44 @@ License:
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-__AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
+from __future__ import with_statement
+from django.test import TestCase
 from django.contrib.auth.models import AnonymousUser
 
-from registration.tests import RegistrationTestCaseBase
+from registration.backends.default import DefaultRegistrationBackend
+from registration.tests.override_settings import override_settings
+from registration.tests.mock import mock_request
 
-class RegistrationAutoLoginTestCase(RegistrationTestCaseBase):
-    test_settings = (
-        ('REGISTRATION_AUTO_LOGIN', True),
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+        REGISTRATION_AUTO_LOGIN=True,
+        _REGISTRATION_AUTO_LOGIN_IN_TESTS=True,
     )
-
-    def setUp(self):
-        super(RegistrationAutoLoginTestCase, self).setUp()
-        self._store_and_overwrite_settings(self.test_settings)
-        settings._REGISTRATION_AUTO_LOGIN_IN_TESTS = True
-
-    def tearDown(self):
-        super(RegistrationAutoLoginTestCase, self).tearDown()
-        self._restore_settings(self.test_settings)
-        del settings._REGISTRATION_AUTO_LOGIN_IN_TESTS
+class RegistrationAutoLoginTestCase(TestCase):
+    backend = DefaultRegistrationBackend()
+    mock_request = mock_request()
 
     def test_no_auto_login_with_setting(self):
         """Auto login feature should be able to off with ``REGISTRATION_AUTO_LOGIN = False``"""
         self.mock_request.user = AnonymousUser()
-        settings.REGISTRATION_AUTO_LOGIN = False
 
-        new_user = self.backend.register(
-                'bob', 'bob@test.com', request=self.mock_request,
-            )
-        self.backend.accept(
-                new_user.registration_profile, request=self.mock_request,
-            )
-        self.backend.activate(
-                new_user.registration_profile.activation_key,
-                password='password',request=self.mock_request,
-            )
+        with override_settings(REGISTRATION_AUTO_LOGIN = False):
 
-        self.failIf(self.mock_request.user.is_authenticated())
+            new_user = self.backend.register(
+                    'bob', 'bob@test.com', request=self.mock_request,
+                )
+            self.backend.accept(
+                    new_user.registration_profile, request=self.mock_request,
+                )
+            self.backend.activate(
+                    new_user.registration_profile.activation_key,
+                    password='password',request=self.mock_request,
+                )
+
+            self.failIf(self.mock_request.user.is_authenticated())
 
     def test_no_auto_login_with_no_password(self):
         """Auto login feature should not be occur with no password 

@@ -24,21 +24,22 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
+from django.test import TestCase
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 
 from .. import forms
 from ..supplements import get_supplement_class
-from ..supplements.default import DefaultRegistrationSupplement
 from ..models import RegistrationProfile
 
-from base import RegistrationTestCaseBase
+from override_settings import with_apps
+from override_settings import override_settings
 
-class RegistrationSupplementRetrievalTests(RegistrationTestCaseBase):
+class RegistrationSupplementRetrievalTests(TestCase):
 
     def test_get_supplement_class(self):
+        from ..supplements.default import DefaultRegistrationSupplement
         supplement_class = get_supplement_class('registration.supplements.default.DefaultRegistrationSupplement')
         self.failUnless(supplement_class is DefaultRegistrationSupplement)
 
@@ -50,11 +51,14 @@ class RegistrationSupplementRetrievalTests(RegistrationTestCaseBase):
         self.assertRaises(ImproperlyConfigured, get_supplement_class,
                 'registration.supplements.default.NonexistenBackend')
 
-class RegistrationViewWithDefaultRegistrationSupplementTestCase(RegistrationTestCaseBase):
-
-    def setUp(self):
-        super(RegistrationViewWithDefaultRegistrationSupplementTestCase, self).setUp()
-        settings.REGISTRATION_SUPPLEMENT_CLASS = 'registration.supplements.default.DefaultRegistrationSupplement'
+@with_apps('registration.supplements.default')
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS='registration.supplements.default.DefaultRegistrationSupplement',
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
 
     def test_registration_view_get(self):
         """
@@ -62,6 +66,7 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(RegistrationTest
         template and populates the registration form into the context.
 
         """
+        from ..supplements.default import DefaultRegistrationSupplement
         response = self.client.get(reverse('registration_register'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
@@ -77,6 +82,7 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(RegistrationTest
         creates a new user and issues a redirect.
 
         """
+        from ..supplements.default import DefaultRegistrationSupplement
         response = self.client.post(reverse('registration_register'),
                                     data={'username': 'alice',
                                           'email1': 'alice@example.com',

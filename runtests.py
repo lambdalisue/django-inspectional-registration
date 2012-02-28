@@ -37,10 +37,10 @@ sys.path.insert(0, test_dir)
 from django.test.utils import get_runner
 from django.conf import settings
 
-def runtests(verbosity=1, interactive=True):
+def runtests(verbosity=1, interactive=False):
     """Run Django Test"""
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=verbosity, interactive=interactive)
+    test_runner = TestRunner(verbosity=verbosity, interactive=interactive, failfast=False)
     failures = test_runner.run_tests([
         'registration',
         'notification',     # registration.contrib.notification

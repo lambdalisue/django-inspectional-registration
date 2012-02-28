@@ -130,10 +130,12 @@ INSTALLED_APPS = (
     'miniblog.autocmds',
     'miniblog.blogs',
     'registration',                         # django-inspectional-registration
-    'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
+    #'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
     'registration.contrib.notification',
     'registration.contrib.autologin',
 )
+
+REGISTRATION_SUPPLEMENT_CLASS = False
 
 FIXTURE_DIRS = (
     os.path.join(ROOT, 'fixtures'),

@@ -81,7 +81,6 @@ from forms import RegistrationAdminForm
 
 csrf_protect_m = method_decorator(csrf_protect)
 
-from ..supplements.default import DefaultRegistrationSupplement
 
 # Python 2.7 has an importlib with import_module; for older Pythons,
 # Django's bundled copy provides it.

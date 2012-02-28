@@ -24,28 +24,32 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-import datetime
-
-from django.conf import settings
+from django.test import TestCase
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core import mail
-from django.core import management
-from django.test import TestCase
-from django.contrib.auth.models import User
 
+from ..backends.default import DefaultRegistrationBackend
 from ..models import RegistrationProfile
 from ..admin import RegistrationAdmin
 
-from base import RegistrationTestCaseBase
+from override_settings import override_settings
+from mock import mock_request
 
 
-class RegistrationAdminTestCase(RegistrationTestCaseBase):
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class RegistrationAdminTestCase(TestCase):
+    backend = DefaultRegistrationBackend()
+    mock_request = mock_request()
     admin_url = reverse('admin:index')
 
     def setUp(self):
-        super(RegistrationAdminTestCase, self).setUp()
         self.admin = User.objects.create_superuser(
                 username='mark', email='mark@test.com',
                 password='password')
@@ -111,7 +115,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
@@ -182,7 +185,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
@@ -210,7 +212,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
@@ -235,7 +236,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
@@ -286,7 +286,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
@@ -334,7 +333,6 @@ class RegistrationAdminTestCase(RegistrationTestCaseBase):
                 request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
-        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
