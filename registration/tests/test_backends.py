@@ -25,11 +25,11 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import datetime
+from django.test import TestCase
 from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
-from django.contrib import admin
 from django.contrib.auth.models import User
 
 from .. import forms
@@ -37,11 +37,12 @@ from .. import signals
 from ..backends import get_backend
 from ..backends.default import DefaultRegistrationBackend
 from ..models import RegistrationProfile
-from ..admin import RegistrationAdmin
 
-from base import RegistrationTestCaseBase
+from override_settings import override_settings
+from mock import mock_request
 
-class RegistrationBackendRetrievalTests(RegistrationTestCaseBase):
+
+class RegistrationBackendRetrievalTests(TestCase):
 
     def test_get_backend(self):
         backend = get_backend('registration.backends.default.DefaultRegistrationBackend')
@@ -55,7 +56,15 @@ class RegistrationBackendRetrievalTests(RegistrationTestCaseBase):
         self.assertRaises(ImproperlyConfigured, get_backend,
                 'registration.backends.default.NonexistenBackend')
 
-class DefaultRegistrationBackendTestCase(RegistrationTestCaseBase):
+@override_settings(
+        ACCOUNT_ACTIVATION_DAYS=7,
+        REGISTRATION_OPEN=True,
+        REGISTRATION_SUPPLEMENT_CLASS=None,
+        REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
+    )
+class DefaultRegistrationBackendTestCase(TestCase):
+    backend = DefaultRegistrationBackend()
+    mock_request = mock_request()
 
     def test_registration(self):
         new_user = self.backend.register(
