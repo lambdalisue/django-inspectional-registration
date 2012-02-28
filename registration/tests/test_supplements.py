@@ -31,7 +31,6 @@ from django.core.exceptions import ImproperlyConfigured
 
 from .. import forms
 from ..supplements import get_supplement_class
-from ..supplements.default import DefaultRegistrationSupplement
 from ..models import RegistrationProfile
 
 from override_settings import with_apps
@@ -40,6 +39,7 @@ from override_settings import override_settings
 class RegistrationSupplementRetrievalTests(TestCase):
 
     def test_get_supplement_class(self):
+        from ..supplements.default import DefaultRegistrationSupplement
         supplement_class = get_supplement_class('registration.supplements.default.DefaultRegistrationSupplement')
         self.failUnless(supplement_class is DefaultRegistrationSupplement)
 
@@ -66,6 +66,7 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
         template and populates the registration form into the context.
 
         """
+        from ..supplements.default import DefaultRegistrationSupplement
         response = self.client.get(reverse('registration_register'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
@@ -81,6 +82,7 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
         creates a new user and issues a redirect.
 
         """
+        from ..supplements.default import DefaultRegistrationSupplement
         response = self.client.post(reverse('registration_register'),
                                     data={'username': 'alice',
                                           'email1': 'alice@example.com',
