@@ -63,8 +63,11 @@ class RegistrationBackendRetrievalTests(TestCase):
         REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
     )
 class DefaultRegistrationBackendTestCase(TestCase):
-    backend = DefaultRegistrationBackend()
-    mock_request = mock_request()
+
+    def setUp(self):
+        self.backend = DefaultRegistrationBackend()
+        self.mock_request = mock_request()
+
 
     def test_registration(self):
         new_user = self.backend.register(
