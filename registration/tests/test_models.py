@@ -44,12 +44,13 @@ from mock import mock_site
         REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
     )
 class RegistrationProfileTestCase(TestCase):
-    mock_site = mock_site()
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',
             'password': 'password'
         }
+    def setUp(self):
+        self.mock_site = mock_site()
 
     def create_inactive_user(self):
         new_user = User.objects.create_user(**self.user_info)
@@ -141,12 +142,14 @@ class RegistrationProfileTestCase(TestCase):
         REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
     )
 class RegistrationProfileManagerTestCase(TestCase):
-    mock_site = mock_site()
     user_info = {
             'username': 'alice',
             'email': 'alice@example.com',
         }
 
+    def setUp(self):
+        self.mock_site = mock_site()
+        
     def test_register(self):
         new_user = RegistrationProfile.objects.register(site=self.mock_site, **self.user_info)
         self.assertEqual(new_user.username, 'alice')
