@@ -47,7 +47,6 @@ from mock import mock_request
 class RegistrationAdminTestCase(TestCase):
     backend = DefaultRegistrationBackend()
     mock_request = mock_request()
-    admin_url = reverse('admin:index')
 
     def setUp(self):
         self.admin = User.objects.create_superuser(
@@ -55,6 +54,7 @@ class RegistrationAdminTestCase(TestCase):
                 password='password')
 
         self.client.login(username='mark', password='password')
+        self.admin_url = reverse('admin:index')
 
     def test_change_list_view_get(self):
         url = self.admin_url + "registration/registrationprofile/"
