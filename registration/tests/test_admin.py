@@ -45,10 +45,10 @@ from mock import mock_request
         REGISTRATION_BACKEND_CLASS='registration.backends.default.DefaultRegistrationBackend',
     )
 class RegistrationAdminTestCase(TestCase):
-    backend = DefaultRegistrationBackend()
-    mock_request = mock_request()
 
     def setUp(self):
+        self.backend = DefaultRegistrationBackend()
+        self.mock_request = mock_request()
         self.admin = User.objects.create_superuser(
                 username='mark', email='mark@test.com',
                 password='password')
