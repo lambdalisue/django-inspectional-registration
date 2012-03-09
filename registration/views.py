@@ -85,7 +85,10 @@ class ActivationView(TemplateResponseMixin, FormMixin, SingleObjectMixin, Proces
     """
     template_name = r'registration/activation_form.html'
     model = RegistrationProfile
-    backend = get_backend()
+
+    def __init__(self, *args, **kwargs):
+        self.backend = get_backend()
+        super(ActivationView, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
         """get ``RegistrationProfile`` queryset which status is 'accepted'"""
@@ -148,7 +151,10 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
         Register the user with passed ``username`` and ``email1``
     """
     template_name = r'registration/registration_form.html'
-    backend = get_backend()
+
+    def __init__(self, *args, **kwargs):
+        self.backend = get_backend()
+        super(RegistrationView, self).__init__(*args, **kwargs)
 
     def get_success_url(self):
         """get registration complete url via backend"""
