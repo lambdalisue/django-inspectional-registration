@@ -6,12 +6,12 @@ A forms used in RegistrationAdmin
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -37,8 +37,8 @@ class RegistrationAdminForm(forms.ModelForm):
 
     This form handle ``RegistrationProfile`` correctly in ``save()``
     method. Because ``RegistrationProfile`` is not assumed to handle
-    by hands, instance modification by hands is not allowed. Thus subclasses 
-    should feel free to add any additions they need, but should avoid overriding 
+    by hands, instance modification by hands is not allowed. Thus subclasses
+    should feel free to add any additions they need, but should avoid overriding
     a ``save()`` method.
 
     """
@@ -57,8 +57,8 @@ class RegistrationAdminForm(forms.ModelForm):
             ('force_activate', _('Activate the associated user of this registration forcibly')),
         )
 
-    action = forms.ChoiceField(label=_('Action'))
-    message = forms.CharField(label=_('Message'), 
+    action_name = forms.ChoiceField(label=_('Action'))
+    message = forms.CharField(label=_('Message'),
             widget=forms.Textarea, required=False,
             help_text=_(
                 'You can use the value of this field in templates for acceptance, '
@@ -74,11 +74,11 @@ class RegistrationAdminForm(forms.ModelForm):
         super(RegistrationAdminForm, self).__init__(*args, **kwargs)
         # dynamically set choices of _status field
         if self.instance._status == 'untreated':
-            self.fields['action'].choices = self.UNTREATED_ACTIONS
+            self.fields['action_name'].choices = self.UNTREATED_ACTIONS
         elif self.instance._status == 'accepted':
-            self.fields['action'].choices = self.ACCEPTED_ACTIONS
+            self.fields['action_name'].choices = self.ACCEPTED_ACTIONS
         elif self.instance._status == 'rejected':
-            self.fields['action'].choices = self.REJECTED_ACTIONS
+            self.fields['action_name'].choices = self.REJECTED_ACTIONS
 
     def clean_action(self):
         """clean action value
@@ -87,20 +87,20 @@ class RegistrationAdminForm(forms.ModelForm):
         profile status and the requested action and then raise ValidationError
 
         """
-        action = self.cleaned_data['action']
-        if action == 'accept':
+        action_name = self.cleaned_data['action_name']
+        if action_name == 'accept':
             if self.instance._status == 'accepted':
                 raise ValidationError(_("You cannot accept the registration which was accepted already."))
-        elif action == 'reject':
+        elif action_name == 'reject':
             if self.instance._status == 'accepted':
                 raise ValidationError(_("You cannot reject the registration which was accepted already."))
-        elif action == 'activate':
+        elif action_name == 'activate':
             if self.instance._status != 'accepted':
                 raise ValidationError(_("You cannot activate the user whom registration was not accepted yet."))
-        elif action != 'force_activate':
+        elif action_name != 'force_activate':
             # with using django admin page, the code below never be called.
-            raise ValidationError("Unknown action '%s' was requested." % action)
-        return self.cleaned_data['action']
+            raise ValidationError("Unknown action_name '%s' was requested." % action_name)
+        return self.cleaned_data['action_name']
 
     def save(self, commit=True):
         """Call appropriate action via current registration backend
@@ -114,22 +114,22 @@ class RegistrationAdminForm(forms.ModelForm):
         if self.errors:
             raise ValueError("The %s chould not be %s because the data did'nt"
                              "validate." % (opts.object_name, fail_message))
-        action = self.cleaned_data['action']
+        action_name = self.cleaned_data['action_name']
         message = self.cleaned_data['message']
         # this is a bit hack. to get request instance in form instance,
         # RegistrationAdmin save its request to bundle model instance
         _request = getattr(self.instance, settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE)
-        if action == 'accept':
+        if action_name == 'accept':
             self.registration_backend.accept(self.instance, _request, message=message)
-        elif action == 'reject':
+        elif action_name == 'reject':
             self.registration_backend.reject(self.instance, _request, message=message)
-        elif action == 'activate':
+        elif action_name == 'activate':
             # DO NOT delete profile otherwise Django Admin will raise IndexError
             self.registration_backend.activate(
                     self.instance.activation_key, _request, message=message,
                     no_profile_delete=True,
                 )
-        elif action == 'force_activate':
+        elif action_name == 'force_activate':
             self.registration_backend.accept(self.instance, _request, send_email=False)
             # DO NOT delete profile otherwise Django Admin will raise IndexError
             self.registration_backend.activate(
@@ -137,8 +137,8 @@ class RegistrationAdminForm(forms.ModelForm):
                     no_profile_delete=True,
                 )
         else:
-            raise AttributeError('Unknwon action "%s" was requested.' % action)
-        if action not in ('activate', 'force_activate'):
+            raise AttributeError('Unknwon action_name "%s" was requested.' % action_name)
+        if action_name not in ('activate', 'force_activate'):
             new_instance = self.instance.__class__.objects.get(pk=self.instance.pk)
         else:
             new_instance = self.instance
