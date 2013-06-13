@@ -22,10 +22,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(ROOT, 'database.db'),
-        'USER': '',                      
-        'PASSWORD': '',                  
-        'HOST': '',                      
-        'PORT': '',                      
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -130,12 +130,14 @@ INSTALLED_APPS = (
     'miniblog.autocmds',
     'miniblog.blogs',
     'registration',                         # django-inspectional-registration
-    #'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
+    'registration.supplements.default',     # this is required if you use registration.supplements.default.DefaultRegistrationSupplement (by default)
     'registration.contrib.notification',
     'registration.contrib.autologin',
 )
 
-REGISTRATION_SUPPLEMENT_CLASS = False
+#REGISTRATION_SUPPLEMENT_CLASS = False
+REGISTRATION_SUPPLEMENT_CLASS = \
+        'registration.supplements.default.DefaultRegistrationSupplement'
 
 FIXTURE_DIRS = (
     os.path.join(ROOT, 'fixtures'),
