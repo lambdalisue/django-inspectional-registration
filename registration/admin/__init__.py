@@ -11,7 +11,7 @@ The original code is written by James Bennett
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
@@ -47,7 +47,7 @@ Original License::
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -94,14 +94,14 @@ __all__ = ['RegistrationSupplementAdminInlineBase', 'RegistrationAdmin']
 
 def get_supplement_admin_inline_base_class(path=None):
     """
-    Return a class of a admin inline class for registration supplement, 
+    Return a class of a admin inline class for registration supplement,
     given the dotted Python import path (as a string) to the admin inline class.
 
     If the addition cannot be located (e.g., because no such module
     exists, or because the module does not contain a class of the
     appropriate name), ``django.core.exceptions.ImproperlyConfigured``
     is raised.
-    
+
     """
     path = path or settings.REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS
     i = path.rfind('.')
@@ -122,7 +122,7 @@ def get_supplement_admin_inline_base_class(path=None):
 class RegistrationSupplementAdminInlineBase(admin.StackedInline):
     """Registration supplement admin inline base class
 
-    This inline class is used to generate admin inline class of current 
+    This inline class is used to generate admin inline class of current
     registration supplement. Used inline class is defined as
     ``settings.REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS`` thus if you want
     to modify the inline class of supplement, create a subclass of this class
@@ -242,7 +242,7 @@ class RegistrationAdmin(admin.ModelAdmin):
            not request.user.has_perm('registration.activate_user'):
             del actions['force_activate_users']
         return actions
-                                                                    
+
     def accept_users(self, request, queryset):
         """Accept the selected users, if they are not already accepted"""
         for profile in queryset:
@@ -269,7 +269,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         who are eligible to activate; emails will not be sent to users
         whose activation keys have expired or who have already
         activated or rejected.
-        
+
         """
         site = get_site(request)
         for profile in queryset:
@@ -297,7 +297,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         re-register to admin.site
 
         Even this is a little bit risky, it is really useful for developping
-        (without checking email, you can activate any user you want) thus 
+        (without checking email, you can activate any user you want) thus
         I created but turned off in default :-p
 
         """
@@ -308,19 +308,20 @@ class RegistrationAdmin(admin.ModelAdmin):
     display_activation_key.short_description = _('Activation key')
     display_activation_key.allow_tags = True
 
-    def get_inline_instances(self, request):
+    def get_inline_instances(self, request, obj=None):
         """return inline instances with registration supplement inline instance"""
         supplement_class = self.backend.get_supplement_class()
         if supplement_class:
             inline_form = type(
-                    "RegistrationSupplementInlineAdmin", 
+                    "RegistrationSupplementInlineAdmin",
                     (get_supplement_admin_inline_base_class(),),
                     {'model': supplement_class}
                 )
             self.inlines.append(inline_form)
         if hasattr(super(RegistrationAdmin, self), 'get_inline_instance'):
             # Django >= 1.4
-            return super(RegistrationAdmin, self).get_inline_instance(request)
+            return super(RegistrationAdmin, self).get_inline_instance(request,
+                    obj)
         else:
             # Django 1.3.1
             inline_instances = []
@@ -331,7 +332,7 @@ class RegistrationAdmin(admin.ModelAdmin):
 
     def get_object(self, request, object_id):
         """add ``request`` instance to model instance and return
-        
+
         To get ``request`` instance in form, ``request`` instance is stored
         in the model instance.
 
@@ -356,15 +357,15 @@ class RegistrationAdmin(admin.ModelAdmin):
 
         # Permissin check
         if request.method == 'POST':
-            action = request.POST.get('action')
-            if action == 'accept' and not self.has_accept_permission(request, obj):
+            action_name = request.POST.get('action_name')
+            if action_name == 'accept' and not self.has_accept_permission(request, obj):
                 raise PermissionDenied
-            elif action == 'reject' and not self.has_reject_permission(request, obj):
+            elif action_name == 'reject' and not self.has_reject_permission(request, obj):
                 raise PermissionDenied
-            elif action == 'activate' and not self.has_activate_permission(request, obj):
+            elif action_name == 'activate' and not self.has_activate_permission(request, obj):
                 raise PermissionDenied
-            elif action == 'force_activate' and (
-                    not self.has_accept_permission(request, obj) or 
+            elif action_name == 'force_activate' and (
+                    not self.has_accept_permission(request, obj) or
                     not self.has_activate_permission(request, obj)):
                 raise PermissionDenied
 
@@ -376,10 +377,10 @@ class RegistrationAdmin(admin.ModelAdmin):
         #   but if I remove the profile in form.save() method, django admin
         #   will raise IndexError thus I passed `no_profile_delete = True`
         #   to activate with backend in form.save() method.
-        #   
+        #
         response = super(RegistrationAdmin, self).change_view(
-                request, object_id, extra_context)
-        if request.method == 'POST' and action in ('activate', 'force_activate'):
+                request, object_id, form_url, extra_context)
+        if request.method == 'POST' and action_name in ('activate', 'force_activate'):
             # if the requested data is valid then response will be an instance
             # of ``HttpResponseRedirect`` otherwise ``TemplateResponse``
             if isinstance(response, HttpResponseRedirect):
