@@ -308,33 +308,31 @@ class RegistrationAdmin(admin.ModelAdmin):
 
     def get_inline_instances(self, request, obj=None):
         """return inline instances with registration supplement inline instance"""
+        inline_instances = []
         supplement_class = self.backend.get_supplement_class()
-        if supplement_class and \
-                not getattr(self, '_supplement_inline_added', False):
-            inline_base = get_supplement_admin_inline_base_class()
+        if supplement_class:
             kwargs = {
                     'extra': 1,
                     'max_num': 1,
                     'can_delete': False,
                     'model': supplement_class
                 }
+            inline_base = get_supplement_admin_inline_base_class()
             inline_form = type(
                     "RegistrationSupplementInlineAdmin",
                     (inline_base,), kwargs
                 )
-            self.inlines.append(inline_form)
-            # supplement inline form should be ONE
-            self._supplement_inline_added = True
+            inline_instances = [inline_form(self.model, self.admin_site)]
         if hasattr(super(RegistrationAdmin, self), 'get_inline_instance'):
             # Django >= 1.4
-            return super(RegistrationAdmin, self).get_inline_instance(request, obj)
+            inline_instances.extend(super(RegistrationAdmin,
+                self).get_inline_instance(request, obj))
         else:
             # Django 1.3.1
-            inline_instances = []
             for inline_class in self.inlines:
                 inline_instance = inline_class(self.model, self.admin_site)
                 inline_instances.append(inline_instance)
-            return inline_instances
+        return inline_instances
 
     def get_object(self, request, object_id):
         """add ``request`` instance to model instance and return

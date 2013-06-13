@@ -1,7 +1,7 @@
 # vim: set fileencoding=utf-8 :
 from setuptools import setup, find_packages
 
-version = '0.2.17'
+version = '0.2.18'
 
 def read(filename):
     import os.path
