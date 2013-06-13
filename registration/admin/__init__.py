@@ -129,8 +129,6 @@ class RegistrationSupplementAdminInlineBase(admin.StackedInline):
     and set to ``REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS``
 
     """
-    extra = 1
-    can_delete = False
     fields = ()
 
     def get_readonly_fields(self, request, obj=None):
@@ -311,17 +309,25 @@ class RegistrationAdmin(admin.ModelAdmin):
     def get_inline_instances(self, request, obj=None):
         """return inline instances with registration supplement inline instance"""
         supplement_class = self.backend.get_supplement_class()
-        if supplement_class:
+        if supplement_class and \
+                not getattr(self, '_supplement_inline_added', False):
+            inline_base = get_supplement_admin_inline_base_class()
+            kwargs = {
+                    'extra': 1,
+                    'max_num': 1,
+                    'can_delete': False,
+                    'model': supplement_class
+                }
             inline_form = type(
                     "RegistrationSupplementInlineAdmin",
-                    (get_supplement_admin_inline_base_class(),),
-                    {'model': supplement_class}
+                    (inline_base,), kwargs
                 )
             self.inlines.append(inline_form)
+            # supplement inline form should be ONE
+            self._supplement_inline_added = True
         if hasattr(super(RegistrationAdmin, self), 'get_inline_instance'):
             # Django >= 1.4
-            return super(RegistrationAdmin, self).get_inline_instance(request,
-                    obj)
+            return super(RegistrationAdmin, self).get_inline_instance(request, obj)
         else:
             # Django 1.3.1
             inline_instances = []
