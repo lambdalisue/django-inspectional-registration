@@ -16,10 +16,10 @@ install:
   - pip install -q coverage coveralls
 
 script:
-  - coverage run --source=src/permission setup.py test
+  - coverage run --source=registration setup.py test
 
 after_success:
-  - coverage report --omit "src/permission/tests/compatibility.py,src/permission/conf.py" -m src/permission/*.py
+  - coverage report --omit "registration/migrations/*.py" -m registration/*.py
   - coveralls
 
 matrix:
