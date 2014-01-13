@@ -14,17 +14,10 @@
 import sys, os
 
 # Set DJANGO_SETTINGS_MODULE
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-
-django_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), 'django'))
-if django_dir not in sys.path:
-    sys.path.insert(0, django_dir)
-root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../'))
-if root_dir not in sys.path:
-    sys.path.insert(0, root_dir)
-#test_dir = os.path.join(root_dir, 'tests', 'src')
-#if test_dir not in sys.path:
-#    sys.path.insert(0, test_dir)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, os.path.join(BASE_DIR, 'tests', 'src'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'miniblog.settings'
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
