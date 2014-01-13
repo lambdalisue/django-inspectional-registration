@@ -1,3 +1,33 @@
+django-inspectional-registration
+===============================================================================
+.. image:: https://secure.travis-ci.org/lambdalisue/django-inspectional-registration.png?branch=master
+    :target: http://travis-ci.org/lambdalisue/django-inspectional-registration
+    :alt: Build status
+
+.. image:: https://coveralls.io/repos/lambdalisue/django-inspectional-registration/badge.png?branch=master
+    :target: https://coveralls.io/r/lambdalisue/django-inspectional-registration/
+    :alt: Coverage
+
+.. image:: https://pypip.in/d/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Downloads
+
+.. image:: https://pypip.in/v/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Latest version
+
+.. image:: https://pypip.in/wheel/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Wheel Status
+
+.. image:: https://pypip.in/egg/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Egg Status
+
+.. image:: https://pypip.in/license/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: License
+
 django-inspectional-registration is a enhanced application of
 django-registration_. The following features are available
 
@@ -29,10 +59,12 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
+Online documentation
+-------------------------------------------------------------------------------
 See `django-inspectional-registration official documents <http://readthedocs.org/docs/django-inspectional-registration/en/latest/>`_ for more detail
 
 The difference between django-registration
-------------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 While django-registration_ requires 3 steps for registration,
 django-inspectional-registration requires 5 steps and inspector for

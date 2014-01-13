@@ -4,8 +4,17 @@ from setuptools import setup, find_packages
 version = '0.2.18'
 
 def read(filename):
-    import os.path
-    return open(os.path.join(os.path.dirname(__file__), filename)).read()
+    import os
+    BASE_DIR = os.path.dirname(__file__)
+    filename = os.path.join(BASE_DIR, filename)
+    with open(filename, 'r') as fi:
+        return fi.read()
+
+def readlist(filename):
+    rows = read(filename).split("\n")
+    rows = [x.strip() for x in rows]
+    rows = filter(lambda x: x, rows)
+    return rows
 
 setup(
     name="django-inspectional-registration",
@@ -21,7 +30,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
-
     ],
     keywords = "django app registration inspection",
     author = "Alisue",
@@ -32,13 +40,7 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     zip_safe=False,
-    install_requires=[
-        'django>=1.3',
-        'distribute',
-        'setuptools-git',
-    ],
+    install_requires=readlist('requirements.txt'),
     test_suite='runtests.runtests',
-    tests_require=[
-        'PyYAML',
-    ],
+    tests_require=readlist('requirements-test.txt'),
 )
