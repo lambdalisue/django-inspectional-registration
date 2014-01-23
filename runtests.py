@@ -32,8 +32,8 @@ def run_tests(base_dir=None, verbosity=1, interactive=False):
                              interactive=interactive, failfast=False)
     app_tests = [
         'registration',
-        #'notification',     # registration.contrib.notification
-        #'autologin',        # registration.contrib.autologin
+        'notification',     # registration.contrib.notification
+        'autologin',        # registration.contrib.autologin
     ]
     failures = test_runner.run_tests(app_tests)
     sys.exit(bool(failures))
