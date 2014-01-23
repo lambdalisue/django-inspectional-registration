@@ -31,8 +31,6 @@ Welcome to django-inspectional-registration's documentation!
 
 Author
     Alisue <lambdalisue@hashnote.net>
-Version
-    Version 0.3.0
 Supported python versions
     2.6, 2.7, 3.2, 3.3
 Supported django versions
