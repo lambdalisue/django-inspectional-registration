@@ -1,6 +1,7 @@
 language: python
 install:
   - pip install tox
+  - pip install coverage coveralls
 
 script:
   - tox
