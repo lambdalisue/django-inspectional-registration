@@ -272,7 +272,8 @@ class RegistrationAdmin(admin.ModelAdmin):
         site = get_site(request)
         for profile in queryset:
             if not profile.activation_key_expired():
-                profile.send_acceptance_email(site=site)
+                if profile.status != 'rejected':
+                    profile.send_acceptance_email(site=site)
     resend_acceptance_email.short_description = _("Re-send acceptance emails to selected users")
 
     def display_supplement_summary(self, obj):
