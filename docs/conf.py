@@ -15,9 +15,9 @@ import sys, os
 
 # Set DJANGO_SETTINGS_MODULE
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-sys.path.insert(0, BASE_DIR)
-sys.path.insert(0, os.path.join(BASE_DIR, 'tests', 'src'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'miniblog.settings'
+sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'tests'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

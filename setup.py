@@ -1,7 +1,9 @@
-# vim: set fileencoding=utf-8 :
+# coding=utf-8
+import sys
 from setuptools import setup, find_packages
 
-version = '0.2.18'
+NAME = 'django-inspectional-registration'
+VERSION = '0.3.0'
 
 def read(filename):
     import os
@@ -12,17 +14,25 @@ def read(filename):
 
 def readlist(filename):
     rows = read(filename).split("\n")
-    rows = [x.strip() for x in rows]
-    rows = filter(lambda x: x, rows)
-    return rows
+    rows = [x.strip() for x in rows if x.strip()]
+    return list(rows)
+
+# if we are running on python 3, enable 2to3 and
+# let it use the custom fixers from the custom_fixers
+# package.
+extra = {}
+if sys.version_info >= (3, 0):
+    extra.update(
+        use_2to3=True,
+    )
 
 setup(
-    name="django-inspectional-registration",
-    version=version,
-    description = "Django Registration App which required Inspection before activation",
-    long_description=read('README.rst'),
-    classifiers = [
-        # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    name = NAME,
+    version = VERSION,
+    description = ("Django registration app which required inspection step "
+                   "before activation"),
+    long_description = read('README.rst'),
+    classifiers = (
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -30,17 +40,20 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
-    ],
+    ),
     keywords = "django app registration inspection",
-    author = "Alisue",
-    author_email = "lambdalisue@hashnote.net",
-    url=r"https://github.com/lambdalisue/django-inspectional-registration",
-    download_url = r"https://github.com/lambdalisue/django-inspectional-registration/tarball/master",
+    author = 'Alisue',
+    author_email = 'lambdalisue@hashnote.net',
+    url = 'https://github.com/lambdalisue/%s' % NAME,
+    download_url = 'https://github.com/lambdalisue/%s/tarball/master' % NAME,
     license = 'MIT',
-    packages = find_packages(),
+    packages = find_packages('src'),
+    package_dir = {'': 'src'},
     include_package_data = True,
-    zip_safe=False,
+    exclude_package_data = {'': ['README.rst']},
+    zip_safe=True,
     install_requires=readlist('requirements.txt'),
     test_suite='runtests.runtests',
     tests_require=readlist('requirements-test.txt'),
+    **extra
 )

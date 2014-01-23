@@ -1,4 +1,5 @@
+app_version
 django>=1.3
-PyYAML
+django-appconf
 sphinx
 south
