@@ -97,7 +97,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'accept'
+                'action_name': 'accept'
             })
 
         self.assertEqual(response.status_code, 302)
@@ -119,7 +119,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'accept'
+                'action_name': 'accept'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -127,7 +127,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. accept is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -147,7 +147,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'accept'
+                'action_name': 'accept'
             })
 
         self.assertEqual(response.status_code, 302)
@@ -167,7 +167,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'reject'
+                'action_name': 'reject'
             })
 
         self.assertEqual(response.status_code, 302)
@@ -189,7 +189,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'reject'
+                'action_name': 'reject'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -197,7 +197,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -216,7 +216,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'reject'
+                'action_name': 'reject'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -224,7 +224,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -240,7 +240,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'activate'
+                'action_name': 'activate'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -248,7 +248,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -268,7 +268,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'activate'
+                'action_name': 'activate'
             })
 
         self.assertEqual(response.status_code, 302)
@@ -290,7 +290,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'activate'
+                'action_name': 'activate'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -298,7 +298,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -315,7 +315,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'force_activate'
+                'action_name': 'force_activate'
             })
 
         self.assertEqual(response.status_code, 302)
@@ -337,7 +337,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'force_activate'
+                'action_name': 'force_activate'
             })
 
         self.assertEqual(response.status_code, 200)
@@ -345,7 +345,7 @@ class RegistrationAdminTestCase(TestCase):
                 'admin/registration/registrationprofile/change_form.html')
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action'],
+                response.context['adminform'].form.errors['action_name'],
                 [u"Select a valid choice. force_activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
@@ -365,7 +365,7 @@ class RegistrationAdminTestCase(TestCase):
                 '_supplement-TOTAL_FORMS': 0, 
                 '_supplement-INITIAL_FORMS': 0,
                 '_supplement-MAXNUM_FORMS': '',
-                'action': 'force_activate'
+                'action_name': 'force_activate'
             })
 
         self.assertEqual(response.status_code, 302)
