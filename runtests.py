@@ -30,11 +30,20 @@ def run_tests(base_dir=None, verbosity=1, interactive=False):
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity,
                              interactive=interactive, failfast=False)
-    app_tests = [
-        'registration',
-        'notification',     # registration.contrib.notification
-        'autologin',        # registration.contrib.autologin
-    ]
+
+    import django
+    if django.VERSION >= (1, 6):
+        app_tests = [
+            'registration',
+            'registration.contrib.notification',     # registration.contrib.notification
+            'registration.contrib.autologin',        # registration.contrib.autologin
+        ]
+    else:
+        app_tests = [
+            'registration',
+            'notification',     # registration.contrib.notification
+            'autologin',        # registration.contrib.autologin
+        ]
     failures = test_runner.run_tests(app_tests)
     sys.exit(bool(failures))
 
