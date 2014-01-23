@@ -1,11 +1,11 @@
 [report]
-include =
+include=
     src/*.py
     tests/*.py
-omit =
+omit=
     src/registration/__init__.py
     src/registration/compat.py
     src/registration/migrations/*.py
-exclude_lines =
+exclude_lines=
     pragma: no cover
     if __name__ == .__main__.:

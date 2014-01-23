@@ -7,5 +7,5 @@ script:
   - tox
 
 after_success:
-  - coverage report --omit "src/registration/migrations/*.py" -m "src/registration/*.py"
+  - coverage report
   - coveralls

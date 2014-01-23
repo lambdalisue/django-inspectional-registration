@@ -31,7 +31,7 @@ def generate_activation_key(username):
     .. _django-registration: https://bitbucket.org/ubernostrum/django-registration
     """
     if not isinstance(username, unicode):
-        username = unicode(username, 'utf-8')
+        username = username.decode('utf-8')
     seed = unicode(random.random())
     salt = sha1(seed.encode('utf-8')).hexdigest()[:5]
     activation_key = sha1((salt+username).encode('utf-8')).hexdigest()
