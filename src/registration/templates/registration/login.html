@@ -1,0 +1,16 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Login' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Login' %}</h1>{% endblock %}
+
+{% block contents %}
+{{ block.super }}
+<p>{% trans 'Please fill your username and password to login' %}</p>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="{% trans 'Login' %}"></p>
+</form>
+{% endblock %}

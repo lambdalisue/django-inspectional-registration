@@ -1,0 +1,14 @@
+{% extends 'registration/base.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans 'Registration was complete' %}{% endblock %}
+
+{% block content_title %}<h1>{% trans 'Registration was complete' %}</h1>{% endblock %}
+
+{% block contents %}
+{{ block.super }}
+<p>{% trans 'Your registration was created successfully.' %}</p>
+<p>{% trans 'Please wait until the inspector verify your registration.' %}
+{% trans 'You will receive an acceptance or rejection email within several days.' %}</p>
+{% endblock %}

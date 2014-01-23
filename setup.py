@@ -50,10 +50,15 @@ setup(
     packages = find_packages('src'),
     package_dir = {'': 'src'},
     include_package_data = True,
-    exclude_package_data = {'': ['README.rst']},
+    package_data = {
+        '': ['README.rst',
+             'requirements.txt',
+             'requirements-test.txt',
+             'requirements-docs.txt'],
+    },
     zip_safe=True,
     install_requires=readlist('requirements.txt'),
-    test_suite='runtests.runtests',
+    test_suite='runtests.run_tests',
     tests_require=readlist('requirements-test.txt'),
     **extra
 )

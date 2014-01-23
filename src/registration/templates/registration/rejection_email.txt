@@ -1,0 +1,10 @@
+{% load url from future %}
+{% load i18n %}
+{% blocktrans %}Dear {{ user }},{% endblocktrans %}
+
+{% trans 'I am afraid that your account registration was rejected by inspector.' %}
+
+{% if message %}
+{% trans 'Rejection reasons:' %}
+{{ message }}
+{% endif %}

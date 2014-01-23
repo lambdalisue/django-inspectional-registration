@@ -3,6 +3,8 @@
 *.pyc
 *.egg
 *.egg-info
+.tox
+database.db
 local_settings.py
 /dist
 /sdist

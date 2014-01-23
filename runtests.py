@@ -8,15 +8,24 @@ REFERENCE:
     http://gremu.net/blog/2010/enable-setuppy-test-your-django-apps/
 
 """
-import os, sys
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-test_dir = os.path.join(os.path.dirname(__file__), 'tests')
-sys.path.insert(0, test_dir)
+import os
+import sys
 
-from django.test.utils import get_runner
-from django.conf import settings
+def parse_args():
+    import optparse
+    parser = optparse.OptionParser()
+    parser.add_option('--where', default=None)
+    opts, args = parser.parse_args()
+    return opts.where
 
-def runtests(verbosity=1, interactive=False):
+def run_tests(base_dir=None, verbosity=1, interactive=False):
+    base_dir = base_dir or os.path.dirname(__file__)
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+    sys.path.insert(0, os.path.join(base_dir, 'src'))
+    sys.path.insert(0, os.path.join(base_dir, 'tests'))
+
+    from django.conf import settings
+    from django.test.utils import get_runner
     """Run Django Test"""
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=verbosity,
@@ -30,5 +39,6 @@ def runtests(verbosity=1, interactive=False):
     sys.exit(bool(failures))
 
 if __name__ == '__main__':
-    runtests()
+    base_dir = parse_args()
+    run_tests(base_dir)
 

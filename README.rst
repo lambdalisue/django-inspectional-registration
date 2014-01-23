@@ -28,6 +28,15 @@ django-inspectional-registration
     :target: https://pypi.python.org/pypi/django-inspectional-registration/
     :alt: License
 
+Author
+    Alisue <lambdalisue@hashnote.net>
+Version
+    Version 0.3.0
+Supported python versions
+    2.6, 2.7, 3.2, 3.3
+Supported django versions
+    1.3 - 1.6
+
 django-inspectional-registration is a enhanced application of
 django-registration_. The following features are available
 
@@ -59,10 +68,6 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
-Online documentation
--------------------------------------------------------------------------------
-See `django-inspectional-registration official documents <http://readthedocs.org/docs/django-inspectional-registration/en/latest/>`_ for more detail
-
 The difference between django-registration
 ------------------------------------------------------------------------------
 
@@ -72,3 +77,7 @@ registration.
 
 .. _django-registration: https://bitbucket.org/ubernostrum/django-registration/
 .. _south: http://south.aeracode.org/
+
+Online documentation
+-------------------------------------------------------------------------------
+See `django-inspectional-registration official documents <http://readthedocs.org/docs/django-inspectional-registration/en/latest/>`_ for more detail

@@ -1,11 +1,42 @@
-.. django-inspectional-registration documentation master file, created by
-   sphinx-quickstart on Sat Feb 25 12:18:30 2012.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
+************************************************************
 Welcome to django-inspectional-registration's documentation!
-============================================================
+************************************************************
+.. image:: https://secure.travis-ci.org/lambdalisue/django-inspectional-registration.png?branch=master
+    :target: http://travis-ci.org/lambdalisue/django-inspectional-registration
+    :alt: Build status
 
+.. image:: https://coveralls.io/repos/lambdalisue/django-inspectional-registration/badge.png?branch=master
+    :target: https://coveralls.io/r/lambdalisue/django-inspectional-registration/
+    :alt: Coverage
+
+.. image:: https://pypip.in/d/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Downloads
+
+.. image:: https://pypip.in/v/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Latest version
+
+.. image:: https://pypip.in/wheel/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Wheel Status
+
+.. image:: https://pypip.in/egg/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: Egg Status
+
+.. image:: https://pypip.in/license/django-inspectional-registration/badge.png
+    :target: https://pypi.python.org/pypi/django-inspectional-registration/
+    :alt: License
+
+Author
+    Alisue <lambdalisue@hashnote.net>
+Version
+    Version 0.3.0
+Supported python versions
+    2.6, 2.7, 3.2, 3.3
+Supported django versions
+    1.3 - 1.6
 
 django-inspectional-registration is a enhanced application of
 django-registration_. The following features are available
@@ -22,7 +53,7 @@ django-registration_. The following features are available
 
 -   Any Django models are available to use as supplemental information of
     registration if the models are subclasses of
-    :py:class:`registration.supplements.RegistrationSupplementBase`. 
+    ``registration.supplements.RegistrationSupplementBase``. 
     It is commonly used for inspection.
 
 -   You can send any additional messages to the user in each steps
@@ -38,7 +69,8 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
-Contents:
+Documentations
+==============================================================================
 
 .. toctree::
     :maxdepth: 2
@@ -52,10 +84,10 @@ Contents:
     about_registration_contrib
     faq
 
-    API Reference <api/modules>
+    API Reference <modules>
 
 The difference between django-registration
-------------------------------------------------------------------------------------
+==============================================================================
 
 While django-registration_ requires 3 steps for registration,
 django-inspectional-registration requires 5 steps and inspector for
