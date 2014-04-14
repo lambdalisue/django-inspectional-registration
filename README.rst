@@ -66,7 +66,7 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
-The difference between django-registration
+The difference with django-registration
 ------------------------------------------------------------------------------
 
 While django-registration_ requires 3 steps for registration,
