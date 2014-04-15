@@ -60,7 +60,7 @@ django-registration_. The following features are available
 
 -   The E-mails or HTMLs are customizable with Django template system.
 
--   Can be migrate from django-registration_ simply by south_
+-   Can be migrated from django-registration_ simply by south_
 
 -   `django-mailer <http://code.google.com/p/django-mailer/>`_ compatible.
     Emails sent from the application will use django-mailer if 'mailer' is
