@@ -64,6 +64,7 @@ from registration.utils import get_site
 from registration.admin.forms import RegistrationAdminForm
 from registration.compat import import_module
 from registration.compat import force_unicode
+from registration.compat import transaction_atomic
 
 
 csrf_protect_m = method_decorator(csrf_protect)
@@ -339,7 +340,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         return obj
 
     @csrf_protect_m
-    @transaction.commit_on_success
+    @transaction_atomic
     def change_view(self, request, object_id, form_url='', extra_context=None):
         """called for change view
 

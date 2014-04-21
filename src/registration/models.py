@@ -51,7 +51,6 @@ import re
 import datetime
 
 from django.db import models
-from django.db import transaction
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.utils.text import ugettext_lazy as _
@@ -63,6 +62,7 @@ from registration.utils import generate_activation_key
 from registration.utils import generate_random_password
 from registration.utils import send_mail
 from registration.supplements import get_supplement_class
+from registration.compat import transaction_atomic
 
 from logging import getLogger
 logger = getLogger(__name__)
@@ -79,7 +79,7 @@ class RegistrationManager(models.Manager):
     expired/rejected inactive accounts.
 
     """
-    @transaction.commit_on_success 
+    @transaction_atomic
     def register(self, username, email, site, send_email=True):
         """register new user with ``username`` and ``email``
 
@@ -110,7 +110,7 @@ class RegistrationManager(models.Manager):
 
         return new_user
 
-    @transaction.commit_on_success 
+    @transaction_atomic
     def accept_registration(self, profile, site, send_email=True, message=None):
         """accept account registration of ``profile``
 
@@ -143,7 +143,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
-    @transaction.commit_on_success 
+    @transaction_atomic
     def reject_registration(self, profile, site, send_email=True, message=None):
         """reject account registration of ``profile``
 
@@ -172,7 +172,7 @@ class RegistrationManager(models.Manager):
             return profile.user
         return None
 
-    @transaction.commit_on_success 
+    @transaction_atomic
     def activate_user(self, activation_key, site, password=None,
                       send_email=True, message=None, no_profile_delete=False):
         """activate account with ``activation_key`` and ``password``
@@ -232,7 +232,7 @@ class RegistrationManager(models.Manager):
             return user, password, is_generated
         return None
 
-    @transaction.commit_on_success 
+    @transaction_atomic
     def delete_expired_users(self):
         """delete expired users from database
 
@@ -282,7 +282,7 @@ class RegistrationManager(models.Manager):
                 except User.DoesNotExist:
                     profile.delete()
 
-    @transaction.commit_on_success 
+    @transaction_atomic
     def delete_rejected_users(self):
         """delete rejected users from database
 

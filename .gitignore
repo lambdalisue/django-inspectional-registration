@@ -13,3 +13,4 @@ local_settings.py
 /tests/static/collection
 /tests/media
 /docs/_build
+/issues
