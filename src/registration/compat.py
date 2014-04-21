@@ -44,3 +44,19 @@ try:
     from django.utils.encoding import force_unicode
 except ImportError:
     from django.utils.encoding import force_text as force_unicode
+
+#
+# Django change the transaction strategy from Django 1.6
+# https://docs.djangoproject.com/en/1.6/topics/db/transactions/
+#
+# This change cause issue #15 thus the compatibility importing is required
+#
+# `change_view` in Django 1.6 use transaction.atomic
+# https://github.com/django/django/blob/1.6/django/contrib/admin/options.py#L1186
+# `change_view` in Django 1.5 use commit_on_success
+# https://github.com/django/django/blob/1.5/django/contrib/admin/options.py#L1063
+#
+try:
+    from django.db.transaction import atomic as transaction_atomic
+except ImportError:
+    from django.db.transaction import commit_on_success as transaction_atomic
