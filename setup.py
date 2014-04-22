@@ -1,9 +1,22 @@
 # coding=utf-8
 import sys
+import os
 from setuptools import setup, find_packages
 
 NAME = 'django-inspectional-registration'
 VERSION = '0.3.1'
+
+# Make sure the django.mo file also exists:
+if 'sdist' in sys.argv:
+    try:
+        os.chdir('src')
+        os.chdir('registration')
+        from django.core.management.commands.compilemessages import compile_messages
+        compile_messages(sys.stderr)
+    finally:
+        os.chdir('..')
+        os.chdir('..')
+
 
 def read(filename):
     import os
