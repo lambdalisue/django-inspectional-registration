@@ -138,7 +138,7 @@ msgid "Not available"
 msgstr "無効"
 
 #: admin/__init__.py:290
-msgid "A summry of supplemental information"
+msgid "A summary of supplemental information"
 msgstr "追加情報の概要"
 
 #: admin/__init__.py:308
@@ -269,7 +269,7 @@ msgstr "%(site_name)sのアカウントが管理者によって有効化され�
 
 #: templates/registration/activation_email.txt:7
 msgid ""
-"The password of your account was generated automatically and diplayed below."
+"The password of your account was generated automatically and displayed below."
 msgstr "アカウントパスワードは自動生成され下記に表示されています。"
 
 #: templates/registration/activation_email.txt:8

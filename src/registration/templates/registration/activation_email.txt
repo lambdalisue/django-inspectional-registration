@@ -4,7 +4,7 @@
 {% if is_generated %}
 {% blocktrans with site.name as site_name %}Your account of {{ site_name }} was activated by inspector{% endblocktrans %}
 
-{% trans 'The password of your account was generated automatically and diplayed below.' %}
+{% trans 'The password of your account was generated automatically and displayed below.' %}
 {% trans 'Please click the following url to login.' %}
 {% trans 'It is strongly recommended that you change your initial password to something more secure.' %}
 

@@ -274,7 +274,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             return force_unicode(obj.supplement)
         return _('Not available')
     display_supplement_summary.short_description = _(
-            'A summry of supplemental information')
+            'A summary of supplemental information')
 
     def display_activation_key(self, obj):
         """Display activation key with link
