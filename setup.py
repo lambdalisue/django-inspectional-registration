@@ -1,9 +1,48 @@
 # coding=utf-8
 import sys
+import os
 from setuptools import setup, find_packages
 
 NAME = 'django-inspectional-registration'
 VERSION = '0.3.2'
+
+# Make sure the django.mo file also exists:
+if 'sdist' in sys.argv:
+    # clear compiled mo files before building the distribution
+    walk = os.walk(os.path.join(os.getcwd(), 'src/registration/locale'))
+    for dirpath, dirnames, filenames in walk:
+        if not filenames:
+            continue
+
+        if 'django.mo' in filenames:
+            os.unlink(os.path.join(dirpath, 'django.mo'))
+else:
+    # if django is there, compile the po files to mo
+    try:
+        import django
+    except ImportError:
+        print('####################################################\n'
+              'Django is not installed.\nIt will not be possible to '
+              'compile the locale files during installation of '
+              'django-inspectional-registration.\nPlease, install '
+              'Django first. Done so, install the django-registration'
+              '-inspectional\n'
+              '####################################################\n')
+        exit(1)
+    else:
+        current_dir = os.getcwd()
+        os.chdir(os.path.join(current_dir, 'src/registration'))
+        os.system('django-admin.py compilemessages')
+        os.chdir(current_dir)
+
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    print("You probably want to also tag the version now:")
+    print("  git tag -a %s -m 'version %s'" % (VERSION, VERSION))
+    print("  git push --tags")
+    sys.exit()
+
 
 def read(filename):
     import os
@@ -38,6 +77,7 @@ setup(
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',

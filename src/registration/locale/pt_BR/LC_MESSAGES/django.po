@@ -1,213 +1,216 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# django-inspectional-registration
+# Copyright (C) 2012 django-inspectional-registration
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Fabio C. Barrionuevo da Luz <bnafta@gmail.com>
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: django-inspectional-registration\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-26 23:27+0900\n"
+"POT-Creation-Date: 2014-04-22 17:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Last-Translator: Fabio C. Barrionuevo da Luz <bnafta@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <LL@li.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:97
+#: forms.py:66
 msgid "Password"
-msgstr "パスワード"
+msgstr "Senha"
+
+#: forms.py:69
+msgid "Password (again)"
+msgstr "Senha (novamente)"
+
+#: forms.py:81
+msgid "The two password fields didn't match."
+msgstr "Os dois campos de senha não coincidem."
 
 #: forms.py:99
-msgid "Password (again)"
-msgstr "パスワード（再入力）"
-
-#: forms.py:111
-msgid "The two password fields didn't match."
-msgstr "再入力されたパスワードが一致しません。"
-
-#: forms.py:128
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "Nome de usuário"
 
-#: forms.py:129
+#: forms.py:101
 msgid "This value must contain only letters, numbers and underscores."
-msgstr "半角英数字およびアンダースコアのみを利用してください。"
+msgstr "Este campo deve conter apenas letras, números e sublinhados."
 
-#: forms.py:131
+#: forms.py:107
 msgid "E-mail"
-msgstr "メールアドレス"
+msgstr "E-mail"
 
-#: forms.py:133
+#: forms.py:110
 msgid "E-mail (again)"
-msgstr "メールアドレス（再入力）"
+msgstr "E-mail (novamente)"
 
-#: forms.py:141
+#: forms.py:121
 msgid "A user with that username already exists."
-msgstr "すでに同名のユーザーが存在しています。"
+msgstr "Um usuário com esse nome já existe."
 
-#: forms.py:153
+#: forms.py:134
 msgid "The two email fields didn't match."
-msgstr "再入力されたメールアドレスが一致しません。"
+msgstr "Os dois campos de e-mail não coincidem."
 
-#: forms.py:163
+#: forms.py:145
 msgid "I have read and agree to the Terms of Service"
-msgstr "サービス利用規約を読み同意します"
+msgstr "Eu li e concordo com os Termos de Serviço"
 
-#: forms.py:164
+#: forms.py:148
 msgid "You must agree to the terms to register"
-msgstr "利用規約に同意する必要があります"
+msgstr "Você deve concordar com os termos para se registrar"
 
-#: forms.py:172
+#: forms.py:160
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr ""
-"指定されたメールアドレスはすでに使用されています。異なるメールアドレスを入力"
-"してください。"
+"Este endereço de e-mail já está em uso. Por favor, forneça um endereço "
+"de e-mail diferente."
 
-#: forms.py:195
+#: forms.py:188
 msgid ""
 "Registration using free email addresses is prohibited. Please supply a "
 "different email address."
 msgstr ""
-"フリーメールでの会員登録は許可されていません。異なるメールアドレスを入力して"
-"ください。"
+"Registro usando endereços e-mail gratuito é proibida. Por favor, forneça "
+"um endereço de e-mail diferente."
+
+#: models.py:353
+msgid "Untreated yet"
+msgstr "Sem tratamento ainda"
+
+#: models.py:354
+msgid "Registration has accepted"
+msgstr "Registro aceito"
+
+#: models.py:355
+msgid "Registration has rejected"
+msgstr "Registro rejeitado"
+
+#: models.py:357
+msgid "user"
+msgstr "usuário"
+
+#: models.py:360 models.py:421
+msgid "status"
+msgstr "estado atual"
+
+#: models.py:363
+msgid "activation key"
+msgstr "chave de ativação"
+
+#: models.py:370 supplements/base.py:49
+msgid "registration profile"
+msgstr "perfil de registo"
 
 #: models.py:371
-msgid "Untreated yet"
-msgstr "未処理"
-
-#: models.py:372
-msgid "Registration has accepted"
-msgstr "会員登録承認済み"
-
-#: models.py:373
-msgid "Registration has rejected"
-msgstr "会員登録否認済み"
-
-#: models.py:375
-msgid "user"
-msgstr "ユーザー"
-
-#: models.py:377 models.py:437
-msgid "status"
-msgstr "状態"
-
-#: models.py:379
-msgid "activation key"
-msgstr "アクティベーションキー"
-
-#: models.py:386 supplements/base.py:68
-msgid "registration profile"
-msgstr "会員登録プロファイル"
-
-#: models.py:387
 msgid "registration profiles"
-msgstr "会員登録プロファイル"
+msgstr "perfis de registo"
 
-#: models.py:434 views.py:103
+#: models.py:418 views.py:70
 msgid "Activation key has expired"
-msgstr "アクティベーションキーの有効期限が切れています"
+msgstr "Chave de ativação expirou"
 
-#: views.py:105
+#: views.py:72
 msgid "An invalid activation key has passed"
-msgstr "無効なアクティベーションキーが渡されました"
+msgstr "A chave de ativação é inválida"
 
-#: admin/__init__.py:250
+#: admin/__init__.py:234
 msgid "Accept registrations of selected users"
-msgstr "選択されているユーザーの会員登録を承認する"
+msgstr "Aceitar registros dos usuários selecionados"
 
-#: admin/__init__.py:256
+#: admin/__init__.py:240
 msgid "Reject registrations of selected users"
-msgstr "選択されているユーザーの会員登録を否認する"
+msgstr "Rejeitar registros dos usuários selecionados"
 
-#: admin/__init__.py:263
+#: admin/__init__.py:247
 msgid "Activate selected users forcibly"
-msgstr "強制的に選択されているユーザーを有効化する"
+msgstr "Forçar ativação dos usuários selecionados"
 
-#: admin/__init__.py:278
+#: admin/__init__.py:264
 msgid "Re-send acceptance emails to selected users"
-msgstr "選択されているユーザーに承認メールを再送信する"
+msgstr "Re-enviar e-mails de aceitação para os usuários selecionados"
 
-#: admin/__init__.py:289 admin/__init__.py:307
+#: admin/__init__.py:275 admin/__init__.py:297
 msgid "Not available"
-msgstr "無効"
+msgstr "Não disponível"
 
-#: admin/__init__.py:290
+#: admin/__init__.py:277
 msgid "A summary of supplemental information"
-msgstr "追加情報の概要"
+msgstr "Um resumo das informações suplementares"
 
-#: admin/__init__.py:308
+#: admin/__init__.py:298
 msgid "Activation key"
-msgstr "アクティベーションキー"
+msgstr "Chave de ativação"
 
-#: admin/forms.py:48 admin/forms.py:56
+#: admin/forms.py:31 admin/forms.py:40
 msgid "Accept this registration"
-msgstr "この会員登録を承認する"
+msgstr "Aceitar este registro"
+
+#: admin/forms.py:32
+msgid "Reject this registration"
+msgstr "Rejeitar este registro"
+
+#: admin/forms.py:34 admin/forms.py:42
+msgid "Activate the associated user of this registration forcibly"
+msgstr "Forçar ativação do usuário associado deste registro"
+
+#: admin/forms.py:37
+msgid "Activate the associated user of this registration"
+msgstr "Ativar o usuário associado deste registro"
+
+#: admin/forms.py:45
+msgid "Action"
+msgstr "Ação"
+
+#: admin/forms.py:46
+msgid "Message"
+msgstr "Mensagem"
 
 #: admin/forms.py:49
-msgid "Reject this registration"
-msgstr "この会員登録を否認する"
-
-#: admin/forms.py:50 admin/forms.py:57
-msgid "Activate the associated user of this registration forcibly"
-msgstr "強制的にこの会員登録を行ったユーザーを有効化する"
-
-#: admin/forms.py:53
-msgid "Activate the associated user of this registration"
-msgstr "この会員登録を行ったユーザーを有効化する"
-
-#: admin/forms.py:60
-msgid "Action"
-msgstr "アクション"
-
-#: admin/forms.py:61
-msgid "Message"
-msgstr "メッセージ"
-
-#: admin/forms.py:64
 msgid ""
 "You can use the value of this field in templates for acceptance, rejection "
 "and activation email with \"{{ message }}\". It is displayed in rejection "
 "email as \"Rejection reasons\" in default templates."
 msgstr ""
-"このフィールドに入力された値は承認・否認・アクティベーションメール内で"
-"\"{{ message }}\"という形で使用できます。否認メール用デフォルトテンプレートで"
-"はこの値は\"否認された理由\"として表示されます。"
+"Você pode usar o valor deste campo nos templates de email para aceitação, "
+"rejeição e ativação com \"{{ message }}\". Ela é exibida no e-mail de "
+"rejeição como \"Motivos de Rejeição\" em templates padrão."
 
-#: admin/forms.py:93
+#: admin/forms.py:80
 msgid "You cannot accept the registration which was accepted already."
-msgstr "すでに承認された会員登録を再承認することはできません。"
+msgstr "Você não pode aceitar o registro que já está aceito."
 
-#: admin/forms.py:96
+#: admin/forms.py:85
 msgid "You cannot reject the registration which was accepted already."
-msgstr "すでに承認された会員登録を否認することはできません。"
+msgstr "Você não pode rejeitar o registo que já foi aceito."
 
-#: admin/forms.py:99
+#: admin/forms.py:90
 msgid "You cannot activate the user whom registration was not accepted yet."
-msgstr "会員登録が承認されていないユーザーを有効化することはできません。"
+msgstr "Você não pode ativar um usuário cujo registro ainda não foi aceito."
 
 #: contrib/notification/templates/registration/notification_email.txt:3
 #, python-format
 msgid "A new registration of %(site_name)s was created by %(user)s."
-msgstr "%(site_name)sの新規会員登録が%(user)sさんによって作成されました。"
+msgstr "Um novo registro em %(site_name)s foi criado por %(user)s."
 
 #: contrib/notification/templates/registration/notification_email.txt:5
 msgid "Please click the following url and inspect his/her registration."
-msgstr "下記URLをクリックして会員登録を検証してください。"
+msgstr "Por favor, clique no seguinte endereço e inspecionar o seu registro."
 
 #: contrib/notification/templates/registration/notification_email_subject.txt:2
 #, python-format
 msgid "A new registration was created by %(user)s -- %(site_name)s"
-msgstr "%(user)sが新規会員登録しました -- %(site_name)s"
+msgstr "Um novo registro foi criado por %(user)s -- %(site_name)s"
 
-#: supplements/default/models.py:34
+#: supplements/default/models.py:13
 msgid "remarks"
-msgstr "備考"
+msgstr "observações"
 
 #: templates/admin/registration/registrationprofile/change_form.html:7
 #, python-format
@@ -216,11 +219,13 @@ msgid ""
 "Inspect the registration of %(user)s\n"
 msgstr ""
 "\n"
-"%(user)sの会員登録検証\n"
+"Inspecionar o registro de %(user)s\n"
 
 #: templates/admin/registration/registrationprofile/change_form.html:14
 msgid "Please select an action and click the Save button on bottom."
-msgstr "アクションを選択後ページ下部の保存ボタンを押してください。"
+msgstr ""
+"Por favor, selecione uma ação e clique no botão Salvar na parte "
+"inferior."
 
 #: templates/registration/acceptance_email.txt:3
 #: templates/registration/activation_email.txt:3
@@ -228,177 +233,181 @@ msgstr "アクションを選択後ページ下部の保存ボタンを押して
 #: templates/registration/rejection_email.txt:3
 #, python-format
 msgid "Dear %(user)s,"
-msgstr "%(user)s 様"
+msgstr "Prezado(a) %(user)s,"
 
 #: templates/registration/acceptance_email.txt:5
 #, python-format
 msgid "Your registration of %(site_name)s was accepted by inspector."
-msgstr "%(site_name)sの会員登録が承認されました。"
+msgstr "O seu registo em %(site_name)s foi aceito pelo inspetor."
 
 #: templates/registration/acceptance_email.txt:7
 msgid ""
 "Please click the following url and set your account password to finish "
 "activation."
 msgstr ""
-"下記URLをクリック後アカウントパスワードを設定してアカウントを有効化してくださ"
-"い。"
+"Por favor, clique na seguinte URL para definiar uma senha para sua "
+"conta e concluir a ativação."
 
 #: templates/registration/acceptance_email.txt:11
 #, python-format
 msgid "The activation link above will be expired in %(expiration_days)s days."
-msgstr "上記アクティベーションURLは%(expiration_days)s日で失効します。"
+msgstr "O link de ativação acima expirará em %(expiration_days)s dias."
 
 #: templates/registration/acceptance_email_subject.txt:2
 #, python-format
 msgid "Your registration was accepted -- %(site_name)s"
-msgstr "会員登録が承認されました -- %(site_name)s"
+msgstr "Seu registro foi aceito -- %(site_name)s"
 
 #: templates/registration/activation_complete.html:5
 #: templates/registration/activation_complete.html:7
 msgid "Activation was complete"
-msgstr "アカウントが有効化されました"
+msgstr "A activation foi completada com sucesso"
 
 #: templates/registration/activation_complete.html:11
 msgid "Your account was activated"
-msgstr "アカウントが有効化されました"
+msgstr "Sua conta foi ativada"
 
 #: templates/registration/activation_email.txt:5
 #, python-format
 msgid "Your account of %(site_name)s was activated by inspector"
-msgstr "%(site_name)sのアカウントが管理者によって有効化されました"
+msgstr "Sua contam em %(site_name)s foi ativada pelo inspetor"
 
 #: templates/registration/activation_email.txt:7
 msgid ""
 "The password of your account was generated automatically and displayed below."
-msgstr "アカウントパスワードは自動生成され下記に表示されています。"
+msgstr ""
+"A senha de sua conta foi gerado automaticamente e está exibida abaixo"
 
 #: templates/registration/activation_email.txt:8
 #: templates/registration/activation_email.txt:19
 msgid "Please click the following url to login."
-msgstr "下記URLをクリックしてログインしてください。"
+msgstr "Por favor, clique na seguinte URL para realizar o login."
 
 #: templates/registration/activation_email.txt:9
 msgid ""
 "It is strongly recommended that you change your initial password to "
 "something more secure."
 msgstr ""
-"初期パスワードからより強固なパスワードに変更することを強くお勧めします。"
+"É altamente recomendável que você altere sua senha inicial para "
+"algo mais seguro."
 
 #: templates/registration/activation_email.txt:11
 #: templates/registration/activation_email.txt:21
 msgid "::Your account information::"
-msgstr "【アカウント情報】"
+msgstr "::Informações de sua conta::"
 
 #: templates/registration/activation_email.txt:12
 #: templates/registration/activation_email.txt:22
 #, python-format
 msgid "USERNAME: %(user)s"
-msgstr "ユーザー名: %(user)s"
+msgstr "USUÁRIO: %(user)s"
 
 #: templates/registration/activation_email.txt:13
 #, python-format
 msgid "PASSWORD: %(password)s"
-msgstr "パスワード: %(password)s"
+msgstr "SENHA: %(password)s"
 
 #: templates/registration/activation_email.txt:17
 #, python-format
 msgid "Your account of %(site_name)s was successfully activated"
-msgstr "%(site_name)sのアカウントが正常に有効化されました"
+msgstr "Sua conta em %(site_name)s foi ativada com sucesso"
 
 #: templates/registration/activation_email_subject.txt:2
 #, python-format
 msgid "Your account was activated -- %(site_name)s"
-msgstr "アカウントが有効化されました -- %(site_name)s"
+msgstr "Sua conta foi ativada -- %(site_name)s"
 
 #: templates/registration/activation_form.html:5
 #: templates/registration/activation_form.html:7
 msgid "Activate your account"
-msgstr "アカウントの有効化"
+msgstr "Ative sua conta"
 
 #: templates/registration/activation_form.html:11
 msgid "Please fill the password to complete account activation"
-msgstr "アカウントを有効化するためにパスワードを設定してください"
+msgstr "Por favor, preencha a senha para concluir a ativação de sua "
+"conta"
 
 #: templates/registration/activation_form.html:14
 msgid "Activate"
-msgstr "アカウント有効化"
+msgstr "Ativar"
 
 #: templates/registration/login.html:5 templates/registration/login.html:7
 #: templates/registration/login.html:14
 msgid "Login"
-msgstr "ログイン"
+msgstr "Entrar"
 
 #: templates/registration/login.html:11
 msgid "Please fill your username and password to login"
-msgstr "ユーザー名とパスワードを入力してください"
+msgstr "Por favor, preencha seu nome de usuário e senha para entrar"
 
 #: templates/registration/logout.html:5 templates/registration/logout.html:7
 msgid "Logged out"
-msgstr "ログアウト"
+msgstr "Desconectar"
 
 #: templates/registration/logout.html:11
 msgid "You are logged out."
-msgstr "ログアウトしました"
+msgstr "Você está desconectado."
 
 #: templates/registration/registration_closed.html:5
 #: templates/registration/registration_closed.html:7
 msgid "Registration is closed"
-msgstr "新規会員登録無効"
+msgstr "O registro está fechado"
 
 #: templates/registration/registration_closed.html:11
 msgid "I am afraid that registration is currently closed."
-msgstr "申し訳有りませんが現在新規会員登録は行っておりません。"
+msgstr "O registro está fechado no momento."
 
 #: templates/registration/registration_complete.html:5
 #: templates/registration/registration_complete.html:7
 msgid "Registration was complete"
-msgstr "新規仮会員登録完了"
+msgstr "Registro completado"
 
 #: templates/registration/registration_complete.html:11
 msgid "Your registration was created successfully."
-msgstr "仮会員登録が完了しました。"
+msgstr "O seu registo foi criado com sucesso."
 
 #: templates/registration/registration_complete.html:12
 #: templates/registration/registration_email.txt:6
 msgid "Please wait until the inspector verify your registration."
-msgstr "管理者が仮会員登録を確認するまでお待ちください。"
+msgstr "Por favor, aguarde até que o inspetor verificar a sua inscrição."
 
 #: templates/registration/registration_complete.html:13
 #: templates/registration/registration_email.txt:7
 msgid "You will receive an acceptance or rejection email within several days."
-msgstr "数日以内に承認・否認メールが送信されます。"
+msgstr "Você receberá um e-mail de aceitação ou rejeição dentro de "
+"alguns dias."
 
 #: templates/registration/registration_email.txt:4
 msgid "Your account registration was created successfully."
-msgstr "仮会員登録が完了しました。"
+msgstr "O registo sua conta foi criada com sucesso."
 
 #: templates/registration/registration_email_subject.txt:2
 #, python-format
 msgid "Your registration was created -- %(site_name)s"
-msgstr "仮会員登録が完了しました -- %(site_name)s"
+msgstr "O seu registo foi criado -- %(site_name)s"
 
 #: templates/registration/registration_form.html:5
 #: templates/registration/registration_form.html:7
 msgid "Registration"
-msgstr "新規仮会員登録"
+msgstr "Registro"
 
 #: templates/registration/registration_form.html:11
 msgid "Please fill the following fields to create your registration"
-msgstr "下記フォームに入力して新規仮会員登録をしてください"
+msgstr "Preencha os seguintes campos para criar o seu registro"
 
 #: templates/registration/registration_form.html:15
 msgid "Register"
-msgstr "新規仮会員登録"
+msgstr "Registrar"
 
 #: templates/registration/rejection_email.txt:5
 msgid "I am afraid that your account registration was rejected by inspector."
-msgstr "申し訳有りませんが管理者により会員登録が否認されました。"
+msgstr "Receio que o registro de sua conta foi rejeitada pelo inspetor."
 
 #: templates/registration/rejection_email.txt:8
 msgid "Rejection reasons:"
-msgstr "【否認された理由】"
+msgstr "Motivos de rejeição:"
 
 #: templates/registration/rejection_email_subject.txt:2
 #, python-format
 msgid "Your registration was rejected -- %(site_name)s"
-msgstr "会員登録が否認されました -- %(site_name)s"
+msgstr "O seu registo foi rejeitado -- %(site_name)s"

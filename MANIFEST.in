@@ -2,3 +2,4 @@ include README.rst
 include requirements.txt
 include requirements-test.txt
 include requirements-docs.txt
+recursive-include src/registration/locale *.po *.mo

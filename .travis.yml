@@ -1,5 +1,6 @@
 language: python
 install:
+  - pip install django==1.6
   - pip install tox
   - pip install coverage coveralls
 
