@@ -14,3 +14,5 @@ local_settings.py
 /tests/media
 /docs/_build
 /issues
+/build
+.idea
