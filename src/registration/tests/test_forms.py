@@ -3,7 +3,7 @@
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.test import TestCase
-from registration.compat import User
+from registration.compat import get_user_model
 from registration import forms
 
 
@@ -18,6 +18,7 @@ class ActivationFormTests(TestCase):
         and matching passwords.
 
         """
+        User = get_user_model()
         # Create a user so we can verify that duplicate usernames aren't
         # permitted.
         User.objects.create_user('alice', 'alice@example.com', 'secret')
@@ -51,6 +52,7 @@ class RegistrationFormTests(TestCase):
         and matching passwords.
 
         """
+        User = get_user_model()
         # Create a user so we can verify that duplicate usernames aren't
         # permitted.
         User.objects.create_user('alice', 'alice@example.com', 'secret')
@@ -109,6 +111,7 @@ class RegistrationFormTests(TestCase):
         of email addresses.
 
         """
+        User = get_user_model()
         # Create a user so we can verify that duplicate addresses
         # aren't permitted.
         User.objects.create_user('alice', 'alice@example.com', 'secret')

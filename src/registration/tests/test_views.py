@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 
-from registration.compat import User
+from registration.compat import get_user_model
 from registration import forms
 from registration.models import RegistrationProfile
 from registration.backends.default import DefaultRegistrationBackend
@@ -136,6 +136,7 @@ class RegistrationViewTestCase(TestCase):
         handles a valid activation
 
         """
+        User = get_user_model()
         new_user = self.backend.register(username='alice', email='alice@example.com', request=self.mock_request)
         new_user = self.backend.accept(new_user.registration_profile, request=self.mock_request)
     

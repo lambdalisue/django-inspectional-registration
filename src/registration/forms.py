@@ -47,7 +47,7 @@ __all__ = (
 )
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from registration.compat import User
+from registration.compat import get_user_model
 
 attrs_dict = {'class': 'required'}
 
@@ -113,6 +113,7 @@ class RegistrationForm(forms.Form):
         """
         Validate that the username is alphanumeric and is not already in use.
         """
+        User = get_user_model()
         try:
             User.objects.get(username__iexact=self.cleaned_data['username'])
         except User.DoesNotExist:
@@ -155,6 +156,7 @@ class RegistrationFormUniqueEmail(RegistrationForm):
 
     def clean_email1(self):
         """Validate that the supplied email address is unique for the site."""
+        User = get_user_model()
         if User.objects.filter(email__iexact=self.cleaned_data['email1']):
             raise forms.ValidationError(_(
                 "This email address is already in use. "

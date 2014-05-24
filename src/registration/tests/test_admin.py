@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.core import mail
-from registration.compat import User
+from registration.compat import get_user_model
 from registration.backends.default import DefaultRegistrationBackend
 from registration.models import RegistrationProfile
 from registration.admin import RegistrationAdmin
@@ -24,6 +24,7 @@ from registration.tests.compat import override_settings
 class RegistrationAdminTestCase(TestCase):
 
     def setUp(self):
+        User = get_user_model()
         self.backend = DefaultRegistrationBackend()
         self.mock_request = mock_request()
         self.admin = User.objects.create_superuser(

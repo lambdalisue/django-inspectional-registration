@@ -53,10 +53,12 @@ import datetime
 from django.db import models
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import ugettext_lazy as _
 
 from registration.conf import settings
-from registration.compat import User
+from registration.compat import get_user_model
+from registration.compat import user_model_label
 from registration.compat import datetime_now
 from registration.utils import generate_activation_key
 from registration.utils import generate_random_password
@@ -98,6 +100,7 @@ class RegistrationManager(models.Manager):
         method, the newly created user will be rollbacked.
 
         """
+        User = get_user_model()
         new_user = User.objects.create_user(username, email, 'password')
         new_user.set_unusable_password()
         new_user.is_active = False
@@ -279,7 +282,7 @@ class RegistrationManager(models.Manager):
                     if not user.is_active:
                         user.delete()
                         profile.delete()    # just in case
-                except User.DoesNotExist:
+                except ObjectDoesNotExist:
                     profile.delete()
 
     @transaction_atomic
@@ -329,7 +332,7 @@ class RegistrationManager(models.Manager):
                     if not user.is_active:
                         user.delete()
                         profile.delete() # just in case
-                except User.DoesNotExist:
+                except ObjectDoesNotExist:
                     profile.delete()
 
 
@@ -354,7 +357,7 @@ class RegistrationProfile(models.Model):
         ('accepted', _('Registration has accepted')),
         ('rejected', _('Registration has rejected')),
     )
-    user = models.OneToOneField(User, verbose_name=_('user'), 
+    user = models.OneToOneField(user_model_label, verbose_name=_('user'), 
                                 related_name='registration_profile',
                                 editable=False)
     _status = models.CharField(_('status'), max_length=10, db_column='status',
