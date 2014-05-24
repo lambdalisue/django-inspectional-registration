@@ -16,3 +16,4 @@ local_settings.py
 /issues
 /build
 .idea
+.python-version
