@@ -4,7 +4,7 @@ import os
 from setuptools import setup, find_packages
 
 NAME = 'django-inspectional-registration'
-VERSION = '0.3.3'
+VERSION = '0.3.4'
 
 # Make sure the django.mo file also exists:
 if 'sdist' in sys.argv:
