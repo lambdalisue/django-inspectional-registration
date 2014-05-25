@@ -79,3 +79,14 @@ registration.
 Online documentation
 -------------------------------------------------------------------------------
 See `django-inspectional-registration official documents <http://readthedocs.org/docs/django-inspectional-registration/en/latest/>`_ for more detail
+
+For developers
+-------------------------------------------------------------------------------
+You can compile the latest message files with the following command
+
+```sh
+$ python setup.py compile_messages
+```
+
+The command above is automatically called before `sdist` command if you call
+`python manage.py sdist`.
