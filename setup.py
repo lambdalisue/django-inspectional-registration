@@ -1,47 +1,67 @@
 # coding=utf-8
 import sys
 import os
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+from setuptools.command.sdist import sdist as original_sdist
 
 NAME = 'django-inspectional-registration'
 VERSION = '0.3.4'
 
-# Make sure the django.mo file also exists:
-if 'sdist' in sys.argv:
-    # clear compiled mo files before building the distribution
-    walk = os.walk(os.path.join(os.getcwd(), 'src/registration/locale'))
-    for dirpath, dirnames, filenames in walk:
-        if not filenames:
-            continue
 
-        if 'django.mo' in filenames:
-            os.unlink(os.path.join(dirpath, 'django.mo'))
-else:
-    # if django is there, compile the po files to mo
-    try:
-        import django
-    except ImportError:
-        print('####################################################\n'
-              'Django is not installed.\nIt will not be possible to '
-              'compile the locale files during installation of '
-              'django-inspectional-registration.\nPlease, install '
-              'Django first. Done so, install the django-registration'
-              '-inspectional\n'
-              '####################################################\n')
-        exit(1)
-    else:
-        current_dir = os.getcwd()
-        os.chdir(os.path.join(current_dir, 'src/registration'))
-        os.system('django-admin.py compilemessages')
-        os.chdir(current_dir)
+class compile_messages(Command):
+    description = ("re-compile local message files ('.po' to '.mo'). "
+                   "it require django-admin.py")
+    user_options = []
+
+    def initialize_options(self):
+        self.cwd = None
+
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+
+    def run(self):
+        compile_messages.compile_messages()
+
+    @classmethod
+    def compile_messages(cls):
+        """
+        Compile '.po' into '.mo' via 'django-admin.py' thus the function
+        require the django to be installed.
+
+        It return True when the process successfully end, otherwise it print
+        error messages and return False.
+
+        https://docs.djangoproject.com/en/dev/ref/django-admin/#compilemessages
+        """
+        try:
+            import django
+        except ImportError:
+            print('####################################################\n'
+                  'Django is not installed.\nIt will not be possible to '
+                  'compile the locale files during installation of '
+                  'django-inspectional-registration.\nPlease, install '
+                  'Django first. Done so, install the django-registration'
+                  '-inspectional\n'
+                  '####################################################\n')
+            return False
+        else:
+            original_cwd = os.getcwd()
+            BASE = os.path.abspath(os.path.dirname(__file__))
+            root = os.path.join(BASE, 'src/registration')
+            os.chdir(root)
+            os.system('django-admin.py compilemessages')
+            os.chdir(original_cwd)
+            return True
 
 
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    print("You probably want to also tag the version now:")
-    print("  git tag -a %s -m 'version %s'" % (VERSION, VERSION))
-    print("  git push --tags")
-    sys.exit()
+class sdist(original_sdist):
+    """
+    Run 'sdist' command but make sure that the message files are latest by
+    running 'compile_messages' before 'sdist'
+    """
+    def run(self):
+        compile_messages.compile_messages()
+        original_sdist.run(self)
 
 
 def read(filename):
@@ -50,6 +70,7 @@ def read(filename):
     filename = os.path.join(BASE_DIR, filename)
     with open(filename, 'r') as fi:
         return fi.read()
+
 
 def readlist(filename):
     rows = read(filename).split("\n")
@@ -66,10 +87,10 @@ if sys.version_info >= (3, 0):
     )
 
 setup(
-    name = NAME,
-    version = VERSION,
-    description = ("Django registration app which required inspection step "
-                   "before activation"),
+    name=NAME,
+    version=VERSION,
+    description=("Django registration app which required inspection step "
+                 "before activation"),
     long_description = read('README.rst'),
     classifiers = (
         'Development Status :: 4 - Beta',
@@ -109,5 +130,9 @@ setup(
     install_requires=readlist('requirements.txt'),
     test_suite='runtests.run_tests',
     tests_require=readlist('requirements-test.txt'),
+    cmdclass={
+        'compile_messages': compile_messages,
+        'sdist': sdist,
+    },
     **extra
 )
