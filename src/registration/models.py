@@ -367,7 +367,6 @@ class RegistrationProfile(models.Model):
                                       null=True, default=None, editable=False)
 
     objects = RegistrationManager()
-    supplement_class = get_supplement_class()
 
     class Meta:
         verbose_name = _('registration profile')
@@ -377,6 +376,11 @@ class RegistrationProfile(models.Model):
                 ('reject_registration', 'Can reject registration'),
                 ('activate_user', 'Can activate user in admin site'),
             )
+
+    def _get_supplement_class(self):
+        """get supplement class of this registration"""
+        return get_supplement_class()
+    supplement_class = property(_get_supplement_class)
 
     def _get_supplement(self):
         """get supplement information of this registration"""
