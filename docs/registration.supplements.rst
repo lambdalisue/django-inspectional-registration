@@ -1,21 +1,5 @@
-supplements Package
-===================
-
-:mod:`supplements` Package
---------------------------
-
-.. automodule:: registration.supplements
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`base` Module
-------------------
-
-.. automodule:: registration.supplements.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
+registration.supplements package
+================================
 
 Subpackages
 -----------
@@ -24,3 +8,22 @@ Subpackages
 
     registration.supplements.default
 
+Submodules
+----------
+
+registration.supplements.base module
+------------------------------------
+
+.. automodule:: registration.supplements.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: registration.supplements
+    :members:
+    :undoc-members:
+    :show-inheritance:

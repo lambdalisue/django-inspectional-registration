@@ -1,13 +1,5 @@
-contrib Package
-===============
-
-:mod:`contrib` Package
-----------------------
-
-.. automodule:: registration.contrib
-    :members:
-    :undoc-members:
-    :show-inheritance:
+registration.contrib package
+============================
 
 Subpackages
 -----------
@@ -17,3 +9,10 @@ Subpackages
     registration.contrib.autologin
     registration.contrib.notification
 
+Module contents
+---------------
+
+.. automodule:: registration.contrib
+    :members:
+    :undoc-members:
+    :show-inheritance:

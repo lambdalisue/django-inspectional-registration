@@ -1,19 +1,22 @@
-admin Package
-=============
+registration.admin package
+==========================
 
-:mod:`admin` Package
---------------------
+Submodules
+----------
 
-.. automodule:: registration.admin
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`forms` Module
--------------------
+registration.admin.forms module
+-------------------------------
 
 .. automodule:: registration.admin.forms
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: registration.admin
+    :members:
+    :undoc-members:
+    :show-inheritance:

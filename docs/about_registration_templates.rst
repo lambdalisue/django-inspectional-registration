@@ -214,7 +214,8 @@ The following template will be used
     Used for registration closed page.
 
 ``registration/registration_complete.html``
-    Used for registration complete page.
+    Used for registration complete page. ``registration_profile`` context will
+    be passed.
 
 ``registration/registration_form.html``
     Used for registration page. ``form`` context will be passed

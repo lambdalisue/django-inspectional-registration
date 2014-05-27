@@ -1,19 +1,22 @@
-tests Package
-=============
+registration.contrib.notification.tests package
+===============================================
 
-:mod:`tests` Package
---------------------
+Submodules
+----------
 
-.. automodule:: registration.contrib.notification.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`urls` Module
-------------------
+registration.contrib.notification.tests.urls module
+---------------------------------------------------
 
 .. automodule:: registration.contrib.notification.tests.urls
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: registration.contrib.notification.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

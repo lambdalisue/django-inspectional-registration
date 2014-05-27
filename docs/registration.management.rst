@@ -1,5 +1,5 @@
-management Package
-==================
+registration.management package
+===============================
 
 Subpackages
 -----------
@@ -8,3 +8,10 @@ Subpackages
 
     registration.management.commands
 
+Module contents
+---------------
+
+.. automodule:: registration.management
+    :members:
+    :undoc-members:
+    :show-inheritance:

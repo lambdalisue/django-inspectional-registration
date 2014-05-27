@@ -1,11 +1,10 @@
-default Package
-===============
+registration.backends.default package
+=====================================
 
-:mod:`default` Package
-----------------------
+Module contents
+---------------
 
 .. automodule:: registration.backends.default
     :members:
     :undoc-members:
     :show-inheritance:
-

@@ -1,35 +1,38 @@
-autologin Package
-=================
+registration.contrib.autologin package
+======================================
 
-:mod:`autologin` Package
-------------------------
+Submodules
+----------
 
-.. automodule:: registration.contrib.autologin
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`conf` Module
-------------------
+registration.contrib.autologin.conf module
+------------------------------------------
 
 .. automodule:: registration.contrib.autologin.conf
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`models` Module
---------------------
+registration.contrib.autologin.models module
+--------------------------------------------
 
 .. automodule:: registration.contrib.autologin.models
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`tests` Module
--------------------
+registration.contrib.autologin.tests module
+-------------------------------------------
 
 .. automodule:: registration.contrib.autologin.tests
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: registration.contrib.autologin
+    :members:
+    :undoc-members:
+    :show-inheritance:

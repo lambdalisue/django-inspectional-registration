@@ -1,21 +1,5 @@
-backends Package
-================
-
-:mod:`backends` Package
------------------------
-
-.. automodule:: registration.backends
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`base` Module
-------------------
-
-.. automodule:: registration.backends.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
+registration.backends package
+=============================
 
 Subpackages
 -----------
@@ -24,3 +8,22 @@ Subpackages
 
     registration.backends.default
 
+Submodules
+----------
+
+registration.backends.base module
+---------------------------------
+
+.. automodule:: registration.backends.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: registration.backends
+    :members:
+    :undoc-members:
+    :show-inheritance:
