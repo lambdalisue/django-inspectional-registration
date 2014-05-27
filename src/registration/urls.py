@@ -43,7 +43,8 @@ if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
         url(r'^password/change/done/$', auth_views.password_change_done,
             name=prefix+'password_change_done'+suffix),
         url(r'^password/reset/$', auth_views.password_reset,
-            name=prefix+'password_reset'+suffix),
+            name=prefix+'password_reset'+suffix, kwargs=dict(
+                post_reset_redirect=prefix+'password_reset_done'+suffix)),
         url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
             auth_views.password_reset_confirm,
             name=prefix+'password_reset_confirm'+suffix),
