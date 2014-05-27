@@ -79,6 +79,7 @@ Documentations
     about_registration_supplement
     about_registration_backend
     about_registration_templates
+    about_registration_signals
     about_registration_settings
     about_registration_contrib
     faq
