@@ -26,25 +26,29 @@ urlpatterns = patterns('',
 )
 
 # django.contrib.auth
+from registration.conf import settings
 from django.contrib.auth import views as auth_views
-urlpatterns += patterns('',
-    url(r'^login/$', auth_views.login,
-        {'template_name': 'registration/login.html'},
-        name='auth_login'),
-    url(r'^logout/$', auth_views.logout,
-        {'template_name': 'registration/logout.html'},
-        name='auth_logout'),
-    url(r'^password/change/$', auth_views.password_change,
-        name='auth_password_change'),
-    url(r'^password/change/done/$', auth_views.password_change_done,
-        name='auth_password_change_done'),
-    url(r'^password/reset/$', auth_views.password_reset,
-        name='auth_password_reset'),
-    url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        auth_views.password_reset_confirm,
-        name='auth_password_reset_confirm'),
-    url(r'^password/reset/complete/$', auth_views.password_reset_complete,
-        name='auth_password_reset_complete'),
-    url(r'^password/reset/done/$', auth_views.password_reset_done,
-        name='auth_password_reset_done'),
-)
+if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
+    prefix = settings.REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX
+    suffix = settings.REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX
+    urlpatterns += patterns('',
+        url(r'^login/$', auth_views.login,
+            {'template_name': 'registration/login.html'},
+            name=prefix+'login'+suffix),
+        url(r'^logout/$', auth_views.logout,
+            {'template_name': 'registration/logout.html'},
+            name=prefix+'logout'+suffix),
+        url(r'^password/change/$', auth_views.password_change,
+            name=prefix+'password_change'+suffix),
+        url(r'^password/change/done/$', auth_views.password_change_done,
+            name=prefix+'password_change_done'+suffix),
+        url(r'^password/reset/$', auth_views.password_reset,
+            name=prefix+'password_reset'+suffix),
+        url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+            auth_views.password_reset_confirm,
+            name=prefix+'password_reset_confirm'+suffix),
+        url(r'^password/reset/complete/$', auth_views.password_reset_complete,
+            name=prefix+'password_reset_complete'+suffix),
+        url(r'^password/reset/done/$', auth_views.password_reset_done,
+            name=prefix+'password_reset_done'+suffix),
+    )

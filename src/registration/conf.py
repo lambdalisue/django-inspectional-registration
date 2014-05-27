@@ -20,6 +20,10 @@ class InspectionalRegistrationAppConf(AppConf):
     REJECTION_EMAIL = True
     ACTIVATION_EMAIL = True
 
+    DJANGO_AUTH_URLS_ENABLE = True
+    DJANGO_AUTH_URL_NAMES_PREFIX = ''
+    DJANGO_AUTH_URL_NAMES_SUFFIX = ''
+
     class Meta:
         prefix = 'registration'
 
