@@ -75,6 +75,27 @@ class RegistrationViewTestCase(TestCase):
                              errors=u"The two email fields didn't match.")
         self.assertEqual(len(mail.outbox), 0)
 
+    def test_registration_complete_view_get(self):
+        """
+        A ``GET`` to the ``complete`` view uses the appropriate
+        template and populates the registration form into the context.
+
+        """
+        # register save registration_profile in the session
+        response = self.client.post(reverse('registration_register'),
+                                    data={'username': 'alice',
+                                          'email1': 'alice@example.com',
+                                          'email2': 'alice@example.com'})
+        response = self.client.get(reverse('registration_complete'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'registration/registration_complete.html')
+        self.failUnless(isinstance(response.context['registration_profile'],
+                                   RegistrationProfile))
+        profile = response.context['registration_profile']
+        self.assertEqual(profile.user.username, 'alice')
+        self.assertEqual(profile.user.email, 'alice@example.com')
+
     def test_registration_view_closed(self):
         """
         Any attempt to access the ``register`` view when registration

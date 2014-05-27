@@ -20,6 +20,18 @@ class RegistrationCompleteView(TemplateView):
     """A simple template view for registration complete"""
     template_name = r'registration/registration_complete.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationCompleteView,
+                        self).get_context_data(**kwargs)
+        # get registration_profile instance from the session
+        if 'registration_profile_pk' in self.request.session:
+            profile_pk = self.request.session.pop('registration_profile_pk')
+            profile = RegistrationProfile.objects.get(pk=profile_pk)
+        else:
+            profile = None
+        context['registration_profile'] = profile
+        return context
+
 
 class RegistrationClosedView(TemplateView):
     """A simple template view for registraion closed
@@ -88,7 +100,7 @@ class ActivationView(TemplateResponseMixin, FormMixin,
         profile = self.get_object()
         password = form.cleaned_data['password1']
         self.activated_user = self.backend.activate(
-                profile.activation_key, self.request, password=password)
+            profile.activation_key, self.request, password=password)
         return super(ActivationView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
@@ -151,11 +163,16 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
         username = form.cleaned_data['username']
         email = form.cleaned_data['email1']
         self.new_user = self.backend.register(username, email, self.request)
+        profile = self.new_user.registration_profile
         if supplement_form:
-            profile = self.new_user.registration_profile
             supplement = supplement_form.save(commit=False)
             supplement.registration_profile = profile
             supplement.save()
+        # save the profile on the session so that the RegistrationCompleteView
+        # can refer the profile instance.
+        # this instance is automatically removed when the user accessed
+        # RegistrationCompleteView
+        self.request.session['registration_profile_pk'] = profile.pk
         return super(RegistrationView, self).form_valid(form)
 
     def form_invalid(self, form, supplement_form=None):
