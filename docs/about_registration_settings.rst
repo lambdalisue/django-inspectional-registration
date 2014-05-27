@@ -54,3 +54,20 @@
 
     Default: ``True``
 
+``REGISTRATION_DJANGO_AUTH_URLS_ENABLE`` (from Version 0.4.0)
+    If it is ``False``, django-inspectional-registration do not define the views of django.contrib.auth.
+    It is required to define these view manually.
+
+    Default: ``True``
+
+``REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX`` (from Version 0.4.0)
+    It is used as a prefix string of view names of django.contrib.auth.
+    For backward compatibility, set this value to ``'auth_'``.
+
+    Default: ``''``
+
+``REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX`` (from Version 0.4.0)
+    It is used as a suffix string of view names of django.contrib.auth.
+    For backward compatibility, set this value to ``''``.
+
+    Default: ``''``

@@ -67,6 +67,7 @@ django-registration_. The following features are available
     Emails sent from the application will use django-mailer if 'mailer' is
     in your ``INSTALLED_APPS``
 
+
 Documentations
 ==============================================================================
 
@@ -97,6 +98,42 @@ registration. See the conceptual summary below.
 
 .. _django-registration: https://bitbucket.org/ubernostrum/django-registration/
 .. _south: http://south.aeracode.org/
+
+
+For translators
+================================================================================
+You can compile the latest message files with the following command
+
+.. code:: sh
+
+    $ python setup.py compile_messages
+
+The command above is automatically called before ``sdist`` command if you call
+``python manage.py sdist``.
+
+
+Backward incompatibility
+================================================================================
+Because of an `issue#24 <https://github.com/lambdalisue/django-inspectional-registration/issues/24>`_, django-inspectional-registration add the following three new options.
+
+-   ``REGISTRATION_DJANGO_AUTH_URLS_ENABLE``
+    If it is ``False``, django-inspectional-registration do not define the views of django.contrib.auth.
+    It is required to define these view manually. (Default: ``True``)
+-   ``REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX``
+    It is used as a prefix string of view names of django.contrib.auth.
+    For backward compatibility, set this value to ``'auth_'``. (Default: ``''``)
+-   ``REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX``
+    It is used as a suffix string of view names of django.contrib.auth.
+    For backward compatibility, set this value to ``''``. (Default: ``''``)
+
+This changes were introduced from version 0.4.0, to keep the backward compatibility, write the following in your settings module.
+
+.. code:: python
+
+    REGISTRATION_DJANGO_AUTH_URLS_ENABLE = True
+    REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX = 'auth_'
+    REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX = ''
+
 
 Indices and tables
 ==================
