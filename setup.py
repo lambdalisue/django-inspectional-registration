@@ -8,6 +8,34 @@ NAME = 'django-inspectional-registration'
 VERSION = '0.3.6'
 
 
+class compile_docs(Command):
+    description = ("re-compile documentations")
+    user_options = []
+
+    def initialize_options(self):
+        self.cwd = None
+
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+
+    def run(self):
+        compile_docs.compile_docs()
+
+    @classmethod
+    def compile_docs(cls):
+        """
+        Compile '.rst' files into '.html' files via Sphinx.
+        """
+        original_cwd = os.getcwd()
+        BASE = os.path.abspath(os.path.dirname(__file__))
+        root = os.path.join(BASE, 'docs')
+        os.chdir(root)
+        os.system('make html')
+        os.system('xdg-open _build/html/index.html')
+        os.chdir(original_cwd)
+        return True
+
+
 class compile_messages(Command):
     description = ("re-compile local message files ('.po' to '.mo'). "
                    "it require django-admin.py")
@@ -132,6 +160,7 @@ setup(
     tests_require=readlist('requirements-test.txt'),
     cmdclass={
         'compile_messages': compile_messages,
+        'compile_docs': compile_docs,
         'sdist': sdist,
     },
     **extra
