@@ -32,6 +32,9 @@ def run_tests(base_dir=None, verbosity=1, interactive=False):
                              interactive=interactive, failfast=False)
 
     import django
+    if django.VERSION >= (1, 7):
+        django.setup()
+
     if django.VERSION >= (1, 6):
         app_tests = [
             'registration',

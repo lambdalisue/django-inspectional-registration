@@ -54,7 +54,7 @@ class RegistrationAdminForm(forms.ModelForm):
 
     class Meta:
         model = RegistrationProfile
-        excludes = ('user', '_status')
+        exclude = ('user', '_status')
 
     def __init__(self, *args, **kwargs):
         super(RegistrationAdminForm, self).__init__(*args, **kwargs)
