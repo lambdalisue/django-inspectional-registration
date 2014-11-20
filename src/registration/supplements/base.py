@@ -73,7 +73,7 @@ class RegistrationSupplementBase(models.Model):
 
         """
         if not getattr(cls, 'form_class', None):
-            setattr(cls, 'form_class', modelform_factory(cls))
+            setattr(cls, 'form_class', modelform_factory(cls, exclude=[]))
         return getattr(cls, 'form_class')
 
     @classmethod
