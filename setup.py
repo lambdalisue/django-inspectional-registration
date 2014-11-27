@@ -5,7 +5,7 @@ from setuptools import setup, find_packages, Command
 from setuptools.command.sdist import sdist as original_sdist
 
 NAME = 'django-inspectional-registration'
-VERSION = '0.4.4'
+VERSION = '0.4.5'
 
 
 class compile_docs(Command):
@@ -121,7 +121,7 @@ setup(
                  "before activation"),
     long_description = read('README.rst'),
     classifiers = (
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
