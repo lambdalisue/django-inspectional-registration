@@ -33,7 +33,7 @@ Author
 Supported python versions
     2.6, 2.7, 3.2, 3.3, 3.4
 Supported django versions
-    1.3 - 1.6, and 1.7rc1
+    1.3 - 1.6, and 1.7
 
 django-inspectional-registration is a enhanced application of
 django-registration_. The following features are available
