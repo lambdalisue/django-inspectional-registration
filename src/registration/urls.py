@@ -31,6 +31,21 @@ from django.contrib.auth import views as auth_views
 if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
     prefix = settings.REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX
     suffix = settings.REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX
+
+    import django
+    if django.VERSION >= (1, 6):
+        uidb = r"(?P<uidb64>[0-9A-Za-z_\-]+)"
+        token = r"(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})"
+        password_reset_confirm_rule = (
+            r"^password/reset/confirm/%s/%s/$" % (uidb, token)
+        )
+    else:
+        uidb = r"(?P<uidb36>[0-9A-Za-z]+)"
+        token = r"(?P<token>.+)"
+        password_reset_confirm_rule = (
+            r"^password/reset/confirm/%s-%s/$" % (uidb, token)
+        )
+
     urlpatterns += patterns('',
         url(r'^login/$', auth_views.login,
             {'template_name': 'registration/login.html'},
@@ -45,7 +60,7 @@ if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
         url(r'^password/reset/$', auth_views.password_reset,
             name=prefix+'password_reset'+suffix, kwargs=dict(
                 post_reset_redirect=prefix+'password_reset_done'+suffix)),
-        url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        url(password_reset_confirm_rule,
             auth_views.password_reset_confirm,
             name=prefix+'password_reset_confirm'+suffix),
         url(r'^password/reset/complete/$', auth_views.password_reset_complete,
