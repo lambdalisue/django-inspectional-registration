@@ -83,6 +83,13 @@ See `django-inspectional-registration official documents <http://readthedocs.org
 
 For translators
 ---------------------------------------------------------------------------------
+To create a message file, execute the following command (with your language)
+
+.. code:: sh
+
+    $ python manage.py makemessages -l ja
+
+
 You can compile the latest message files with the following command
 
 .. code:: sh

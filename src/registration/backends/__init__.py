@@ -57,7 +57,7 @@ def get_backend_class(path=None):
     exists, or because the module does not contain a class of the
     appropriate name), ``django.core.exceptions.ImproperlyConfigured``
     is raised.
-    
+
     """
     path = path or settings.REGISTRATION_BACKEND_CLASS
     i = path.rfind('.')
@@ -89,6 +89,6 @@ def get_backend(path=None):
     exists, or because the module does not contain a class of the
     appropriate name), ``django.core.exceptions.ImproperlyConfigured``
     is raised.
-    
+
     """
     return get_backend_class(path)()

@@ -250,9 +250,9 @@ class RegistrationAdmin(admin.ModelAdmin):
     def accept_users(self, request, queryset):
         """Accept the selected users, if they are not already accepted"""
         for profile in queryset:
-            self.backend.accept(profile, request=request)
+            self.backend.accept(profile, request=request, force=True)
     accept_users.short_description = _(
-        "Accept registrations of selected users"
+        "(Re)Accept registrations of selected users"
     )
 
     def reject_users(self, request, queryset):
@@ -370,7 +370,7 @@ class RegistrationAdmin(admin.ModelAdmin):
         """
         obj = super(RegistrationAdmin, self).get_object(request, object_id)
         if obj:
-            attr_name = settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE
+            attr_name = settings._REGISTRATION_ADMIN_REQ_ATTR_NAME_IN_MODEL_INS
             setattr(obj, attr_name, request)
         return obj
 

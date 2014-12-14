@@ -15,12 +15,12 @@ from registration.tests.compat import override_settings
 
 
 @override_settings(
-        ACCOUNT_ACTIVATION_DAYS=7,
-        REGISTRATION_OPEN=True,
-        REGISTRATION_SUPPLEMENT_CLASS=None,
-        REGISTRATION_BACKEND_CLASS=(
-            'registration.backends.default.DefaultRegistrationBackend'),
-    )
+    ACCOUNT_ACTIVATION_DAYS=7,
+    REGISTRATION_OPEN=True,
+    REGISTRATION_SUPPLEMENT_CLASS=None,
+    REGISTRATION_BACKEND_CLASS=(
+        'registration.backends.default.DefaultRegistrationBackend'),
+)
 class RegistrationAdminTestCase(TestCase):
 
     def setUp(self):
@@ -28,8 +28,8 @@ class RegistrationAdminTestCase(TestCase):
         self.backend = DefaultRegistrationBackend()
         self.mock_request = mock_request()
         self.admin = User.objects.create_superuser(
-                username='mark', email='mark@test.com',
-                password='password')
+            username='mark', email='mark@test.com',
+            password='password')
 
         self.client.login(username='mark', password='password')
         self.admin_url = reverse('admin:index')
@@ -40,24 +40,26 @@ class RegistrationAdminTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response,
-                'admin/change_list.html')
+                                'admin/change_list.html')
 
     def test_change_view_get(self):
         self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
 
     def test_change_view_get_404(self):
         self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/100/"
         response = self.client.get(url)
@@ -66,17 +68,17 @@ class RegistrationAdminTestCase(TestCase):
 
     def test_change_view_post_valid_accept_from_untreated(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'accept'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'accept'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -84,49 +86,46 @@ class RegistrationAdminTestCase(TestCase):
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')
 
-    def test_change_view_post_valid_inaccept_from_accepted(self):
+    def test_change_view_post_valid_accept_from_accepted(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.accept(
-                new_user.registration_profile,
-                request=self.mock_request)
-
+            new_user.registration_profile,
+            request=self.mock_request)
+        previous_activation_key = new_user.registration_profile.activation_key
         url = self.admin_url + "registration/registrationprofile/1/"
+        redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'accept'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'accept'
+        })
 
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
-        self.failIf(response.context['adminform'].form.is_valid())
-        self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. accept is not one of the available choices."])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, redirect_url)
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')
+        self.assertNotEqual(profile.activation_key, previous_activation_key)
 
     def test_change_view_post_valid_accept_from_rejected(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.reject(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'accept'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'accept'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -136,17 +135,17 @@ class RegistrationAdminTestCase(TestCase):
 
     def test_change_view_post_valid_reject_from_untreated(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'reject'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'reject'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -156,98 +155,107 @@ class RegistrationAdminTestCase(TestCase):
 
     def test_change_view_post_invalid_reject_from_accepted(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.accept(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'reject'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'reject'
+        })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. reject is not one of the available choices."])
+            response.context['adminform'].form.errors['action_name'],
+            [u"Select a valid choice. "
+             u"reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')
 
     def test_change_view_post_invalid_reject_from_rejected(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.reject(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'reject'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'reject'
+        })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. reject is not one of the available choices."])
+            response.context['adminform'].form.errors['action_name'],
+            [u"Select a valid choice. "
+             u"reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'rejected')
 
     def test_change_view_post_invalid_activate_from_untreated(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'activate'
+        })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. activate is not one of the available choices."])
+            response.context['adminform'].form.errors['action_name'],
+            [u"Select a valid choice. "
+             u"activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'untreated')
 
     def test_change_view_post_valid_activate_from_accepted(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.accept(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'activate'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -257,44 +265,47 @@ class RegistrationAdminTestCase(TestCase):
 
     def test_change_view_post_invalid_activate_from_rejected(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.reject(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'activate'
+        })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. activate is not one of the available choices."])
+            response.context['adminform'].form.errors['action_name'],
+            [u"Select a valid choice. "
+             u"activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'rejected')
 
     def test_change_view_post_valid_force_activate_from_untreated(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'force_activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'force_activate'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -304,47 +315,50 @@ class RegistrationAdminTestCase(TestCase):
 
     def test_change_view_post_invalid_force_activate_from_accepted(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.accept(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'force_activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'force_activate'
+        })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                'admin/registration/registrationprofile/change_form.html')
+        self.assertTemplateUsed(
+            response,
+            'admin/registration/registrationprofile/change_form.html'
+        )
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
-                response.context['adminform'].form.errors['action_name'],
-                [u"Select a valid choice. force_activate is not one of the available choices."])
+            response.context['adminform'].form.errors['action_name'],
+            [u"Select a valid choice. "
+             u"force_activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')
 
     def test_change_view_post_valid_force_activate_from_rejected(self):
         new_user = self.backend.register(
-                username='bob', email='bob@example.com',
-                request=self.mock_request)
+            username='bob', email='bob@example.com',
+            request=self.mock_request)
         self.backend.reject(
-                new_user.registration_profile,
-                request=self.mock_request)
+            new_user.registration_profile,
+            request=self.mock_request)
 
         url = self.admin_url + "registration/registrationprofile/1/"
         redirect_url = self.admin_url + "registration/registrationprofile/"
         response = self.client.post(url, {
-                '_supplement-TOTAL_FORMS': 0, 
-                '_supplement-INITIAL_FORMS': 0,
-                '_supplement-MAXNUM_FORMS': '',
-                'action_name': 'force_activate'
-            })
+            '_supplement-TOTAL_FORMS': 0,
+            '_supplement-INITIAL_FORMS': 0,
+            '_supplement-MAXNUM_FORMS': '',
+            'action_name': 'force_activate'
+        })
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, redirect_url)
@@ -355,8 +369,10 @@ class RegistrationAdminTestCase(TestCase):
     def test_resend_acceptance_email_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
-        admin_class.resend_acceptance_email(None, RegistrationProfile.objects.all())
+        self.backend.register(
+            username='bob', email='bob@example.com', request=self.mock_request)
+        admin_class.resend_acceptance_email(
+            None, RegistrationProfile.objects.all())
 
         # one for registration, one for resend
         self.assertEqual(len(mail.outbox), 2)
@@ -364,7 +380,8 @@ class RegistrationAdminTestCase(TestCase):
     def test_accept_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
+        self.backend.register(
+            username='bob', email='bob@example.com', request=self.mock_request)
         admin_class.accept_users(None, RegistrationProfile.objects.all())
 
         for profile in RegistrationProfile.objects.all():
@@ -374,7 +391,8 @@ class RegistrationAdminTestCase(TestCase):
     def test_reject_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
+        self.backend.register(
+            username='bob', email='bob@example.com', request=self.mock_request)
         admin_class.reject_users(None, RegistrationProfile.objects.all())
 
         for profile in RegistrationProfile.objects.all():
@@ -384,7 +402,9 @@ class RegistrationAdminTestCase(TestCase):
     def test_force_activate_users_action(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        self.backend.register(username='bob', email='bob@example.com', request=self.mock_request)
-        admin_class.force_activate_users(None, RegistrationProfile.objects.all())
+        self.backend.register(
+            username='bob', email='bob@example.com', request=self.mock_request)
+        admin_class.force_activate_users(
+            None, RegistrationProfile.objects.all())
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)

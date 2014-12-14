@@ -53,6 +53,7 @@ from registration.supplements import get_supplement_class
 
 
 class DefaultRegistrationBackend(RegistrationBackendBase):
+
     """Default registration backend class
 
     A registration backend which floows a simple workflow:
@@ -61,7 +62,8 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
 
     2.  Inspector accept or reject the account registration.
 
-    3.  Email is sent to user with/without activation link (without when rejected)
+    3.  Email is sent to user with/without activation link (without when
+        rejected)
 
     4.  User clicks activation link, enter password, account is now active
 
@@ -73,7 +75,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
     *   ``django.contrib.admin`` be listed in the ``INSTALLED_APPS`` settings
 
     *   The setting ``ACCOUNT_ACTIVATION_DAYS`` be supplied, specifying (as an
-        integer) the number of days from acceptance during which a user may 
+        integer) the number of days from acceptance during which a user may
         activate their account (after that period expires, activation will be
         disallowed). Default is ``7``
 
@@ -89,34 +91,36 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         -   ``registration/activation_email_subject.txt``
 
     Additinally, registration can be temporarily closed by adding the setting
-    ``REGISTRATION_OPEN`` and setting it to ``False``. Omitting this setting, or
-    setting it to ``True``, will be imterpreted as meaning that registration is
-    currently open and permitted.
+    ``REGISTRATION_OPEN`` and setting it to ``False``. Omitting this setting,
+    or setting it to ``True``, will be imterpreted as meaning that registration
+    is currently open and permitted.
 
-    Internally, this is accomplished via storing an activation key in an instance
-    of ``registration.models.RegistrationProfile``. See that model and its custom
-    manager for full documentation of its fields and supported operations.
+    Internally, this is accomplished via storing an activation key in an
+    instance of ``registration.models.RegistrationProfile``. See that model and
+    its custom manager for full documentation of its fields and supported
+    operations.
 
     """
 
-    def register(self, username, email, request, send_email=None):
+    def register(self, username, email, request,
+                 supplement=None, send_email=None):
         """register new user with ``username`` and ``email``
 
-        Given a username, email address, register a new user account, which will
-        initially be inactive and has unusable password.
+        Given a username, email address, register a new user account, which
+        will initially be inactive and has unusable password.
 
         Along with the new ``User`` object, a new
-        ``registration.models.RegistrationProfile`` will be created, tied to that
-        ``User``, containing the inspection status and activation key which will
-        be used for this account (activation key is not generated untill its
-        inspection status is set to ``accepted``)
+        ``registration.models.RegistrationProfile`` will be created, tied to
+        that ``User``, containing the inspection status and activation key
+        which will be used for this account (activation key is not generated
+        untill its inspection status is set to ``accepted``)
 
         An email will be sent to the supplied email address; The email will be
         rendered using two templates. See the documentation for
         ``RegistrationProfile.send_registration_email()`` for information about
         these templates and the contexts provided to them.
 
-        If ``REGISTRATION_REGISTRATION_EMAIL`` of settings is ``None``, no 
+        If ``REGISTRATION_REGISTRATION_EMAIL`` of settings is ``None``, no
         registration email will be sent.
 
         After the ``User`` and ``RegistrationProfile`` are created and the
@@ -131,19 +135,26 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
             send_email = settings.REGISTRATION_REGISTRATION_EMAIL
 
         new_user = RegistrationProfile.objects.register(
-                username, email, self.get_site(request),
-                send_email=send_email)
+            username, email, self.get_site(request),
+            send_email=send_email,
+        )
+        profile = new_user.registration_profile
+
+        if supplement:
+            supplement.registration_profile = profile
+            supplement.save()
 
         signals.user_registered.send(
-                sender=self.__class__,
-                user=new_user,
-                profile=new_user.registration_profile,
-                request=request,
-            )
+            sender=self.__class__,
+            user=new_user,
+            profile=new_user.registration_profile,
+            request=request,
+        )
 
         return new_user
 
-    def accept(self, profile, request, send_email=None, message=None):
+    def accept(self, profile, request, send_email=None, message=None,
+               force=False):
         """accept the account registration of ``profile``
 
         Given a profile, accept account registration, which will
@@ -155,30 +166,32 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_acceptance_email()`` for information about
         these templates and the contexts provided to them.
 
-        If ``REGISTRATION_acceptance_EMAIL`` of settings is ``None``, no 
+        If ``REGISTRATION_acceptance_EMAIL`` of settings is ``None``, no
         acceptance email will be sent.
 
         After successful acceptance, the signal
         ``registration.signals.user_accepted`` will be sent, with the newly
-        accepted ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
-        of the ``User`` as the keyword argument ``profile`` and the class of this
-        backend as the sender
+        accepted ``User`` as the keyword argument ``uesr``, the
+        ``RegistrationProfile`` of the ``User`` as the keyword argument
+        ``profile`` and the class of this backend as the sender
 
         """
         if send_email is None:
             send_email = settings.REGISTRATION_ACCEPTANCE_EMAIL
 
         accepted_user = RegistrationProfile.objects.accept_registration(
-                profile, self.get_site(request),
-                send_email=send_email, message=message)
+            profile, self.get_site(request),
+            send_email=send_email, message=message,
+            force=force,
+        )
 
         if accepted_user:
             signals.user_accepted.send(
-                    sender=self.__class__,
-                    user=accepted_user,
-                    profile=profile,
-                    request=request,
-                )
+                sender=self.__class__,
+                user=accepted_user,
+                profile=profile,
+                request=request,
+            )
 
         return accepted_user
 
@@ -186,7 +199,7 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         """reject the account registration of ``profile``
 
         Given a profile, reject account registration, which will
-        set inspection status of ``profile`` to ``rejected`` and delete 
+        set inspection status of ``profile`` to ``rejected`` and delete
         activation key of ``profile`` if exists.
 
         An email will be sent to the supplied email address; The email will be
@@ -194,35 +207,35 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_rejection_email()`` for information about
         these templates and the contexts provided to them.
 
-        If ``REGISTRATION_REJECTION_EMAIL`` of settings is ``None``, no 
+        If ``REGISTRATION_REJECTION_EMAIL`` of settings is ``None``, no
         rejection email will be sent.
 
         After successful rejection, the signal
         ``registration.signals.user_rejected`` will be sent, with the newly
-        rejected ``User`` as the keyword argument ``uesr``, the ``RegistrationProfile``
-        of the ``User`` as the keyword argument ``profile`` and the class of this
-        backend as the sender
+        rejected ``User`` as the keyword argument ``uesr``, the
+        ``RegistrationProfile`` of the ``User`` as the keyword argument
+        ``profile`` and the class of this backend as the sender
 
         """
         if send_email is None:
             send_email = settings.REGISTRATION_REJECTION_EMAIL
 
         rejected_user = RegistrationProfile.objects.reject_registration(
-                profile, self.get_site(request), 
-                send_email=send_email, message=message)
+            profile, self.get_site(request),
+            send_email=send_email, message=message)
 
         if rejected_user:
             signals.user_rejected.send(
-                    sender=self.__class__,
-                    user=rejected_user,
-                    profile=profile,
-                    request=request,
-                )
+                sender=self.__class__,
+                user=rejected_user,
+                profile=profile,
+                request=request,
+            )
 
         return rejected_user
 
-    def activate(self, activation_key, request, password=None, send_email=None, 
-            message=None, no_profile_delete=False):
+    def activate(self, activation_key, request, password=None, send_email=None,
+                 message=None, no_profile_delete=False):
         """activate user with ``activation_key`` and ``password``
 
         Given an activation key, password, look up and activate the user
@@ -235,37 +248,37 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         ``RegistrationProfile.send_activation_email()`` for information about
         these templates and the contexts provided to them.
 
-        If ``REGISTRATION_ACTIVATION_EMAIL`` of settings is ``None``, no 
+        If ``REGISTRATION_ACTIVATION_EMAIL`` of settings is ``None``, no
         activation email will be sent.
 
         After successful activation, the signal
         ``registration.signals.user_activated`` will be sent, with the newly
         activated ``User`` as the keyword argument ``uesr``, the password
-        of the ``User`` as the keyword argument ``password``, whether the password
-        has generated or not as the keyword argument ``is_generated`` and the class
-        of this backend as the sender
+        of the ``User`` as the keyword argument ``password``, whether the
+        password has generated or not as the keyword argument ``is_generated``
+        and the class of this backend as the sender
 
         """
         if send_email is None:
             send_email = settings.REGISTRATION_ACTIVATION_EMAIL
 
         activated = RegistrationProfile.objects.activate_user(
-                activation_key=activation_key,
-                site=self.get_site(request),
-                password=password,
-                send_email=send_email,
-                message=message,
-                no_profile_delete=no_profile_delete)
+            activation_key=activation_key,
+            site=self.get_site(request),
+            password=password,
+            send_email=send_email,
+            message=message,
+            no_profile_delete=no_profile_delete)
 
         if activated:
             user, password, is_generated = activated
             signals.user_activated.send(
-                    sender=self.__class__,
-                    user=user,
-                    password=password,
-                    is_generated=is_generated,
-                    request=request,
-                )
+                sender=self.__class__,
+                user=user,
+                password=password,
+                is_generated=is_generated,
+                request=request,
+            )
             return user
         return None
 
@@ -286,12 +299,14 @@ class DefaultRegistrationBackend(RegistrationBackendBase):
         return RegistrationForm
 
     def get_supplement_form_class(self):
-        """Return the default form class used for user registration supplement"""
+        """
+        Return the default form class used for user registration supplement
+        """
         supplement_class = self.get_supplement_class()
         if not supplement_class:
             return None
         return supplement_class.get_form_class()
-        
+
     def get_activation_complete_url(self, user):
         """Return a url to redirect to after successful user activation"""
         return reverse('registration_activation_complete')

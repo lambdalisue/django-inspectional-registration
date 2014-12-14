@@ -72,7 +72,7 @@ class ActivationView(TemplateResponseMixin, FormMixin,
 
     def get_object(self, queryset=None):
         """get ``RegistrationProfile`` instance by ``activation_key``
-        
+
         ``activation_key`` should be passed by URL
         """
         queryset = queryset or self.get_queryset()
@@ -94,7 +94,7 @@ class ActivationView(TemplateResponseMixin, FormMixin,
 
     def form_valid(self, form):
         """activate user who has ``activation_key`` with ``password1``
-        
+
         this method is called when form validation has successed.
         """
         profile = self.get_object()
@@ -148,7 +148,7 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
     def get_supplement_form_class(self):
         """get registration supplement form class via backend"""
         return self.backend.get_supplement_form_class()
-    
+
     def get_supplement_form(self, supplement_form_class):
         """get registration supplement form instance"""
         if not supplement_form_class:
@@ -157,17 +157,19 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
 
     def form_valid(self, form, supplement_form=None):
         """register user with ``username`` and ``email1``
-        
+
         this method is called when form validation has successed.
         """
         username = form.cleaned_data['username']
         email = form.cleaned_data['email1']
-        self.new_user = self.backend.register(username, email, self.request)
-        profile = self.new_user.registration_profile
         if supplement_form:
             supplement = supplement_form.save(commit=False)
-            supplement.registration_profile = profile
-            supplement.save()
+        else:
+            supplement = None
+        self.new_user = self.backend.register(username, email,
+                                              self.request,
+                                              supplement=supplement)
+        profile = self.new_user.registration_profile
         # save the profile on the session so that the RegistrationCompleteView
         # can refer the profile instance.
         # this instance is automatically removed when the user accessed
@@ -177,7 +179,9 @@ class RegistrationView(FormMixin, TemplateResponseMixin, ProcessFormView):
 
     def form_invalid(self, form, supplement_form=None):
         context = self.get_context_data(
-                form=form, supplement_form=supplement_form)
+            form=form,
+            supplement_form=supplement_form
+        )
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):

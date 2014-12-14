@@ -16,41 +16,44 @@ from registration.models import RegistrationProfile
 
 
 class RegistrationAdminForm(forms.ModelForm):
+
     """A special form for handling ``RegistrationProfile``
 
     This form handle ``RegistrationProfile`` correctly in ``save()``
     method. Because ``RegistrationProfile`` is not assumed to handle
     by hands, instance modification by hands is not allowed. Thus subclasses
-    should feel free to add any additions they need, but should avoid overriding
-    a ``save()`` method.
+    should feel free to add any additions they need, but should avoid
+    overriding a ``save()`` method.
 
     """
     registration_backend = get_backend()
 
     UNTREATED_ACTIONS = (
-            ('accept', _('Accept this registration')),
-            ('reject', _('Reject this registration')),
-            ('force_activate', _(
-                'Activate the associated user of this registration forcibly')),
-        )
+        ('accept', _('Accept this registration')),
+        ('reject', _('Reject this registration')),
+        ('force_activate', _(
+            'Activate the associated user of this registration forcibly')),
+    )
     ACCEPTED_ACTIONS = (
-            ('activate', _('Activate the associated user of this registration')),
-        )
+        ('accept', _('Re-accept this registration')),
+        ('activate',
+         _('Activate the associated user of this registration')),
+    )
     REJECTED_ACTIONS = (
-            ('accept', _('Accept this registration')),
-            ('force_activate', _(
-                'Activate the associated user of this registration forcibly')),
-        )
+        ('accept', _('Accept this registration')),
+        ('force_activate', _(
+            'Activate the associated user of this registration forcibly')),
+    )
 
     action_name = forms.ChoiceField(label=_('Action'))
     message = forms.CharField(label=_('Message'),
-            widget=forms.Textarea, required=False,
-            help_text=_(
-                'You can use the value of this field in templates for acceptance, '
-                'rejection and activation email with "{{ message }}". '
-                'It is displayed in rejection email as "Rejection reasons" in '
-                'default templates.'
-            ))
+                              widget=forms.Textarea, required=False,
+                              help_text=_(
+        'You can use the value of this field in templates for acceptance, '
+        'rejection and activation email with "{{ message }}". '
+        'It is displayed in rejection email as "Rejection reasons" in '
+        'default templates.'
+    ))
 
     class Meta:
         model = RegistrationProfile
@@ -74,12 +77,7 @@ class RegistrationAdminForm(forms.ModelForm):
 
         """
         action_name = self.cleaned_data['action_name']
-        if action_name == 'accept':
-            if self.instance._status == 'accepted':
-                raise ValidationError(_(
-                    "You cannot accept the registration which was accepted "
-                    "already."))
-        elif action_name == 'reject':
+        if action_name == 'reject':
             if self.instance._status == 'accepted':
                 raise ValidationError(_(
                     "You cannot reject the registration which was accepted "
@@ -92,7 +90,7 @@ class RegistrationAdminForm(forms.ModelForm):
         elif action_name != 'force_activate':
             # with using django admin page, the code below never be called.
             raise ValidationError(
-                    "Unknown action_name '%s' was requested." % action_name)
+                "Unknown action_name '%s' was requested." % action_name)
         return self.cleaned_data['action_name']
 
     def save(self, commit=True):
@@ -111,29 +109,40 @@ class RegistrationAdminForm(forms.ModelForm):
         message = self.cleaned_data['message']
         # this is a bit hack. to get request instance in form instance,
         # RegistrationAdmin save its request to bundle model instance
-        _request = getattr(self.instance,
-                settings._REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE)
+        _request = getattr(
+            self.instance,
+            settings._REGISTRATION_ADMIN_REQ_ATTR_NAME_IN_MODEL_INS
+        )
         if action_name == 'accept':
-            self.registration_backend.accept(self.instance, _request, message=message)
+            self.registration_backend.accept(
+                self.instance, _request, message=message,
+                force=True,
+            )
         elif action_name == 'reject':
-            self.registration_backend.reject(self.instance, _request, message=message)
+            self.registration_backend.reject(
+                self.instance, _request, message=message)
         elif action_name == 'activate':
-            # DO NOT delete profile otherwise Django Admin will raise IndexError
+            # DO NOT delete profile otherwise Django Admin will raise
+            # IndexError
             self.registration_backend.activate(
-                    self.instance.activation_key, _request, message=message,
-                    no_profile_delete=True,
-                )
+                self.instance.activation_key, _request, message=message,
+                no_profile_delete=True,
+            )
         elif action_name == 'force_activate':
-            self.registration_backend.accept(self.instance, _request, send_email=False)
-            # DO NOT delete profile otherwise Django Admin will raise IndexError
+            self.registration_backend.accept(
+                self.instance, _request, send_email=False)
+            # DO NOT delete profile otherwise Django Admin will raise
+            # IndexError
             self.registration_backend.activate(
-                    self.instance.activation_key, _request, message=message,
-                    no_profile_delete=True,
-                )
+                self.instance.activation_key, _request, message=message,
+                no_profile_delete=True,
+            )
         else:
-            raise AttributeError('Unknwon action_name "%s" was requested.' % action_name)
+            raise AttributeError(
+                'Unknwon action_name "%s" was requested.' % action_name)
         if action_name not in ('activate', 'force_activate'):
-            new_instance = self.instance.__class__.objects.get(pk=self.instance.pk)
+            new_instance = self.instance.__class__.objects.get(
+                pk=self.instance.pk)
         else:
             new_instance = self.instance
             # the instance has been deleted by activate method however

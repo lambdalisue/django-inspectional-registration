@@ -35,9 +35,9 @@ def configure_other_settings():
                       "module.")
         setattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 7)
     if not hasattr(settings,
-            '_REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE'):
+            '_REGISTRATION_ADMIN_REQ_ATTR_NAME_IN_MODEL_INS'):
         setattr(settings,
-                '_REGISTRATION_ADMIN_REQUEST_ATTRIBUTE_NAME_IN_MODEL_INSTANCE',
+                '_REGISTRATION_ADMIN_REQ_ATTR_NAME_IN_MODEL_INS',
                 '_registration_admin_request')
     if not hasattr(settings, 'REGISTRATION_REGISTRATION_EMAIL'):
         setattr(settings,
