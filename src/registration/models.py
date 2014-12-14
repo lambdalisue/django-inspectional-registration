@@ -114,7 +114,8 @@ class RegistrationManager(models.Manager):
         return new_user
 
     @transaction_atomic
-    def accept_registration(self, profile, site, send_email=True, message=None):
+    def accept_registration(self, profile, site,
+                            send_email=True, message=None, force=False):
         """accept account registration of ``profile``
 
         Accept account registration and email activation url to the ``User``,
@@ -136,7 +137,10 @@ class RegistrationManager(models.Manager):
 
         """
         # rejected -> accepted is allowed
-        if profile.status in ('untreated', 'rejected'):
+        if force or profile.status in ('untreated', 'rejected'):
+            if force:
+                # removing activation_key will force to create a new one
+                profile.activation_key = None
             profile.status = 'accepted'
             profile.save()
 
