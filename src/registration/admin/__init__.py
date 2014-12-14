@@ -350,12 +350,17 @@ class RegistrationAdmin(admin.ModelAdmin):
             inline_instances = [inline_form(self.model, self.admin_site)]
         supercls = super(RegistrationAdmin, self)
         if hasattr(supercls, 'get_inline_instances'):
-            # Django >= 1.4
-            inline_instances.extend(supercls.get_inline_instances(
-                request, obj
-            ))
+            if django.VERSION >= (1, 5):
+                inline_instances.extend(supercls.get_inline_instances(
+                    request, obj
+                ))
+            else:
+                # Django 1.4 cannot handle obj
+                inline_instances.extend(supercls.get_inline_instances(
+                    request,
+                ))
         else:
-            # Django 1.3.1
+            # Django 1.3
             for inline_class in self.inlines:
                 inline_instance = inline_class(self.model, self.admin_site)
                 inline_instances.append(inline_instance)
