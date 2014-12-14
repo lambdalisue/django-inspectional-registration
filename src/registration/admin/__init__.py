@@ -73,7 +73,8 @@ csrf_protect_m = method_decorator(csrf_protect)
 def get_supplement_admin_inline_base_class(path=None):
     """
     Return a class of a admin inline class for registration supplement,
-    given the dotted Python import path (as a string) to the admin inline class.
+    given the dotted Python import path (as a string) to the admin inline
+    class.
 
     If the addition cannot be located (e.g., because no such module
     exists, or because the module does not contain a class of the
@@ -88,19 +89,22 @@ def get_supplement_admin_inline_base_class(path=None):
         mod = import_module(module)
     except ImportError, e:
         raise ImproperlyConfigured((
-                'Error loading admin inline class for registration supplement '
-                '%s: "%s"') % (module, e))
+            'Error loading admin inline class for registration supplement '
+            '%s: "%s"'
+        ) % (module, e))
     try:
         cls = getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured((
-                'Module "%s" does not define a admin inline class for '
-                'registration supplement named "%s"') % (module, attr))
+            'Module "%s" does not define a admin inline class for '
+            'registration supplement named "%s"'
+        ) % (module, attr))
     if cls and not issubclass(cls, RegistrationSupplementAdminInlineBase):
         raise ImproperlyConfigured((
-                'Admin inline class for registration supplement class "%s" '
-                'must be a subclass of ``registration.admin.'
-                'RegistrationSupplementAdminInlineBase``') % path)
+            'Admin inline class for registration supplement class "%s" '
+            'must be a subclass of ``registration.admin.'
+            'RegistrationSupplementAdminInlineBase``'
+        ) % path)
     return cls
 
 
@@ -109,9 +113,9 @@ class RegistrationSupplementAdminInlineBase(admin.StackedInline):
 
     This inline class is used to generate admin inline class of current
     registration supplement. Used inline class is defined as
-    ``settings.REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS`` thus if you want
-    to modify the inline class of supplement, create a subclass of this class
-    and set to ``REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS``
+    ``settings.REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS`` thus if you
+    want to modify the inline class of supplement, create a subclass of this
+    class and set to ``REGISTRATION_SUPPLEMENT_ADMIN_INLINE_BASE_CLASS``
 
     """
     fields = ()
@@ -125,38 +129,54 @@ class RegistrationSupplementAdminInlineBase(admin.StackedInline):
         the method or attributes ``admin_fields`` or ``admin_excludes`` which
         is loaded by those method in default.
 
-        See more detail in ``registration.supplements.DefaultRegistrationSupplement``
+        See more detail in
+        ``registration.supplements.DefaultRegistrationSupplement``
         documentation.
 
         """
+        if obj is None:
+            return ()
         fields = self.model.get_admin_fields()
         excludes = self.model.get_admin_excludes()
         if fields is None:
             fields = self.model._meta.get_all_field_names()
             if 'id' in fields:
                 fields.remove('id')
+            if 'registration_profile_id' in fields:
+                fields.remove('registration_profile_id')
         if excludes is not None:
             for exclude in excludes:
                 fields.remove(exclude)
         return fields
 
+    def has_change_permission(self, request, obj=None):
+        # Without change permission, supplemental information won't be shown
+        # while get_queryset required change permission
+        # Ref: https://github.com/django/django/blob/1.7
+        #      /django/contrib/admin/options.py#L1852
+        return True
+
 
 class RegistrationAdmin(admin.ModelAdmin):
     """Admin class of RegistrationProfile
 
-    Admin users can accept/reject registration and activate user in Django Admin
-    page.
+    Admin users can accept/reject registration and activate user in Django
+    Admin page.
 
-    If ``REGISTRATION_SUPPLEMENT_CLASS`` is specified, admin users can see the summary
-    of the supplemental information in list view and detail of it in change view.
+    If ``REGISTRATION_SUPPLEMENT_CLASS`` is specified, admin users can see the
+    summary of the supplemental information in list view and detail of it in
+    change view.
 
-    ``RegistrationProfile`` is not assumed to handle by hand thus adding/changing/deleting
-    is not accepted even in Admin page. ``RegistrationProfile`` only can be
-    accepted/rejected or activated. To prevent these disallowed functions, the special
-    AdminForm called ``RegistrationAdminForm`` is used. Its ``save`` method is overridden
-    and it actually does not save the instance. It just call ``accept``, ``reject`` or
-    ``activate`` method of current registration backend. So you don't want to override
-    the ``save`` method of the form.
+    ``RegistrationProfile`` is not assumed to handle by hand thus
+    adding/changing/deleting is not accepted even in Admin page.
+    ``RegistrationProfile`` only can be accepted/rejected or activated.
+    To prevent these disallowed functions, the special AdminForm called
+    ``RegistrationAdminForm`` is used.
+    Its ``save`` method is overridden and it actually does not save the
+    instance.
+    It just call ``accept``, ``reject`` or ``activate`` method of current
+    registration backend. So you don't want to override the ``save`` method of
+    the form.
 
     """
     list_display = ('user', 'get_status_display',
@@ -171,11 +191,11 @@ class RegistrationAdmin(admin.ModelAdmin):
     readonly_fields = ('user', '_status')
 
     actions = (
-            'accept_users',
-            'reject_users',
-            'force_activate_users',
-            'resend_acceptance_email'
-        )
+        'accept_users',
+        'reject_users',
+        'force_activate_users',
+        'resend_acceptance_email'
+    )
 
     def __init__(self, model, admin_site):
         super(RegistrationAdmin, self).__init__(model, admin_site)
@@ -231,20 +251,26 @@ class RegistrationAdmin(admin.ModelAdmin):
         """Accept the selected users, if they are not already accepted"""
         for profile in queryset:
             self.backend.accept(profile, request=request)
-    accept_users.short_description = _("Accept registrations of selected users")
+    accept_users.short_description = _(
+        "Accept registrations of selected users"
+    )
 
     def reject_users(self, request, queryset):
         """Reject the selected users, if they are not already accepted"""
         for profile in queryset:
             self.backend.reject(profile, request=request)
-    reject_users.short_description = _("Reject registrations of selected users")
+    reject_users.short_description = _(
+        "Reject registrations of selected users"
+    )
 
     def force_activate_users(self, request, queryset):
         """Activates the selected users, if they are not already activated"""
         for profile in queryset:
             self.backend.accept(profile, request=request, send_email=False)
             self.backend.activate(profile.activation_key, request=request)
-    force_activate_users.short_description = _("Activate selected users forcibly")
+    force_activate_users.short_description = _(
+        "Activate selected users forcibly"
+    )
 
     def resend_acceptance_email(self, request, queryset):
         """Re-sends acceptance emails for the selected users
@@ -261,25 +287,30 @@ class RegistrationAdmin(admin.ModelAdmin):
                 if profile.status != 'rejected':
                     profile.send_acceptance_email(site=site)
     resend_acceptance_email.short_description = _(
-            "Re-send acceptance emails to selected users")
+        "Re-send acceptance emails to selected users"
+    )
 
     def display_supplement_summary(self, obj):
         """Display supplement summary
 
-        Display ``__unicode__`` method result of ``REGISTRATION_SUPPLEMENT_CLASS``
-        ``Not available`` when ``REGISTRATION_SUPPLEMENT_CLASS`` is not specified
+        Display ``__unicode__`` method result of
+        ``REGISTRATION_SUPPLEMENT_CLASS``
+        ``Not available`` when ``REGISTRATION_SUPPLEMENT_CLASS`` is not
+        specified
 
         """
         if obj.supplement:
             return force_unicode(obj.supplement)
         return _('Not available')
     display_supplement_summary.short_description = _(
-            'A summary of supplemental information')
+        'A summary of supplemental information'
+    )
 
     def display_activation_key(self, obj):
         """Display activation key with link
 
-        Note that displaying activation key is not recommended in security reason.
+        Note that displaying activation key is not recommended in security
+        reason.
         If you really want to use this method, create your own subclass and
         re-register to admin.site
 
@@ -299,26 +330,30 @@ class RegistrationAdmin(admin.ModelAdmin):
     display_activation_key.allow_tags = True
 
     def get_inline_instances(self, request, obj=None):
-        """return inline instances with registration supplement inline instance"""
+        """
+        return inline instances with registration supplement inline instance
+        """
         inline_instances = []
         supplement_class = self.backend.get_supplement_class()
         if supplement_class:
             kwargs = {
-                    'extra': 1,
-                    'max_num': 1,
-                    'can_delete': False,
-                    'model': supplement_class
-                }
+                'extra': 1,
+                'max_num': 1,
+                'can_delete': False,
+                'model': supplement_class,
+            }
             inline_base = get_supplement_admin_inline_base_class()
             inline_form = type(
-                    "RegistrationSupplementInlineAdmin",
-                    (inline_base,), kwargs
-                )
+                "RegistrationSupplementInlineAdmin",
+                (inline_base,), kwargs
+            )
             inline_instances = [inline_form(self.model, self.admin_site)]
-        if hasattr(super(RegistrationAdmin, self), 'get_inline_instance'):
+        supercls = super(RegistrationAdmin, self)
+        if hasattr(supercls, 'get_inline_instances'):
             # Django >= 1.4
-            inline_instances.extend(super(RegistrationAdmin,
-                self).get_inline_instance(request, obj))
+            inline_instances.extend(supercls.get_inline_instances(
+                request, obj
+            ))
         else:
             # Django 1.3.1
             for inline_class in self.inlines:
@@ -344,9 +379,9 @@ class RegistrationAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, form_url='', extra_context=None):
         """called for change view
 
-        Check permissions of the admin user for ``POST`` request depends on what
-        action is requested and raise PermissionDenied if the action is not
-        accepted for the admin user.
+        Check permissions of the admin user for ``POST`` request depends on
+        what action is requested and raise PermissionDenied if the action is
+        not accepted for the admin user.
 
         """
         obj = self.get_object(request, unquote(object_id))
@@ -363,11 +398,14 @@ class RegistrationAdmin(admin.ModelAdmin):
             #   to activate with backend in form.save() method.
             #
             action_name = request.POST.get('action_name')
-            if action_name == 'accept' and not self.has_accept_permission(request, obj):
+            if (action_name == 'accept' and
+                    not self.has_accept_permission(request, obj)):
                 raise PermissionDenied
-            elif action_name == 'reject' and not self.has_reject_permission(request, obj):
+            elif (action_name == 'reject' and
+                    not self.has_reject_permission(request, obj)):
                 raise PermissionDenied
-            elif action_name == 'activate' and not self.has_activate_permission(request, obj):
+            elif (action_name == 'activate' and
+                    not self.has_activate_permission(request, obj)):
                 raise PermissionDenied
             elif action_name == 'force_activate' and (
                     not self.has_accept_permission(request, obj) or
@@ -376,12 +414,15 @@ class RegistrationAdmin(admin.ModelAdmin):
 
         if django.VERSION < (1, 4,):
             response = super(RegistrationAdmin, self).change_view(
-                    request, object_id, extra_context)
+                request, object_id, extra_context
+            )
         else:
             response = super(RegistrationAdmin, self).change_view(
-                    request, object_id, form_url, extra_context)
+                request, object_id, form_url, extra_context
+            )
 
-        if request.method == 'POST' and action_name in ('activate', 'force_activate'):
+        if (request.method == 'POST' and
+                action_name in ('activate', 'force_activate')):
             # if the requested data is valid then response will be an instance
             # of ``HttpResponseRedirect`` otherwise ``TemplateResponse``
             if isinstance(response, HttpResponseRedirect):
