@@ -6,3 +6,4 @@ PyYAML
 sphinx
 south
 sphinxcontrib-napoleon
+sphinx-rtd-theme
