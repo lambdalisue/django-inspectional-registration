@@ -122,4 +122,13 @@ This changes were introduced from version 0.4.0, to keep the backward compatibil
     REGISTRATION_DJANGO_AUTH_URL_NAMES_PREFIX = 'auth_'
     REGISTRATION_DJANGO_AUTH_URL_NAMES_SUFFIX = ''
 
+Because of an `issue#36 <https://github.com/lambdalisue/django-inspectional-registration/issues/36>`_, django-inspectional-registration add the following new option.
 
+-   ``REGISTRATION_USE_OBJECT_PERMISSION``
+    If it is ``True``, django-inspectional-registration pass ``obj`` to ``request.user.has_perm`` in ``RegistrationAdmin.has_*_permission()`` methods. A default permission backend of Django does not support object permission thus it should be ``False`` if you don't use extra permission backends such as `django-permission <https://lambdalisue/django-permission>`_.
+
+This change was introduced from version 0.4.7. To keep backward compatibility, write the following in your settings module.
+
+.. code:: python
+
+    REGISTRATION_USE_OBJECT_PERMISSION = True

@@ -215,14 +215,20 @@ class RegistrationAdmin(admin.ModelAdmin):
 
     def has_accept_permission(self, request, obj):
         """whether the user has accept permission"""
+        if !settings.REGISTRATION_USE_OBJECT_PERMISSION:
+            obj = None
         return request.user.has_perm('registration.accept_registration', obj)
 
     def has_reject_permission(self, request, obj):
         """whether the user has reject permission"""
+        if !settings.REGISTRATION_USE_OBJECT_PERMISSION:
+            obj = None
         return request.user.has_perm('registration.reject_registration', obj)
 
     def has_activate_permission(self, request, obj):
         """whether the user has activate permission"""
+        if !settings.REGISTRATION_USE_OBJECT_PERMISSION:
+            obj = None
         return request.user.has_perm('registration.activate_user', obj)
 
     def get_actions(self, request):

@@ -24,6 +24,9 @@ class InspectionalRegistrationAppConf(AppConf):
     DJANGO_AUTH_URL_NAMES_PREFIX = ''
     DJANGO_AUTH_URL_NAMES_SUFFIX = ''
 
+    # Issue #36
+    USE_OBJECT_PERMISSION = False
+
     class Meta:
         prefix = 'registration'
 
@@ -43,4 +46,3 @@ def configure_other_settings():
         setattr(settings,
                 'REGISTRATION_REGISTRATION_EMAIL', True)
 configure_other_settings()
-
