@@ -388,7 +388,14 @@ class RegistrationProfile(models.Model):
 
     def _get_supplement(self):
         """get supplement information of this registration"""
-        return getattr(self, '_supplement', None)
+        supplement_class = self.supplement_class
+        if supplement_class:
+            app_label = supplement_class._meta.app_label
+            class_name = supplement_class.__name__.lower()
+            field_name = '_%s_%s_supplement' % (app_label, class_name)
+            return getattr(self, field_name, None)
+        else:
+            return None
     supplement = property(_get_supplement)
 
     def _get_status(self):

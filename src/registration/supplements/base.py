@@ -47,14 +47,14 @@ class RegistrationSupplementBase(models.Model):
     registration_profile = models.OneToOneField(
             'registration.RegistrationProfile',
             verbose_name=_('registration profile'),
-            editable=False, related_name='_supplement')
+            editable=False, related_name='_%(app_label)s_%(class)s_supplement')
 
     class Meta:
         abstract = True
 
     def __unicode__(self):
         """return the summary of this supplemental information
-        
+
         Subclasses must define them own method
         """
         raise NotImplementedError(
