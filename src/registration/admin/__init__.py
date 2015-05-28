@@ -372,14 +372,21 @@ class RegistrationAdmin(admin.ModelAdmin):
                 inline_instances.append(inline_instance)
         return inline_instances
 
-    def get_object(self, request, object_id):
+    def get_object(self, request, object_id, from_field=None):
         """add ``request`` instance to model instance and return
 
         To get ``request`` instance in form, ``request`` instance is stored
         in the model instance.
 
         """
-        obj = super(RegistrationAdmin, self).get_object(request, object_id)
+        if django.VERSION < (1, 8, 0):
+            obj = super(RegistrationAdmin, self).get_object(request, object_id)
+        else:
+            # Note:
+            #   from_field was introduced from django 1.8
+            obj = super(RegistrationAdmin, self).get_object(request,
+                                                            object_id,
+                                                            from_field)
         if obj:
             attr_name = settings._REGISTRATION_ADMIN_REQ_ATTR_NAME_IN_MODEL_INS
             setattr(obj, attr_name, request)
