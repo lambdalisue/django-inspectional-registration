@@ -8,25 +8,18 @@ django-inspectional-registration
     :target: https://coveralls.io/r/lambdalisue/django-inspectional-registration/
     :alt: Coverage
 
-.. image:: https://pypip.in/d/django-inspectional-registration/badge.png
-    :target: https://pypi.python.org/pypi/django-inspectional-registration/
-    :alt: Downloads
+.. image:: https://requires.io/github/lambdalisue/django-inspectional-registration/requirements.svg?branch=master
+    :target: https://requires.io/github/lambdalisue/django-inspectional-registration/requirements/?branch=master
+    :alt: Requirements Status
 
-.. image:: https://pypip.in/v/django-inspectional-registration/badge.png
-    :target: https://pypi.python.org/pypi/django-inspectional-registration/
-    :alt: Latest version
+.. image:: https://landscape.io/github/lambdalisue/django-inspectional-registration/master/landscape.png
+    :target: https://landscape.io/github/lambdalisue/django-inspectional-registration/master
+    :alt: Code Health
 
-.. image:: https://pypip.in/wheel/django-inspectional-registration/badge.png
-    :target: https://pypi.python.org/pypi/django-inspectional-registration/
-    :alt: Wheel Status
+.. image:: https://scrutinizer-ci.com/g/lambdalisue/django-inspectional-registration/badges/quality-score.png?b=master
+    :target: https://scrutinizer-ci.com/g/lambdalisue/django-inspectional-registration/inspections
+    :alt: Inspection
 
-.. image:: https://pypip.in/egg/django-inspectional-registration/badge.png
-    :target: https://pypi.python.org/pypi/django-inspectional-registration/
-    :alt: Egg Status
-
-.. image:: https://pypip.in/license/django-inspectional-registration/badge.png
-    :target: https://pypi.python.org/pypi/django-inspectional-registration/
-    :alt: License
 
 Author
     Alisue <lambdalisue@hashnote.net>
