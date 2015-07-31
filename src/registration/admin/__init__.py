@@ -48,7 +48,6 @@ import django
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.contrib import admin
-from django.contrib.admin.util import unquote
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
@@ -65,6 +64,7 @@ from registration.admin.forms import RegistrationAdminForm
 from registration.compat import import_module
 from registration.compat import force_unicode
 from registration.compat import transaction_atomic
+from registration.compat import unquote
 
 
 csrf_protect_m = method_decorator(csrf_protect)
