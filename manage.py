@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Django 1.2 - 1.6 compatible manage.py
 Modify this script to make your own manage.py

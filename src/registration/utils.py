@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Utilities for django-inspectional-registration
 """
@@ -7,6 +8,8 @@ import random
 
 from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite
+from django.utils.encoding import force_text
+from django.utils.six.moves import range
 from registration.compat import sha1
 
 
@@ -30,9 +33,8 @@ def generate_activation_key(username):
 
     .. _django-registration: https://bitbucket.org/ubernostrum/django-registration
     """
-    if not isinstance(username, unicode):
-        username = username.decode('utf-8')
-    seed = unicode(random.random())
+    username = force_text(username)
+    seed = force_text(random.random())
     salt = sha1(seed.encode('utf-8')).hexdigest()[:5]
     activation_key = sha1((salt+username).encode('utf-8')).hexdigest()
     return activation_key
@@ -43,7 +45,7 @@ def generate_random_password(length=10):
     # Without 1, l, O, 0 because those character are hard to tell
     # the difference between in same fonts
     chars = '23456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
-    password = "".join([random.choice(chars) for i in xrange(length)])
+    password = "".join([random.choice(chars) for i in range(length)])
     return password
 
 

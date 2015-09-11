@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
@@ -72,7 +73,7 @@ class RegistrationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.failIf(response.context['form'].is_valid())
         self.assertFormError(response, 'form', field=None,
-                             errors=u"The two email fields didn't match.")
+                             errors="The two email fields didn't match.")
         self.assertEqual(len(mail.outbox), 0)
 
     def test_registration_complete_view_get(self):

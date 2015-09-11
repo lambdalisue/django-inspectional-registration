@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from registration.compat import url
 from registration.compat import patterns
 from registration.compat import include

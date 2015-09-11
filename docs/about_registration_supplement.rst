@@ -21,7 +21,9 @@ Quick tutorial to create your own Registration Supplement
 
 2.  Create new registration supplement model in your ``models.py`` as::
 
+        from __future__ import unicode_literals
         from django.db import models
+        from django.utils.encoding import python_2_unicode_compatible
         from registration.supplements import RegistrationSupplementBase
 
         class MyRegistrationSupplement(RegistrationSupplementBase):
@@ -30,7 +32,7 @@ Quick tutorial to create your own Registration Supplement
             age = models.IntegerField("Age")
             remarks = models.TextField("Remarks", blank=True)
 
-            def __unicode__(self):
+            def __str__(self):
                 # a summary of this supplement
                 return "%s (%s)" % (self.realname, self.age)
 

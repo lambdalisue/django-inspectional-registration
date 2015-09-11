@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
@@ -47,7 +48,7 @@ class RegistrationProfileTestCase(TestCase):
         self.assertEqual(profile.user.id, new_user.id)
         self.assertEqual(profile.status, 'untreated')
         self.assertEqual(profile.activation_key, None)
-        self.assertEqual(unicode(profile),
+        self.assertEqual(str(profile),
                          "Registration information for alice")
 
     def test_profile_status_modification(self):

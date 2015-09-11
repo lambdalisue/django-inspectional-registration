@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Compatibility module
 """
@@ -38,12 +39,6 @@ try:
     from hashlib import sha1
 except ImportError:
     from django.utils.hashcompat import sha_constructor as sha1
-
-try:
-    # only available in python 2
-    from django.utils.encoding import force_unicode
-except ImportError:
-    from django.utils.encoding import force_text as force_unicode
 
 #
 # Django change the transaction strategy from Django 1.6

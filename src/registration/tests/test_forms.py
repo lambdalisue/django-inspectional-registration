@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
@@ -27,7 +28,7 @@ class ActivationFormTests(TestCase):
             # Mismatched passwords.
             {'data': {'password1': 'foo',
                       'password2': 'bar'},
-            'error': ('__all__', [u"The two password fields didn't match."])},
+            'error': ('__all__', ["The two password fields didn't match."])},
             ]
 
         for invalid_dict in invalid_data_dicts:
@@ -62,17 +63,17 @@ class RegistrationFormTests(TestCase):
             {'data': {'username': 'foo/bar',
                       'email1': 'foo@example.com',
                       'email2': 'foo@example.com'},
-            'error': ('username', [u"This value must contain only letters, numbers and underscores."])},
+            'error': ('username', ["This value must contain only letters, numbers and underscores."])},
             # Already-existing username.
             {'data': {'username': 'alice',
                       'email1': 'alice@example.com',
                       'email2': 'alice@example.com'},
-            'error': ('username', [u"A user with that username already exists."])},
+            'error': ('username', ["A user with that username already exists."])},
             # Mismatched email.
             {'data': {'username': 'foo',
                       'email1': 'foo@example.com',
                       'email2': 'bar@example.com'},
-            'error': ('__all__', [u"The two email fields didn't match."])},
+            'error': ('__all__', ["The two email fields didn't match."])},
             ]
 
         for invalid_dict in invalid_data_dicts:
@@ -97,7 +98,7 @@ class RegistrationFormTests(TestCase):
                                                           'email2': 'foo@example.com'})
         self.failIf(form.is_valid())
         self.assertEqual(form.errors['tos'],
-                         [u"You must agree to the terms to register"])
+                         ["You must agree to the terms to register"])
 
         form = forms.RegistrationFormTermsOfService(data={'username': 'foofoohogehoge',
                                                           'email1': 'foo@example.com',
@@ -121,7 +122,7 @@ class RegistrationFormTests(TestCase):
                                                        'email2': 'alice@example.com'})
         self.failIf(form.is_valid())
         self.assertEqual(form.errors['email1'],
-                         [u"This email address is already in use. Please supply a different email address."])
+                         ["This email address is already in use. Please supply a different email address."])
 
         form = forms.RegistrationFormUniqueEmail(data={'username': 'foofoohogehoge',
                                                        'email1': 'foo@example.com',
@@ -137,12 +138,12 @@ class RegistrationFormTests(TestCase):
         base_data = {'username': 'foofoohogehoge'}
         for domain in forms.RegistrationFormNoFreeEmail.bad_domains:
             invalid_data = base_data.copy()
-            invalid_data['email1'] = u"foo@%s" % domain
+            invalid_data['email1'] = "foo@%s" % domain
             invalid_data['email2'] = invalid_data['email1']
             form = forms.RegistrationFormNoFreeEmail(data=invalid_data)
             self.failIf(form.is_valid())
             self.assertEqual(form.errors['email1'],
-                             [u"Registration using free email addresses is prohibited. Please supply a different email address."])
+                             ["Registration using free email addresses is prohibited. Please supply a different email address."])
 
         base_data['email1'] = 'foo@example.com'
         base_data['email2'] = base_data['email1']

@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Forms of django-inspectional-registration
 
@@ -143,8 +144,8 @@ class RegistrationFormTermsOfService(RegistrationForm):
 
     """
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
-                             label=_(u'I have read and agree to the Terms '
-                                     u'of Service'),
+                             label=_('I have read and agree to the Terms '
+                                     'of Service'),
                              error_messages={'required': _(
                                  "You must agree to the terms to register")})
 
