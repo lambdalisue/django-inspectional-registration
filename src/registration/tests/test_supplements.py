@@ -12,17 +12,8 @@ from registration import forms
 from registration.conf import settings
 from registration.supplements import get_supplement_class
 from registration.models import RegistrationProfile
+from registration.tests.utils import with_apps
 from registration.tests.compat import override_settings
-
-
-def with_apps(*apps):
-    """
-    Class decorator that makes sure the passed apps are present in
-    INSTALLED_APPS.
-    """
-    apps_set = set(settings.INSTALLED_APPS)
-    apps_set.update(apps)
-    return override_settings(INSTALLED_APPS=list(apps_set))
 
 
 class RegistrationSupplementRetrievalTests(TestCase):

@@ -15,6 +15,7 @@ from registration import signals
 from registration.backends import get_backend
 from registration.backends.default import DefaultRegistrationBackend
 from registration.models import RegistrationProfile
+from registration.tests.utils import with_apps
 from registration.tests.mock import mock_request
 from registration.tests.compat import override_settings
 
@@ -227,6 +228,39 @@ class DefaultRegistrationBackendTestCase(TestCase):
 
         self.assertEqual(len(received_signals), 1)
         self.assertEqual(received_signals, [signals.user_registered])
+
+    @with_apps(
+        'django.contrib.contenttypes',
+        'registration.supplements.default'
+    )
+    @override_settings(
+            REGISTRATION_SUPPLEMENT_CLASS=(
+                'registration.supplements.default.models.DefaultRegistrationSupplement'),
+        )
+    def test_registration_signal_with_supplement(self):
+        from registration.supplements.default.models import DefaultRegistrationSupplement
+        supplement = DefaultRegistrationSupplement(remarks='foo')
+
+        def receiver(sender, user, profile, **kwargs):
+            self.assertEqual(user.username, 'bob')
+            self.assertEqual(user.registration_profile, profile)
+            self.assertEqual(user.registration_profile.supplement,
+                             profile.supplement)
+            self.assertEqual(profile.supplement.remarks, 'foo')
+            received_signals.append(kwargs.get('signal'))
+
+        received_signals = []
+        signals.user_registered.connect(receiver, sender=self.backend.__class__)
+
+        self.backend.register(
+            username='bob', email='bob@example.com',
+            request=self.mock_request,
+            supplement=supplement,
+        )
+
+        self.assertEqual(len(received_signals), 1)
+        self.assertEqual(received_signals, [signals.user_registered])
+
 
     def test_acceptance_signal(self):
         def receiver(sender, user, profile, **kwargs):
