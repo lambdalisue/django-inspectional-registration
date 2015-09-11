@@ -11,6 +11,7 @@ Subpackages
     registration.contrib
     registration.management
     registration.migrations
+    registration.south_migrations
     registration.supplements
     registration.tests
 

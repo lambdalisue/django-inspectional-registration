@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Automatically log activated user in when they have activated with their activation
 link. This doesn't happen when the user was activated programatically with Django

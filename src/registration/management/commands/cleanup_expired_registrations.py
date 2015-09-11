@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 A management command which deletes expired or rejected accounts (e.g.,
 accounts which signed up but never activated) from the database.

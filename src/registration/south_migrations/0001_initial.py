@@ -1,25 +1,27 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import datetime
 from south.db import db
-from south.v2 import DataMigration
+from south.v2 import SchemaMigration
 from django.db import models
 
-class Migration(DataMigration):
+class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        for profile in orm.RegistrationProfile.objects.all():
-            # all registration profile was set status 'untreated' by default
-            profile.activation_key = None
+        
+        # Adding model 'RegistrationProfile'
+        db.create_table('registration_registrationprofile', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True)),
+            ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40)),
+        ))
+        db.send_create_signal('registration', ['RegistrationProfile'])
 
 
     def backwards(self, orm):
-        for profile in orm.RegistrationProfile.objects.all():
-            # profile which is haven't treated yet should set activation_key
-            # and should send activation key as well
-            # Note:
-            #   all 'rejeted' profile is expired previously thus doesn't matter
-            if profile._status == 'untreated':
-                orm.RegistrationProfile.objects.accept_registration(profile)
+        
+        # Deleting model 'RegistrationProfile'
+        db.delete_table('registration_registrationprofile')
 
 
     models = {
@@ -61,10 +63,9 @@ class Migration(DataMigration):
         },
         'registration.registrationprofile': {
             'Meta': {'object_name': 'RegistrationProfile'},
-            '_status': ('django.db.models.fields.CharField', [], {'default': "'untreated'", 'max_length': '10', 'db_column': "'status'"}),
-            'activation_key': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '40', 'null': 'True'}),
+            'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'registration_profile'", 'unique': 'True', 'to': "orm['auth.User']"})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'unique': 'True'})
         }
     }
 

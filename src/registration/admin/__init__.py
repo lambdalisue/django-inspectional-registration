@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Admins of django-inspectional-registration
 
@@ -55,6 +56,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.safestring import mark_safe
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
 
 from registration.conf import settings
 from registration.backends import get_backend
@@ -62,7 +64,6 @@ from registration.models import RegistrationProfile
 from registration.utils import get_site
 from registration.admin.forms import RegistrationAdminForm
 from registration.compat import import_module
-from registration.compat import force_unicode
 from registration.compat import transaction_atomic
 from registration.compat import unquote
 
@@ -87,7 +88,7 @@ def get_supplement_admin_inline_base_class(path=None):
     module, attr = path[:i], path[i+1:]
     try:
         mod = import_module(module)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured((
             'Error loading admin inline class for registration supplement '
             '%s: "%s"'
@@ -306,7 +307,7 @@ class RegistrationAdmin(admin.ModelAdmin):
 
         """
         if obj.supplement:
-            return force_unicode(obj.supplement)
+            return force_text(obj.supplement)
         return _('Not available')
     display_supplement_summary.short_description = _(
         'A summary of supplemental information'
@@ -329,7 +330,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             activation_url = reverse('registration_activate',
                                      kwargs={
                                          'activation_key': obj.activation_key})
-            return mark_safe(u'<a href="%s">%s</a>' % (
+            return mark_safe('<a href="%s">%s</a>' % (
                 activation_url, obj.activation_key))
         return _('Not available')
     display_activation_key.short_description = _('Activation key')

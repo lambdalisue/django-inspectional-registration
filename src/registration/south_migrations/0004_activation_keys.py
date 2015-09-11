@@ -1,33 +1,26 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        
-        # Adding field 'RegistrationProfile._status'
-        db.add_column('registration_registrationprofile', '_status', self.gf('django.db.models.fields.CharField')(default='untreated', max_length=10, db_column='status'), keep_default=False)
-
-        # Changing field 'RegistrationProfile.activation_key'
-        db.alter_column('registration_registrationprofile', 'activation_key', self.gf('django.db.models.fields.CharField')(max_length=40, null=True))
-
-        # Changing field 'RegistrationProfile.user'
-        db.alter_column('registration_registrationprofile', 'user_id', self.gf('django.db.models.fields.related.OneToOneField')(unique=True, to=orm['auth.User']))
+        for profile in orm.RegistrationProfile.objects.all():
+            # all registration profile was set status 'untreated' by default
+            profile.activation_key = None
 
 
     def backwards(self, orm):
-        
-        # Deleting field 'RegistrationProfile._status'
-        db.delete_column('registration_registrationprofile', 'status')
-
-        # Changing field 'RegistrationProfile.activation_key'
-        db.alter_column('registration_registrationprofile', 'activation_key', self.gf('django.db.models.fields.CharField')(default='', max_length=40))
-
-        # Changing field 'RegistrationProfile.user'
-        db.alter_column('registration_registrationprofile', 'user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], unique=True))
+        for profile in orm.RegistrationProfile.objects.all():
+            # profile which is haven't treated yet should set activation_key
+            # and should send activation key as well
+            # Note:
+            #   all 'rejeted' profile is expired previously thus doesn't matter
+            if profile._status == 'untreated':
+                orm.RegistrationProfile.objects.accept_registration(profile)
 
 
     models = {

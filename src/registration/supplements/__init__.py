@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Registration Supplement
 """
@@ -29,7 +30,7 @@ def get_supplement_class(path=None):
     module, attr = path[:i], path[i+1:]
     try:
         mod = import_module(module)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured(
                 'Error loading registration addition %s: "%s"' % (module, e))
     try:

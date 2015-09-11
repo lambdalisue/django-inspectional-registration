@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 A registration supplemental abstract model
 """
@@ -6,8 +7,10 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.db import models
 from django.forms.models import modelform_factory
 from django.utils.text import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class RegistrationSupplementBase(models.Model):
     """A registration supplement abstract model
 
@@ -16,9 +19,9 @@ class RegistrationSupplementBase(models.Model):
     user who tried to register the site and displaied in django admin page to
     help determine the acceptance/rejection of the registration
 
-    The ``__unicode__()`` method is used to display the summary of the 
+    The ``__str__()`` method is used to display the summary of the 
     supplemental information in django admin's change list view. Thus subclasses
-    must define them own ``__unicode__()`` method.
+    must define them own ``__str__()`` method.
 
     The ``get_form_class()`` is a class method return a value of ``form_class``
     attribute to determine the form class used for filling up the supplemental
@@ -52,13 +55,13 @@ class RegistrationSupplementBase(models.Model):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         """return the summary of this supplemental information
 
         Subclasses must define them own method
         """
         raise NotImplementedError(
-                "You must define '__unicode__' method and return summary of "
+                "You must define '__str__' method and return summary of "
                 "the supplement")
 
     @classmethod

@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Backend
 
@@ -64,7 +65,7 @@ def get_backend_class(path=None):
     module, attr = path[:i], path[i+1:]
     try:
         mod = import_module(module)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured(
                 'Error loading registration backend %s: "%s"' % (module, e))
     try:

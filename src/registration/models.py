@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Models of django-inspectional-registration
 
@@ -55,6 +56,7 @@ from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 from registration.conf import settings
 from registration.compat import get_user_model
@@ -340,6 +342,7 @@ class RegistrationManager(models.Manager):
                     profile.delete()
 
 
+@python_2_unicode_compatible
 class RegistrationProfile(models.Model):
     """Registration profile model class
 
@@ -437,9 +440,6 @@ class RegistrationProfile(models.Model):
         sl = dict(sl)
         return sl.get(self.status)
     get_status_display.short_description = _("status")
-
-    def __unicode__(self):
-        return u"Registration information for %s" % self.user
 
     def __str__(self):
         return "Registration information for %s" % self.user

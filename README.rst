@@ -12,9 +12,9 @@ django-inspectional-registration
     :target: https://requires.io/github/lambdalisue/django-inspectional-registration/requirements/?branch=master
     :alt: Requirements Status
 
-.. image:: https://landscape.io/github/lambdalisue/django-inspectional-registration/master/landscape.png
-    :target: https://landscape.io/github/lambdalisue/django-inspectional-registration/master
-    :alt: Code Health
+.. image:: https://landscape.io/github/lambdalisue/django-inspectional-registration/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/lambdalisue/django-inspectional-registration/master
+   :alt: Code Health
 
 .. image:: https://scrutinizer-ci.com/g/lambdalisue/django-inspectional-registration/badges/quality-score.png?b=master
     :target: https://scrutinizer-ci.com/g/lambdalisue/django-inspectional-registration/inspections

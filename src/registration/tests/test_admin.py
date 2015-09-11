@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
@@ -177,8 +178,8 @@ class RegistrationAdminTestCase(TestCase):
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
             response.context['adminform'].form.errors['action_name'],
-            [u"Select a valid choice. "
-             u"reject is not one of the available choices."])
+            ["Select a valid choice. "
+             "reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')
@@ -207,8 +208,8 @@ class RegistrationAdminTestCase(TestCase):
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
             response.context['adminform'].form.errors['action_name'],
-            [u"Select a valid choice. "
-             u"reject is not one of the available choices."])
+            ["Select a valid choice. "
+             "reject is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'rejected')
@@ -234,8 +235,8 @@ class RegistrationAdminTestCase(TestCase):
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
             response.context['adminform'].form.errors['action_name'],
-            [u"Select a valid choice. "
-             u"activate is not one of the available choices."])
+            ["Select a valid choice. "
+             "activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'untreated')
@@ -287,8 +288,8 @@ class RegistrationAdminTestCase(TestCase):
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
             response.context['adminform'].form.errors['action_name'],
-            [u"Select a valid choice. "
-             u"activate is not one of the available choices."])
+            ["Select a valid choice. "
+             "activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'rejected')
@@ -337,8 +338,8 @@ class RegistrationAdminTestCase(TestCase):
         self.failIf(response.context['adminform'].form.is_valid())
         self.assertEqual(
             response.context['adminform'].form.errors['action_name'],
-            [u"Select a valid choice. "
-             u"force_activate is not one of the available choices."])
+            ["Select a valid choice. "
+             "force_activate is not one of the available choices."])
 
         profile = RegistrationProfile.objects.get(user__pk=new_user.pk)
         self.assertEqual(profile.status, 'accepted')

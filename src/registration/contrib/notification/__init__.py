@@ -1,4 +1,5 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Send notification emails to admins, managers or particular recipients 
 when new user has registered in the site

@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
@@ -116,7 +117,7 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
         self.failIf(response.context['form'].is_valid())
         self.failUnless(response.context['supplement_form'].is_valid())
         self.assertFormError(response, 'form', field=None,
-                             errors=u"The two email fields didn't match.")
+                             errors="The two email fields didn't match.")
         self.assertEqual(len(mail.outbox), 0)
 
     def test_registration_view_post_no_remarks_failure(self):
@@ -133,5 +134,5 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
         self.failUnless(response.context['form'].is_valid())
         self.failIf(response.context['supplement_form'].is_valid())
         self.assertFormError(response, 'supplement_form', field='remarks',
-                             errors=u"This field is required.")
+                             errors="This field is required.")
         self.assertEqual(len(mail.outbox), 0)
