@@ -409,3 +409,25 @@ class RegistrationAdminTestCase(TestCase):
             None, RegistrationProfile.objects.all())
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)
+
+    @override_settings(REGISTRATION_SUPPLEMENT_CLASS=None)
+    def test_get_inline_instances_without_supplements(self):
+        admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
+        # Prevent caching
+        if hasattr(admin_class.backend, '_supplement_class_cache'):
+            delattr(admin_class.backend, '_supplement_class_cache')
+
+        inline_instances = admin_class.get_inline_instances(self.mock_request, None)
+        self.assertEqual(len(inline_instances), 0)
+
+    @override_settings(
+        REGISTRATION_SUPPLEMENT_CLASS="registration.supplements.default.models.DefaultRegistrationSupplement"
+    )
+    def test_get_inline_instances_with_default_supplements(self):
+        admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
+        # Prevent caching
+        if hasattr(admin_class.backend, '_supplement_class_cache'):
+            delattr(admin_class.backend, '_supplement_class_cache')
+
+        inline_instances = admin_class.get_inline_instances(self.mock_request, None)
+        self.assertEqual(len(inline_instances), 1)

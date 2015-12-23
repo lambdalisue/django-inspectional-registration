@@ -351,7 +351,7 @@ class RegistrationAdmin(admin.ModelAdmin):
             }
             inline_base = get_supplement_admin_inline_base_class()
             inline_form = type(
-                "RegistrationSupplementInlineAdmin",
+                str("RegistrationSupplementInlineAdmin"),
                 (inline_base,), kwargs
             )
             inline_instances = [inline_form(self.model, self.admin_site)]
