@@ -410,6 +410,7 @@ class RegistrationAdminTestCase(TestCase):
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)
 
+    @override_settings(REGISTRATION_SUPPLEMENT_CLASS=None)
     def test_get_inline_instances_without_supplements(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
         # Prevent caching
