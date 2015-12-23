@@ -410,18 +410,17 @@ class RegistrationAdminTestCase(TestCase):
 
         self.assertEqual(RegistrationProfile.objects.count(), 0)
 
-    def test_get_inline_instances(self):
-        from django.conf import settings
+    def test_get_inline_instances_without_supplements(self):
         admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
 
-        # No supplements
-        settings.REGISTRATION_SUPPLEMENT_CLASS = None
         inline_instances = admin_class.get_inline_instances(self.mock_request, None)
         self.assertEqual(len(inline_instances), 0)
 
-        # Default supplement class
-        settings.REGISTRATION_SUPPLEMENT_CLASS = "registration.supplements.default.models.DefaultRegistrationSupplement"
+    @override_settings(
+        REGISTRATION_SUPPLEMENT_CLASS="registration.supplements.default.models.DefaultRegistrationSupplement"
+    )
+    def test_get_inline_instances_with_default_supplements(self):
+        admin_class = RegistrationAdmin(RegistrationProfile, admin.site)
+
         inline_instances = admin_class.get_inline_instances(self.mock_request, None)
         self.assertEqual(len(inline_instances), 1)
-
-        settings.REGISTRATION_SUPPLEMENT_CLASS = None
