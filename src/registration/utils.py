@@ -19,6 +19,11 @@ def get_site(request):
 
     """
     from django.contrib.sites.models import Site
+    try:
+        from django.contrib.sites.models import RequestSite
+    except ImportError:
+        from django.contrib.sites.requests import RequestSite
+
     if Site._meta.installed:
         return Site.objects.get_current()
     else:
