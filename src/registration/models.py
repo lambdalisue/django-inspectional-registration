@@ -52,7 +52,6 @@ import re
 import datetime
 
 from django.db import models
-from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import ugettext_lazy as _
@@ -560,7 +559,6 @@ class RegistrationProfile(models.Model):
             The activation key for tne new account. Use following code to get
             activation url in the email body::
 
-                {% load url from future %}
                 http://{{ site.domain }}
                 {% url 'registration_activate' activation_key=activation_key %}
 

@@ -1,4 +1,3 @@
-{% load url from future %}
 {% load i18n %}
 {% blocktrans with site.name as site_name %}A new registration of {{ site_name }} was created by {{ user }}.{% endblocktrans %}
 
