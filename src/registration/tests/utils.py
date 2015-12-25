@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+from django.core.management.base import CommandError
+
 
 def recall_syncdb():
     """call ``syncdb`` command to create tables of new app's models"""
@@ -13,7 +15,12 @@ def recall_syncdb():
     except ImportError:
         # In Django1.9, django.db.models.loading is removed
         pass
-    call_command('syncdb', interactive=False, verbosity=0, migrate=False, migrate_all=True)
+    try:
+        call_command('syncdb', interactive=False, verbosity=0, migrate=False, migrate_all=True)
+    except CommandError:
+        # In Django1.9, syncdb command is removed
+        pass
+
 
 def clear_meta_caches(model):
     """clear model meta caches. it is required to refresh m2m relation"""
