@@ -6,9 +6,13 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 
 def recall_syncdb():
     """call ``syncdb`` command to create tables of new app's models"""
-    from django.db.models import loading
     from django.core.management import call_command
-    loading.cache.loaded = False
+    try:
+        from django.db.models import loading
+        loading.cache.loaded = False
+    except ImportError:
+        # In Django1.9, django.db.models.loading is removed
+        pass
     call_command('syncdb', interactive=False, verbosity=0, migrate=False, migrate_all=True)
 
 def clear_meta_caches(model):

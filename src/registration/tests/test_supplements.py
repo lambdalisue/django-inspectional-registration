@@ -51,10 +51,14 @@ class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
         from registration.tests.utils import clear_all_meta_caches
         # recall syncdb
         recall_syncdb()
-        # clear caches
-        clear_all_meta_caches()
-        from django.db.models import loading
-        loading.cache.loaded = False
+        try:
+            # clear caches
+            clear_all_meta_caches()
+            from django.db.models import loading
+            loading.cache.loaded = False
+        except ImportError:
+            # In Django1.9, django.db.models.loading is removed
+            pass
 
     def test_registration_view_get(self):
         """
