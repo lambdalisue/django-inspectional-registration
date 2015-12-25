@@ -8,7 +8,6 @@ __all__ = ('RegistrationSupplementBase', 'get_supplement_class')
 from django.core.exceptions import ImproperlyConfigured
 
 from registration.compat import import_module
-from registration.supplements.base import RegistrationSupplementBase
 
 
 def get_supplement_class(path=None):
@@ -39,6 +38,7 @@ def get_supplement_class(path=None):
         raise ImproperlyConfigured((
                 'Module "%s" does not define a registration supplement named '
                 '"%s"') % (module, attr))
+    from registration.supplements.base import RegistrationSupplementBase
     if cls and not issubclass(cls, RegistrationSupplementBase):
         raise ImproperlyConfigured((
             'Registration supplement class "%s" must be a subclass of '
