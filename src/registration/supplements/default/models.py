@@ -7,7 +7,7 @@ __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from django.db import models
 from django.utils.text import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from registration.supplements import RegistrationSupplementBase
+from registration.supplements.base import RegistrationSupplementBase
 
 
 @python_2_unicode_compatible

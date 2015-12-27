@@ -6,8 +6,6 @@ Utilities for django-inspectional-registration
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 import random
 
-from django.contrib.sites.models import Site
-from django.contrib.sites.models import RequestSite
 from django.utils.encoding import force_text
 from django.utils.six.moves import range
 from registration.compat import sha1
@@ -20,6 +18,12 @@ def get_site(request):
     not installed.
 
     """
+    from django.contrib.sites.models import Site
+    try:
+        from django.contrib.sites.models import RequestSite
+    except ImportError:
+        from django.contrib.sites.requests import RequestSite
+
     if Site._meta.installed:
         return Site.objects.get_current()
     else:

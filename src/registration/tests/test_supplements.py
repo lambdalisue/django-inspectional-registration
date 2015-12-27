@@ -9,7 +9,6 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 
 from registration import forms
-from registration.conf import settings
 from registration.supplements import get_supplement_class
 from registration.models import RegistrationProfile
 from registration.tests.utils import with_apps
@@ -46,16 +45,6 @@ class RegistrationSupplementRetrievalTests(TestCase):
             'registration.backends.default.DefaultRegistrationBackend'),
     )
 class RegistrationViewWithDefaultRegistrationSupplementTestCase(TestCase):
-    def setUp(self):
-        from registration.tests.utils import recall_syncdb
-        from registration.tests.utils import clear_all_meta_caches
-        # recall syncdb
-        recall_syncdb()
-        # clear caches
-        clear_all_meta_caches()
-        from django.db.models import loading
-        loading.cache.loaded = False
-
     def test_registration_view_get(self):
         """
         A ``GET`` to the ``register`` view uses the appropriate

@@ -1,4 +1,3 @@
-{% load url from future %}
 {% load i18n %}
 {% blocktrans %}Dear {{ user }},{% endblocktrans %}
 {% trans 'Your account registration was created successfully.' %}
