@@ -5,27 +5,6 @@ from __future__ import unicode_literals
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 
 
-def clear_meta_caches(model):
-    """clear model meta caches. it is required to refresh m2m relation"""
-    CACHE_NAMES = (
-            '_m2m_cache', '_field_cache', '_name_map',
-            '_related_objects_cache', '_related_many_to_many_cache'
-        )
-    for name in CACHE_NAMES:
-        if hasattr(model._meta, name):
-            delattr(model._meta, name)
-
-def clear_all_meta_caches():
-    """clear all models meta caches by contenttype
-    
-    .. Note::
-        'django.contrib.contenttypes' is required to installed
-
-    """
-    from django.contrib.contenttypes.models import ContentType
-    for ct in ContentType.objects.iterator():
-        clear_meta_caches(ct.model_class())
-
 def with_apps(*apps):
     """
     Class decorator that makes sure the passed apps are present in
