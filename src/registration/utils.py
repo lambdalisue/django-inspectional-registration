@@ -18,16 +18,11 @@ def get_site(request):
     not installed.
 
     """
-    from django.contrib.sites.models import Site
     try:
-        from django.contrib.sites.models import RequestSite
+        from django.contrib.sites.shortcuts import get_current_site
     except ImportError:
-        from django.contrib.sites.requests import RequestSite
-
-    if Site._meta.installed:
-        return Site.objects.get_current()
-    else:
-        return RequestSite(request)
+        from django.contrib.sites.models import get_current_site
+    return get_current_site(request)
 
 
 def generate_activation_key(username):
