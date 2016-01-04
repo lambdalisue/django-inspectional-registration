@@ -1,11 +1,18 @@
 sudo: false
 language: python
+python:
+  - 2.6
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+
 install:
   - pip install tox tox-travis
   - pip install coverage coveralls
 
 script:
-  - tox
+  - tox -r
 
 after_success:
   - coverage report
