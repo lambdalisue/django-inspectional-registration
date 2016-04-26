@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-26 11:29+0800\n"
+"POT-Creation-Date: 2016-04-26 14:11+0800\n"
 "PO-Revision-Date: 2016-04-26 11:29+0800\n"
 "Last-Translator: Julian Kuiyu Chang <zhangguiyu@wifi.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,16 +195,19 @@ msgstr "注册画像"
 msgid "Activation key has expired"
 msgstr "激活码已过期"
 
+#: models.py:475
+msgid "Activation Key Expired?"
+msgstr "激活码过期？"
+
 #: supplements/default/models.py:16
 msgid "remarks"
 msgstr "备注"
 
 #: templates/admin/registration/registrationprofile/change_form.html:6
-#, python-format
 msgid "Inspect the registration of %(user)s"
-msgstr "检视用户%(user)s注册请求"
+msgstr "检视用户%(user)s的注册请求"
 
-#: templates/admin/registration/registrationprofile/change_form.html:13
+#: templates/admin/registration/registrationprofile/change_form.html:11
 msgid "Please select an action and click the Save button on bottom."
 msgstr "请选择一则行动并点击下面储存按钮"
 
