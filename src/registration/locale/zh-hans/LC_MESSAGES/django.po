@@ -201,9 +201,7 @@ msgstr "备注"
 
 #: templates/admin/registration/registrationprofile/change_form.html:6
 #, python-format
-msgid ""
-"\n"
-"Inspect the registration of %(user)s\n"
+msgid "Inspect the registration of %(user)s"
 msgstr "检视用户%(user)s注册请求"
 
 #: templates/admin/registration/registrationprofile/change_form.html:13
