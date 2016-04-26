@@ -165,11 +165,11 @@ msgstr "未处理"
 
 #: models.py:363
 msgid "Registration accepted"
-msgstr "已核准注册请求"
+msgstr "已核准"
 
 #: models.py:364
 msgid "Registration rejected"
-msgstr "已拒绝注册请求"
+msgstr "已拒绝"
 
 #: models.py:366
 msgid "user"
@@ -185,11 +185,11 @@ msgstr "激活密码"
 
 #: models.py:378 supplements/base.py:52
 msgid "registration profile"
-msgstr "注册画像"
+msgstr "注册申请资料"
 
 #: models.py:379
 msgid "registration profiles"
-msgstr "注册画像"
+msgstr "注册申请资料"
 
 #: models.py:438 views.py:83
 msgid "Activation key has expired"
@@ -205,7 +205,7 @@ msgstr "备注"
 
 #: templates/admin/registration/registrationprofile/change_form.html:6
 msgid "Inspect the registration of %(user)s"
-msgstr "检视用户%(user)s的注册请求"
+msgstr "检视用户%(user)s的注册申请"
 
 #: templates/admin/registration/registrationprofile/change_form.html:11
 msgid "Please select an action and click the Save button on bottom."
@@ -222,13 +222,13 @@ msgstr "尊敬的 %(user)s,"
 #: templates/registration/acceptance_email.txt:4
 #, python-format
 msgid "Your registration of %(site_name)s was accepted by inspector."
-msgstr "您在%(site_name)s递交的注册请求已通过审核。"
+msgstr "您在%(site_name)s递交的注册申请已通过审核。"
 
 #: templates/registration/acceptance_email.txt:6
 msgid ""
 "Please click the following url and set your account password to finish "
 "activation."
-msgstr "请点击以下链接设置您的帐户密码完成激活手续"
+msgstr "请点击以下链接后设置您的帐户密码以完成激活手续"
 
 #: templates/registration/acceptance_email.txt:10
 #, python-format
@@ -238,12 +238,12 @@ msgstr "以上激活链接有效期为%(expiration_days)s日。"
 #: templates/registration/acceptance_email_subject.txt:2
 #, python-format
 msgid "Your registration was accepted -- %(site_name)s"
-msgstr "您在%(site_name)s的注册请求已通过"
+msgstr "您在%(site_name)s的注册申请已通过"
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:6
 msgid "Activation was complete"
-msgstr "完成激活"
+msgstr "激活成功"
 
 #: templates/registration/activation_complete.html:10
 msgid "Your account was activated"
@@ -252,7 +252,7 @@ msgstr "您的帐户已激活"
 #: templates/registration/activation_email.txt:4
 #, python-format
 msgid "Your account of %(site_name)s was activated by inspector"
-msgstr "您在%(site_name)s的帐户已被激活"
+msgstr "您在%(site_name)s的帐户已激活"
 
 #: templates/registration/activation_email.txt:6
 msgid ""
@@ -268,7 +268,7 @@ msgstr "请点击以下链接登录："
 msgid ""
 "It is strongly recommended that you change your initial password to "
 "something more secure."
-msgstr "强烈建议您以更复杂的组合更改初始密码。"
+msgstr "强烈建议您使用较复杂的组合更改初始密码。"
 
 #: templates/registration/activation_email.txt:10
 #: templates/registration/activation_email.txt:20
@@ -347,16 +347,16 @@ msgstr "您的注册申请已成功递交"
 #: templates/registration/registration_complete.html:11
 #: templates/registration/registration_email.txt:5
 msgid "Please wait until the inspector verify your registration."
-msgstr "请等待我们审核您的注册申请"
+msgstr "请等待客服审核您的帐户申请"
 
 #: templates/registration/registration_complete.html:12
 #: templates/registration/registration_email.txt:6
 msgid "You will receive an acceptance or rejection email within several days."
-msgstr "您会在数日后收到(成功与否)注册申请通知。"
+msgstr "您会在数日后收到(成功与否)帐户申请审批通知。"
 
 #: templates/registration/registration_email.txt:3
 msgid "Your account registration was created successfully."
-msgstr "您的帐户注册申请已完成"
+msgstr "您的帐户申请已完成"
 
 #: templates/registration/registration_email_subject.txt:2
 #, python-format
