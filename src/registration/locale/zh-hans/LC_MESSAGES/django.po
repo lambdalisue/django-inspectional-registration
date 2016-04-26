@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-26 14:11+0800\n"
 "PO-Revision-Date: 2016-04-26 11:29+0800\n"
-"Last-Translator: Julian Kuiyu Chang <zhangguiyu@wifi.com>\n"
+"Last-Translator: Julian Kuiyu Chang <zhangguiyu@mosuma.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Simplified Chinese \n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "拒绝所选用户"
 
 #: admin/__init__.py:279
 msgid "Activate selected users forcibly"
-msgstr "强迫激活所选用户"
+msgstr "强行激活所选用户"
 
 #: admin/__init__.py:297
 msgid "Re-send acceptance emails to selected users"
@@ -55,7 +55,7 @@ msgstr "拒绝此注册请求"
 
 #: admin/forms.py:36 admin/forms.py:46
 msgid "Activate the associated user of this registration forcibly"
-msgstr "强行激活此注册请求的相关用户"
+msgstr "强行激活此注册请求的用户账号"
 
 #: admin/forms.py:39
 msgid "Re-accept this registration"
@@ -67,7 +67,7 @@ msgstr "激活此注册请求之相关用户"
 
 #: admin/forms.py:49
 msgid "Action"
-msgstr "行动"
+msgstr "动作"
 
 #: admin/forms.py:50
 msgid "Message"
@@ -209,7 +209,7 @@ msgstr "检视用户%(user)s的注册请求"
 
 #: templates/admin/registration/registrationprofile/change_form.html:11
 msgid "Please select an action and click the Save button on bottom."
-msgstr "请选择一则行动并点击下面储存按钮"
+msgstr "选择合适动作然后点击下方保存按键执行"
 
 #: templates/registration/acceptance_email.txt:2
 #: templates/registration/activation_email.txt:2
