@@ -359,9 +359,9 @@ class RegistrationProfile(models.Model):
 
     """
     STATUS_LIST = (
-        ('untreated', _('Untreated yet')),
-        ('accepted', _('Registration has accepted')),
-        ('rejected', _('Registration has rejected')),
+        ('untreated', _('Unprocessed')),
+        ('accepted', _('Registration accepted')),
+        ('rejected', _('Registration rejected')),
     )
     user = models.OneToOneField(user_model_label, verbose_name=_('user'), 
                                 related_name='registration_profile',

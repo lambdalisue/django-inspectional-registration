@@ -1,0 +1,393 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2016 PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Julian Chang <zhangguiyu@wifi.com>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-26 11:29+0800\n"
+"PO-Revision-Date: 2016-04-26 11:29+0800\n"
+"Last-Translator: Julian Kuiyu Chang <zhangguiyu@wifi.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Simplified Chinese \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin/__init__.py:262
+msgid "(Re)Accept registrations of selected users"
+msgstr "重新核准所选用户"
+
+#: admin/__init__.py:270
+msgid "Reject registrations of selected users"
+msgstr "拒绝所选用户"
+
+#: admin/__init__.py:279
+msgid "Activate selected users forcibly"
+msgstr "强迫激活所选用户"
+
+#: admin/__init__.py:297
+msgid "Re-send acceptance emails to selected users"
+msgstr "再次发送核准电邮给所选用户"
+
+#: admin/__init__.py:311 admin/__init__.py:335
+msgid "Not available"
+msgstr "无效"
+
+#: admin/__init__.py:313
+msgid "A summary of supplemental information"
+msgstr "补充信息汇总"
+
+#: admin/__init__.py:336
+msgid "Activation key"
+msgstr "激活密码"
+
+#: admin/forms.py:33 admin/forms.py:44
+msgid "Accept this registration"
+msgstr "核准此注册请求"
+
+#: admin/forms.py:34
+msgid "Reject this registration"
+msgstr "拒绝此注册请求"
+
+#: admin/forms.py:36 admin/forms.py:46
+msgid "Activate the associated user of this registration forcibly"
+msgstr "强行激活此注册请求的相关用户"
+
+#: admin/forms.py:39
+msgid "Re-accept this registration"
+msgstr "再次核准此注册请求"
+
+#: admin/forms.py:41
+msgid "Activate the associated user of this registration"
+msgstr "激活此注册请求之相关用户"
+
+#: admin/forms.py:49
+msgid "Action"
+msgstr "行动"
+
+#: admin/forms.py:50
+msgid "Message"
+msgstr "信息"
+
+#: admin/forms.py:53
+msgid ""
+"You can use the value of this field in templates for acceptance, rejection, "
+"and activation email with \"{{ message }}\". It is displayed in rejection "
+"email as \"Rejection reasons\" in default templates."
+msgstr "在此可输入通知用户电邮中的信息，在模版以 \"{{ message }}\"变量显示。"
+
+#: admin/forms.py:84
+msgid "You cannot reject a previously accepted registration."
+msgstr "不可拒绝之前已审核的注册请求"
+
+#: admin/forms.py:88
+msgid ""
+"You cannot activate a user whose registration has not been accepted yet."
+msgstr "不可激活尚未核准注册请求之用户"
+
+#: contrib/notification/templates/registration/notification_email.txt:2
+#, python-format
+msgid "A new registration of %(site_name)s was created by %(user)s."
+msgstr "%(site_name)s有新的用户%(user)s注册请求。"
+
+#: contrib/notification/templates/registration/notification_email.txt:4
+msgid "Please click the following url and inspect his/her registration."
+msgstr "请点击以下链接审核此用户注册请求。"
+
+#: contrib/notification/templates/registration/notification_email_subject.txt:2
+#, python-format
+msgid "A new registration was created by %(user)s -- %(site_name)s"
+msgstr "%(site_name)s有新的用户%(user)s注册请求"
+
+#: forms.py:67
+msgid "Password"
+msgstr "密码"
+
+#: forms.py:70
+msgid "Password (again)"
+msgstr "重复输入密码"
+
+#: forms.py:82
+msgid "The two password fields didn't match."
+msgstr ""
+
+#: forms.py:100
+msgid "Username"
+msgstr "用户名"
+
+#: forms.py:102
+msgid "This value must contain only letters, numbers and underscores."
+msgstr "仅接受字母、数字、与下划线"
+
+#: forms.py:108
+msgid "E-mail"
+msgstr "电子邮箱"
+
+#: forms.py:111
+msgid "E-mail (again)"
+msgstr "重复输入电子邮箱"
+
+#: forms.py:123
+msgid "A user with that username already exists."
+msgstr "此用户名已被他人注册"
+
+#: forms.py:136
+msgid "The two email fields didn't match."
+msgstr "两组电邮不对应"
+
+#: forms.py:147
+msgid "I have read and agree to the Terms of Service"
+msgstr "我已经阅读并同意服务条款"
+
+#: forms.py:150
+msgid "You must agree to the terms to register"
+msgstr "你必须同意服务条款才可注册"
+
+#: forms.py:163
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "此邮箱已被他人注册，请输入另一个电子邮箱"
+
+#: forms.py:191
+msgid ""
+"Registration using free email addresses is prohibited. Please supply a "
+"different email address."
+msgstr "禁止使用免费邮箱注册。请用公司邮箱注册。"
+
+#: models.py:362
+msgid "Unprocessed"
+msgstr "未处理"
+
+#: models.py:363
+msgid "Registration accepted"
+msgstr "已核准注册请求"
+
+#: models.py:364
+msgid "Registration rejected"
+msgstr "已拒绝注册请求"
+
+#: models.py:366
+msgid "user"
+msgstr "用户"
+
+#: models.py:369 models.py:441
+msgid "status"
+msgstr "状态"
+
+#: models.py:372
+msgid "activation key"
+msgstr "激活密码"
+
+#: models.py:378 supplements/base.py:52
+msgid "registration profile"
+msgstr "注册画像"
+
+#: models.py:379
+msgid "registration profiles"
+msgstr "注册画像"
+
+#: models.py:438 views.py:83
+msgid "Activation key has expired"
+msgstr "激活码已过期"
+
+#: supplements/default/models.py:16
+msgid "remarks"
+msgstr "备注"
+
+#: templates/admin/registration/registrationprofile/change_form.html:6
+#, python-format
+msgid ""
+"\n"
+"Inspect the registration of %(user)s\n"
+msgstr "检视用户%(user)s注册请求"
+
+#: templates/admin/registration/registrationprofile/change_form.html:13
+msgid "Please select an action and click the Save button on bottom."
+msgstr "请选择一则行动并点击下面储存按钮"
+
+#: templates/registration/acceptance_email.txt:2
+#: templates/registration/activation_email.txt:2
+#: templates/registration/registration_email.txt:2
+#: templates/registration/rejection_email.txt:2
+#, python-format
+msgid "Dear %(user)s,"
+msgstr "尊敬的 %(user)s,"
+
+#: templates/registration/acceptance_email.txt:4
+#, python-format
+msgid "Your registration of %(site_name)s was accepted by inspector."
+msgstr "您在%(site_name)s递交的注册请求已通过审核。"
+
+#: templates/registration/acceptance_email.txt:6
+msgid ""
+"Please click the following url and set your account password to finish "
+"activation."
+msgstr "请点击以下链接设置您的帐户密码完成激活手续"
+
+#: templates/registration/acceptance_email.txt:10
+#, python-format
+msgid "The activation link above will be expired in %(expiration_days)s days."
+msgstr "以上激活链接有效期为%(expiration_days)s日。"
+
+#: templates/registration/acceptance_email_subject.txt:2
+#, python-format
+msgid "Your registration was accepted -- %(site_name)s"
+msgstr "您在%(site_name)s的注册请求已通过"
+
+#: templates/registration/activation_complete.html:4
+#: templates/registration/activation_complete.html:6
+msgid "Activation was complete"
+msgstr "完成激活"
+
+#: templates/registration/activation_complete.html:10
+msgid "Your account was activated"
+msgstr "您的帐户已激活"
+
+#: templates/registration/activation_email.txt:4
+#, python-format
+msgid "Your account of %(site_name)s was activated by inspector"
+msgstr "您在%(site_name)s的帐户已被激活"
+
+#: templates/registration/activation_email.txt:6
+msgid ""
+"The password of your account was generated automatically and displayed below."
+msgstr "您的系统生成帐户密码如下："
+
+#: templates/registration/activation_email.txt:7
+#: templates/registration/activation_email.txt:18
+msgid "Please click the following url to login."
+msgstr "请点击以下链接登录："
+
+#: templates/registration/activation_email.txt:8
+msgid ""
+"It is strongly recommended that you change your initial password to "
+"something more secure."
+msgstr "强烈建议您以更复杂的组合更改初始密码。"
+
+#: templates/registration/activation_email.txt:10
+#: templates/registration/activation_email.txt:20
+msgid "::Your account information::"
+msgstr "::您的帐户信息::"
+
+#: templates/registration/activation_email.txt:11
+#: templates/registration/activation_email.txt:21
+#, python-format
+msgid "USERNAME: %(user)s"
+msgstr "用户名：%(user)s"
+
+#: templates/registration/activation_email.txt:12
+#, python-format
+msgid "PASSWORD: %(password)s"
+msgstr "密码：%(password)s"
+
+#: templates/registration/activation_email.txt:16
+#, python-format
+msgid "Your account of %(site_name)s was successfully activated"
+msgstr "您在%(site_name)s的帐户已成功激活"
+
+#: templates/registration/activation_email_subject.txt:2
+#, python-format
+msgid "Your account was activated -- %(site_name)s"
+msgstr "帐户激活 －%(site_name)s"
+
+#: templates/registration/activation_form.html:4
+#: templates/registration/activation_form.html:6
+msgid "Activate your account"
+msgstr "激活帐户"
+
+#: templates/registration/activation_form.html:10
+msgid "Please fill the password to complete account activation"
+msgstr "请输入密码以完成帐户激活"
+
+#: templates/registration/activation_form.html:13
+msgid "Activate"
+msgstr "激活"
+
+#: templates/registration/login.html:4 templates/registration/login.html:6
+#: templates/registration/login.html:13
+msgid "Login"
+msgstr "登录"
+
+#: templates/registration/login.html:10
+msgid "Please fill your username and password to login"
+msgstr "请输入您的用户名与密码登录"
+
+#: templates/registration/logout.html:4 templates/registration/logout.html:6
+msgid "Logged out"
+msgstr "登出"
+
+#: templates/registration/logout.html:10
+msgid "You are logged out."
+msgstr "你已登出系统"
+
+#: templates/registration/registration_closed.html:4
+#: templates/registration/registration_closed.html:6
+msgid "Registration is closed"
+msgstr "注册已关闭"
+
+#: templates/registration/registration_closed.html:10
+msgid "I am afraid that registration is currently closed."
+msgstr "非常遗憾，注册已关闭。"
+
+#: templates/registration/registration_complete.html:4
+#: templates/registration/registration_complete.html:6
+msgid "Registration was complete"
+msgstr "注册已完成"
+
+#: templates/registration/registration_complete.html:10
+msgid "Your registration was created successfully."
+msgstr "您的注册申请已成功递交"
+
+#: templates/registration/registration_complete.html:11
+#: templates/registration/registration_email.txt:5
+msgid "Please wait until the inspector verify your registration."
+msgstr "请等待我们审核您的注册申请"
+
+#: templates/registration/registration_complete.html:12
+#: templates/registration/registration_email.txt:6
+msgid "You will receive an acceptance or rejection email within several days."
+msgstr "您会在数日后收到(成功与否)注册申请通知。"
+
+#: templates/registration/registration_email.txt:3
+msgid "Your account registration was created successfully."
+msgstr "您的帐户注册申请已完成"
+
+#: templates/registration/registration_email_subject.txt:2
+#, python-format
+msgid "Your registration was created -- %(site_name)s"
+msgstr "帐户注册申请 －%(site_name)s"
+
+#: templates/registration/registration_form.html:4
+#: templates/registration/registration_form.html:6
+msgid "Registration"
+msgstr "帐户注册"
+
+#: templates/registration/registration_form.html:10
+msgid "Please fill the following fields to create your registration"
+msgstr "请输入以下用户注册资料"
+
+#: templates/registration/registration_form.html:14
+msgid "Register"
+msgstr "注册"
+
+#: templates/registration/rejection_email.txt:4
+msgid "I am afraid that your account registration was rejected by inspector."
+msgstr "非常遗憾，您申请的注册账号经审核后无法通过"
+
+#: templates/registration/rejection_email.txt:7
+msgid "Rejection reasons:"
+msgstr "拒绝理由："
+
+#: templates/registration/rejection_email_subject.txt:2
+#, python-format
+msgid "Your registration was rejected -- %(site_name)s"
+msgstr "账号注册被否决 － %(site_name)s"
+
+#: views.py:85
+msgid "An invalid activation key has passed"
+msgstr "激活码无效"
