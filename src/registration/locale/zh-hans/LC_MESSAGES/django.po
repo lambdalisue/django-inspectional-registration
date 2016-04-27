@@ -19,7 +19,7 @@ msgstr ""
 
 #: admin/__init__.py:262
 msgid "(Re)Accept registrations of selected users"
-msgstr "重新核准所选用户"
+msgstr "（重新）核准所选用户"
 
 #: admin/__init__.py:270
 msgid "Reject registrations of selected users"
