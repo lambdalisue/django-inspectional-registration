@@ -113,7 +113,7 @@ msgstr "重复输入密码"
 
 #: forms.py:82
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "两组密码不相同"
 
 #: forms.py:100
 msgid "Username"
@@ -137,7 +137,7 @@ msgstr "此用户名已被他人注册"
 
 #: forms.py:136
 msgid "The two email fields didn't match."
-msgstr "两组电邮不对应"
+msgstr "两组电邮不相同"
 
 #: forms.py:147
 msgid "I have read and agree to the Terms of Service"

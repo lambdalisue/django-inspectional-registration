@@ -173,7 +173,7 @@ msgstr ""
 
 #: models.py:362
 msgid "Unprocessed"
-msgstr ""
+msgstr "Noch nicht behandelt"
 
 #: models.py:363
 msgid "Registration accepted"
@@ -413,6 +413,3 @@ msgstr "Ihre Registrierung wurde abgelehnt -- %(site_name)s"
 #: views.py:85
 msgid "An invalid activation key has passed"
 msgstr "Ungültiger Aktivierungsschlüssel"
-
-#~ msgid "Untreated yet"
-#~ msgstr "Noch nicht behandelt"
