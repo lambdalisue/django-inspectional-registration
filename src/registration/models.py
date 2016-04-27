@@ -359,9 +359,9 @@ class RegistrationProfile(models.Model):
 
     """
     STATUS_LIST = (
-        ('untreated', _('Untreated yet')),
-        ('accepted', _('Registration has accepted')),
-        ('rejected', _('Registration has rejected')),
+        ('untreated', _('Unprocessed')),
+        ('accepted', _('Registration accepted')),
+        ('rejected', _('Registration rejected')),
     )
     user = models.OneToOneField(user_model_label, verbose_name=_('user'), 
                                 related_name='registration_profile',
@@ -444,6 +444,7 @@ class RegistrationProfile(models.Model):
         return "Registration information for %s" % self.user
 
     def activation_key_expired(self):
+        
         """get whether the activation key of this profile has expired
 
         Determine whether this ``RegistrationProfiel``'s activation key has
@@ -470,6 +471,9 @@ class RegistrationProfile(models.Model):
         expired = self.user.date_joined + expiration_date <= datetime_now()
         return expired
     activation_key_expired.boolean = True
+    activation_key_expired.short_description = _(
+        'Activation Key Expired?'
+    )
 
     def _send_email(self, site, action, extra_context=None):
         context = {

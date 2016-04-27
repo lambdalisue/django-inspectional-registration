@@ -51,7 +51,7 @@ class RegistrationAdminForm(forms.ModelForm):
                               widget=forms.Textarea, required=False,
                               help_text=_(
         'You can use the value of this field in templates for acceptance, '
-        'rejection and activation email with "{{ message }}". '
+        'rejection, and activation email with "{{ message }}". '
         'It is displayed in rejection email as "Rejection reasons" in '
         'default templates.'
     ))
@@ -81,13 +81,12 @@ class RegistrationAdminForm(forms.ModelForm):
         if action_name == 'reject':
             if self.instance._status == 'accepted':
                 raise ValidationError(_(
-                    "You cannot reject the registration which was accepted "
-                    "already."))
+                    "You cannot reject a previously accepted registration."))
         elif action_name == 'activate':
             if self.instance._status != 'accepted':
                 raise ValidationError(_(
-                    "You cannot activate the user whom registration was not "
-                    "accepted yet."))
+                    "You cannot activate a user whose registration has not "
+                    "been accepted yet."))
         elif action_name != 'force_activate':
             # with using django admin page, the code below never be called.
             raise ValidationError(
