@@ -5,7 +5,6 @@ URLconf for django-inspectional-registration
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 from registration.compat import url
-from registration.compat import patterns
 
 from registration.views import RegistrationView
 from registration.views import RegistrationClosedView
@@ -13,7 +12,7 @@ from registration.views import RegistrationCompleteView
 from registration.views import ActivationView
 from registration.views import ActivationCompleteView
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^activate/complete/$', ActivationCompleteView.as_view(),
         name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', ActivationView.as_view(),
@@ -24,7 +23,7 @@ urlpatterns = patterns('',
         name='registration_disallowed'),
     url(r'^register/complete/$', RegistrationCompleteView.as_view(),
         name='registration_complete'),
-)
+]
 
 # django.contrib.auth
 from registration.conf import settings
@@ -47,7 +46,7 @@ if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
             r"^password/reset/confirm/%s-%s/$" % (uidb, token)
         )
 
-    urlpatterns += patterns('',
+    urlpatterns += [
         url(r'^login/$', auth_views.login,
             {'template_name': 'registration/login.html'},
             name=prefix+'login'+suffix),
@@ -68,4 +67,9 @@ if settings.REGISTRATION_DJANGO_AUTH_URLS_ENABLE:
             name=prefix+'password_reset_complete'+suffix),
         url(r'^password/reset/done/$', auth_views.password_reset_done,
             name=prefix+'password_reset_done'+suffix),
-    )
+    ]
+
+import django
+if django.VERSION <= (1, 8):
+    from registration.compat import patterns
+    urlpatterns = patterns('', *urlpatterns)
