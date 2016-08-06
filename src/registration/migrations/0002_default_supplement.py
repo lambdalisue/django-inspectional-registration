@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     ]
     operations = []
 
-    if settings.REGISTRATION_SUPPLEMENT_CLASS == 'registration.supplements.default':
+    if settings.REGISTRATION_SUPPLEMENT_CLASS == 'registration.supplements.default.models.DefaultRegistrationSupplement':
         operations += [
             migrations.CreateModel(
                 name='DefaultRegistrationSupplement',
