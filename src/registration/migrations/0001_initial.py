@@ -13,16 +13,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='DefaultRegistrationSupplement',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('remarks', models.TextField(verbose_name='remarks')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='RegistrationProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
@@ -36,11 +26,5 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'registration profiles',
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='defaultregistrationsupplement',
-            name='registration_profile',
-            field=models.OneToOneField(editable=False, related_name='_registration_defaultregistrationsupplement_supplement', verbose_name='registration profile', to='registration.RegistrationProfile'),
-            preserve_default=True,
         ),
     ]
