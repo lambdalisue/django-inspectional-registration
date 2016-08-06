@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 Compatibility module
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
+import django
 from django.conf import settings
 
 try:
@@ -13,15 +14,20 @@ except ImportError:
     import datetime
     datetime_now = datetime.datetime.now
 
-try:
-    # django 1.4
+if django.VERSION >= (1, 9):
+    patterns = lambda x, *args: args
     from django.conf.urls import url
-    from django.conf.urls import patterns
     from django.conf.urls import include
-except ImportError:
-    from django.conf.urls.defaults import url
-    from django.conf.urls.defaults import patterns
-    from django.conf.urls.defaults import include
+else:
+    try:
+        # django 1.4
+        from django.conf.urls import url
+        from django.conf.urls import patterns
+        from django.conf.urls import include
+    except ImportError:
+        from django.conf.urls.defaults import url
+        from django.conf.urls.defaults import patterns
+        from django.conf.urls.defaults import include
 
 try:
     from django.contrib.admin.utils import unquote

@@ -47,11 +47,21 @@ Original License::
 
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from django.core.management.base import NoArgsCommand
 from registration.models import RegistrationProfile
 
-class Command(NoArgsCommand):
-    help = "Delete expired user registrations from the database"
+try:
+    from django.core.management import BaseCommand
 
-    def handle_noargs(self, **options):
-        RegistrationProfile.objects.delete_expired_users()
+    class Command(BaseCommand):
+        help = "Delete expired user registrations from the database"
+
+        def handle(self, **options):
+            RegistrationProfile.objects.delete_expired_users()
+except ImportError:
+    from django.core.management import NoArgsCommand
+
+    class Command(NoArgsCommand):
+        help = "Delete expired user registrations from the database"
+
+        def handle_noargs(self, **options):
+            RegistrationProfile.objects.delete_expired_users()

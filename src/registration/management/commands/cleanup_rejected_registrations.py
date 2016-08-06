@@ -46,12 +46,20 @@ Original License::
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from django.core.management.base import NoArgsCommand
 from registration.models import RegistrationProfile
+try:
+    from django.core.management import BaseCommand
 
+    class Command(BaseCommand):
+        help = "Delete rejected user registrations from the database"
 
-class Command(NoArgsCommand):
-    help = "Delete rejected user registrations from the database"
+        def handle(self, **options):
+            RegistrationProfile.objects.delete_rejected_users()
+except ImportError:
+    from django.core.management import NoArgsCommand
 
-    def handle_noargs(self, **options):
-        RegistrationProfile.objects.delete_rejected_users()
+    class Command(NoArgsCommand):
+        help = "Delete rejected user registrations from the database"
+
+        def handle_noargs(self, **options):
+            RegistrationProfile.objects.delete_rejected_users()
