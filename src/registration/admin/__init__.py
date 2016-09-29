@@ -140,7 +140,13 @@ class RegistrationSupplementAdminInlineBase(admin.StackedInline):
         fields = self.model.get_admin_fields()
         excludes = self.model.get_admin_excludes()
         if fields is None:
-            fields = self.model._meta.get_all_field_names()
+            try:
+                #<django 1.10 _meta API
+                fields = self.model._meta.get_all_field_names()
+            except AttributeError:
+                #django 1.10+ _meta API
+                fields = [f.name for f in self.model._meta.get_fields()]
+            
             if 'id' in fields:
                 fields.remove('id')
             if 'registration_profile_id' in fields:
