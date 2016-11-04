@@ -49,6 +49,7 @@ __all__ = (
     'RegistrationFormUniqueEmail',
 )
 import re
+import sys
 import datetime
 
 from django.db import models
@@ -493,8 +494,16 @@ class RegistrationProfile(models.Model):
         message = render_to_string(
                 'registration/%s_email.txt' % action, context)
 
-        send_mail(subject, message,
-                  settings.DEFAULT_FROM_EMAIL, [self.user.email])
+        try:
+            mail_from = settings.REGISTRATION_FROM_EMAIL
+        except AttributeError as e:
+            logger.warning('%s:%s:settings.REGISTRATION_FROM_EMAIL not'
+                           ' found: %s' % (
+                               __file__, sys._getframe().f_code.co_name, e)
+                           )
+            mail_from = settings.DEFAULT_FROM_EMAIL
+            
+        send_mail(subject, message, mail_from, [self.user.email])
 
     def send_registration_email(self, site):
         """send registration email to the user associated with this profile

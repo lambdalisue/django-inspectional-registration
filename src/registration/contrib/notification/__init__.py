@@ -66,6 +66,7 @@ If you want to change the name of template, use following settings
 """
 __author__ = "Alisue <lambdalisue@hashnote.net>"
 import sys
+
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import render_to_string
 
@@ -142,6 +143,15 @@ def send_notification_email_reciver(sender, user, profile, request, **kwargs):
                     ) % method_or_iterable)
     # remove duplications
     recipients = frozenset(recipients)
+    
+    try:
+        mail_from = settings.REGISTRATION_FROM_EMAIL
+    except AttributeError as e:
+        logger.warning('%s:%s:settings.REGISTRATION_FROM_EMAIL not'
+                       ' found: %s' % (
+                            __file__, sys._getframe().f_code.co_name, e)
+                       )
+        mail_from = settings.DEFAULT_FROM_EMAIL
 
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipients)
 user_registered.connect(send_notification_email_reciver)
