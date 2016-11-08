@@ -43,7 +43,7 @@ Original License::
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
 __all__ = (
-    'ActivationForm', 'RegistrationForm', 
+    'ActivationForm', 'RegistrationForm',
     'RegistrationFormNoFreeEmail',
     'RegistrationFormTermsOfService',
     'RegistrationFormUniqueEmail',
@@ -75,6 +75,7 @@ SHA1_RE = re.compile(r'^[a-f0-9]{40}$')
 
 
 class RegistrationManager(models.Manager):
+
     """Custom manager for the ``RegistrationProfile`` model.
 
     The methods defined here provide shortcuts for account registration,
@@ -219,13 +220,14 @@ class RegistrationManager(models.Manager):
 
         """
         try:
-            profile = self.get(_status='accepted', activation_key=activation_key)
+            profile = self.get(
+                _status='accepted', activation_key=activation_key)
         except self.model.DoesNotExist:
             return None
         if not profile.activation_key_expired():
             is_generated = password is None
             password = password or generate_random_password(
-                    length=settings.REGISTRATION_DEFAULT_PASSWORD_LENGTH)
+                length=settings.REGISTRATION_DEFAULT_PASSWORD_LENGTH)
             user = profile.user
             user.set_password(password)
             user.is_active = True
@@ -337,13 +339,14 @@ class RegistrationManager(models.Manager):
                     user = profile.user
                     if not user.is_active:
                         user.delete()
-                        profile.delete() # just in case
+                        profile.delete()  # just in case
                 except ObjectDoesNotExist:
                     profile.delete()
 
 
 @python_2_unicode_compatible
 class RegistrationProfile(models.Model):
+
     """Registration profile model class
 
     A simple profile which stores an activation key and inspection status for use
@@ -364,12 +367,12 @@ class RegistrationProfile(models.Model):
         ('accepted', _('Registration accepted')),
         ('rejected', _('Registration rejected')),
     )
-    user = models.OneToOneField(user_model_label, verbose_name=_('user'), 
+    user = models.OneToOneField(user_model_label, verbose_name=_('user'),
                                 related_name='registration_profile',
                                 editable=False)
     _status = models.CharField(_('status'), max_length=10, db_column='status',
-                              choices=STATUS_LIST, default='untreated',
-                              editable=False)
+                               choices=STATUS_LIST, default='untreated',
+                               editable=False)
     activation_key = models.CharField(_('activation key'), max_length=40,
                                       null=True, default=None, editable=False)
 
@@ -379,10 +382,10 @@ class RegistrationProfile(models.Model):
         verbose_name = _('registration profile')
         verbose_name_plural = _('registration profiles')
         permissions = (
-                ('accept_registration', 'Can accept registration'),
-                ('reject_registration', 'Can reject registration'),
-                ('activate_user', 'Can activate user in admin site'),
-            )
+            ('accept_registration', 'Can accept registration'),
+            ('reject_registration', 'Can reject registration'),
+            ('activate_user', 'Can activate user in admin site'),
+        )
 
     def _get_supplement_class(self):
         """get supplement class of this registration"""
@@ -411,6 +414,7 @@ class RegistrationProfile(models.Model):
         if self.activation_key_expired():
             return 'expired'
         return self._status
+
     def _set_status(self, value):
         """set inspection status of this profile
 
@@ -445,7 +449,6 @@ class RegistrationProfile(models.Model):
         return "Registration information for %s" % self.user
 
     def activation_key_expired(self):
-        
         """get whether the activation key of this profile has expired
 
         Determine whether this ``RegistrationProfiel``'s activation key has
@@ -468,7 +471,7 @@ class RegistrationProfile(models.Model):
         if self._status != 'accepted':
             return False
         expiration_date = datetime.timedelta(
-                days=settings.ACCOUNT_ACTIVATION_DAYS)
+            days=settings.ACCOUNT_ACTIVATION_DAYS)
         expired = self.user.date_joined + expiration_date <= datetime_now()
         return expired
     activation_key_expired.boolean = True
@@ -478,9 +481,9 @@ class RegistrationProfile(models.Model):
 
     def _send_email(self, site, action, extra_context=None):
         context = {
-                'user': self.user,
-                'site': site,
-            }
+            'user': self.user,
+            'site': site,
+        }
         if action != 'activation':
             # the profile was deleted in 'activation' action
             context['profile'] = self
@@ -489,20 +492,13 @@ class RegistrationProfile(models.Model):
             context.update(extra_context)
 
         subject = render_to_string(
-                'registration/%s_email_subject.txt' % action, context)
+            'registration/%s_email_subject.txt' % action, context)
         subject = ''.join(subject.splitlines())
         message = render_to_string(
-                'registration/%s_email.txt' % action, context)
+            'registration/%s_email.txt' % action, context)
 
-        try:
-            mail_from = settings.REGISTRATION_FROM_EMAIL
-        except AttributeError as e:
-            logger.warning('%s:%s:settings.REGISTRATION_FROM_EMAIL not'
-                           ' found: %s' % (
-                               __file__, sys._getframe().f_code.co_name, e)
-                           )
-            mail_from = settings.DEFAULT_FROM_EMAIL
-            
+        mail_from = get(settings, 'REGISTRATION_FROM_EMAIL', '') or \
+                        settings.DEFAULT_FROM_EMAIL
         send_mail(subject, message, mail_from, [self.user.email])
 
     def send_registration_email(self, site):
@@ -583,10 +579,10 @@ class RegistrationProfile(models.Model):
 
         """
         extra_context = {
-                'activation_key': self.activation_key,
-                'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-                'message': message,
-            }
+            'activation_key': self.activation_key,
+            'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
+            'message': message,
+        }
         self._send_email(site, 'acceptance', extra_context)
 
     def send_rejection_email(self, site, message=None):
@@ -625,8 +621,8 @@ class RegistrationProfile(models.Model):
 
         """
         extra_context = {
-                'message': message,
-            }
+            'message': message,
+        }
         self._send_email(site, 'rejection', extra_context)
 
     def send_activation_email(self, site, password=None, is_generated=False,
@@ -670,8 +666,8 @@ class RegistrationProfile(models.Model):
 
         """
         extra_context = {
-                'password': password,
-                'is_generated': is_generated,
-                'message': message,
-            }
+            'password': password,
+            'is_generated': is_generated,
+            'message': message,
+        }
         self._send_email(site, 'activation', extra_context)
