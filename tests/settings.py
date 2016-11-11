@@ -79,6 +79,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
     'registration.supplements.default',
     'registration',
     'registration.contrib.notification',
@@ -109,6 +111,9 @@ if django.VERSION >= (1, 10):
                 os.path.join(os.path.dirname(__file__), 'templates'),
             ],
             'OPTIONS': {
+                'context_processors': [
+                    'django.contrib.auth.context_processors.auth',
+                ],
                 'loaders': [
                     'django.template.loaders.filesystem.Loader',
                     'django.template.loaders.app_directories.Loader',
