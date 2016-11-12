@@ -5,7 +5,7 @@ from setuptools import setup, find_packages, Command
 from setuptools.command.sdist import sdist as original_sdist
 
 NAME = 'django-inspectional-registration'
-VERSION = '0.6.1'
+VERSION = '0.6.2'
 
 
 class compile_docs(Command):
