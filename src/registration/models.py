@@ -497,7 +497,7 @@ class RegistrationProfile(models.Model):
         message = render_to_string(
             'registration/%s_email.txt' % action, context)
 
-        mail_from = get(settings, 'REGISTRATION_FROM_EMAIL', '') or \
+        mail_from = getattr(settings, 'REGISTRATION_FROM_EMAIL', '') or \
                         settings.DEFAULT_FROM_EMAIL
         send_mail(subject, message, mail_from, [self.user.email])
 

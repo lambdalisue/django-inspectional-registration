@@ -144,7 +144,7 @@ def send_notification_email_reciver(sender, user, profile, request, **kwargs):
     # remove duplications
     recipients = frozenset(recipients)
 
-    mail_from = get(settings, 'REGISTRATION_FROM_EMAIL', '') or \
+    mail_from = getattr(settings, 'REGISTRATION_FROM_EMAIL', '') or \
                     settings.DEFAULT_FROM_EMAIL
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipients)
 user_registered.connect(send_notification_email_reciver)
